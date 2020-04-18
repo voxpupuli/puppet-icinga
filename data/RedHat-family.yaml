@@ -1,0 +1,29 @@
+---
+icinga::repos:
+  icinga-stable-release:
+    descr: ICINGA (stable release for epel)
+    baseurl: 'https://packages.icinga.com/epel/$releasever/release/'
+    enabled: 0
+    gpgcheck: 1
+    gpgkey: https://packages.icinga.com/icinga.key
+  icinga-testing-builds:
+    descr: ICINGA (testing builds for epel)
+    baseurl: 'https://packages.icinga.com/epel/$releasever/testing/'
+    enabled: 0
+    gpgcheck: 1
+    gpgkey: https://packages.icinga.com/icinga.key
+    metadata_expire: 1d
+  icinga-snapshot-builds:
+    descr: ICINGA (snapshot builds for epel)
+    baseurl: 'https://packages.icinga.com/epel/$releasever/snapshot/'
+    enabled: 0
+    gpgcheck: 1
+    gpgkey: https://packages.icinga.com/icinga.key
+    metadata_expire: 1d
+  epel:
+    descr: 'Extra Packages for Enterprise Linux %{facts.os.release.major} - $basearch'
+    mirrorlist: 'https://mirrors.fedoraproject.org/metalink?repo=epel-%{facts.os.release.major}&arch=$basearch'
+    baseurl: 'https://download.fedoraproject.org/pub/epel/%{facts.os.release.major}/$basearch'
+    enabled: 0
+    gpgcheck: 1
+    gpgkey: https://fedoraproject.org/static/352C64E5.txt

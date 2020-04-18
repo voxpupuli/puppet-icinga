@@ -1,0 +1,8 @@
+---
+icinga::repos:
+  'icinga-stable-release':
+    location: http://packages.icinga.com/ubuntu
+  'icinga-testing-builds':
+    location: http://packages.icinga.com/ubuntu
+  'icinga-snapshot-builds':
+    location: http://packages.icinga.com/ubuntu
