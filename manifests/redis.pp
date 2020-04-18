@@ -1,6 +1,6 @@
-# @summary A short summary of the purpose of this class
+# @summary icinga::redis
 #
-# A description of what this class does
+# Installs and configures the Redis server package from the Icinga Team.
 #
 # @example
 #   include icinga::redis

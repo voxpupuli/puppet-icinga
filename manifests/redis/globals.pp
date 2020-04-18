@@ -1,9 +1,11 @@
-# @summary A short summary of the purpose of this class
+# @summary icinga::redis::globals
 #
-# A description of what this class does
+# This class loads the default parameters by doing a hiera lookup.
 #
-# @example
-#   include icinga::redis::globals
+# NOTE: This parameters depend on the os plattform. Changes maybe will
+#       break the functional capability of the supported plattforms and versions.
+#       Please only do changes when you know what you're doing.
+#
 #
 class icinga::redis::globals(
   String                 $package_name,
