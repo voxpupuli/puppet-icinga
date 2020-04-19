@@ -3,4 +3,17 @@
 ---
 fixtures:
   forge_modules:
-#     stdlib: "puppetlabs/stdlib"
+    stdlib:
+      repo: puppetlabs/stdlib
+    apt:
+      repo: puppetlabs/apt
+    zypprepo:
+      repo: puppet/zypprepo
+    yumrepo_core:
+      repo: puppetlabs-yumrepo_core
+      puppet_version: ">= 6.0.0"
+    redis:
+      repo: puppet/redis
+    augeas:
+      repo: puppetlabs-augeas_core
+      puppet_version: ">= 6.0.0"

@@ -17,4 +17,7 @@ class icinga::redis::globals(
   String                 $group,
 ) {
 
+  unless $::facts['os']['name'] in [ 'redhat', 'centos', 'debian', 'ubuntu' ] {
+    fail("Your platform ${::facts['os']['name']} is not supported.")
+  }
 }

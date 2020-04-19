@@ -1,1 +1,5 @@
 --relative
+--no-80chars-check
+--no-140chars-check
+--no-only_variable_string-check
+--no-class_inherits_from_params_class-check

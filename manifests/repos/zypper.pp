@@ -3,9 +3,10 @@ class icinga::repos::zypper {
   assert_private()
 
   $repos   = $::icinga::repos::list
+  $enabled = $::icinga::repos::enabled
 
   $repos.each |String $repo_name, Hash $repo_config| {
-    if $repo_name in keys($_enabled) {
+    if $repo_name in keys($enabled) {
       if $repo_config['proxy'] {
         $_proxy = "--httpproxy ${repo_config['proxy']}"
       } else {
@@ -20,7 +21,7 @@ class icinga::repos::zypper {
       }
 
       -> zypprepo { $repo_name:
-        * => merge(delete($repo_config, 'proxy'), { enabled => $_enabled[$repo_name] }),
+        * => merge(delete($repo_config, 'proxy'), { enabled => $enabled[$repo_name] ? { true => 1, false => 0 } }),
       }
 
       -> file_line { "add proxy settings to ${repo_name}":
