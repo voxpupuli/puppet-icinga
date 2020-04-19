@@ -1,3 +1,7 @@
+# @summary
+#   Manage repositories via `yum`.
+# @api private
+#
 class icinga::repos::yum {
 
   assert_private()

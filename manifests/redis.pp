@@ -1,9 +1,8 @@
 # @summary icinga::redis
-#
-# Installs and configures the Redis server package from the Icinga Team.
+# Installs and configures the Icinga Redis server package.
 #
 # @example
-#   include icinga::redis
+#   require icinga::redis
 #
 class icinga::redis {
 

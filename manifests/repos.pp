@@ -1,35 +1,32 @@
-# @summary icinga::repos
-#
+# @summary
 # This class manages the stages stable, testing and snapshot of packages.icinga.com repository
-# based on the operating system platform.
-# Windows is not supported, as the Icinga Project does not offer a chocolate repository.
+# and depending on the operating system platform some other repositories.
 #
-# @manage_stable
+# @param [Boolean] manage_stable
 #   Manage the Icinga stable repository. Disabled by setting to 'false'. Defaults to 'true'.
 #
-# @manage_testing
+# @param [Boolean] manage_testing
 #   Manage the Icinga testing repository to get access to release candidates.
 #   Enabled by setting to 'true'. Defaults to 'false'.
 #
-# @manage_nightly
+# @param [Boolean] manage_nightly
 #   Manage the Icinga snapshot repository to get access to nightly snapshots.
 #   Enabled by setting to 'true'. Defaults to 'false'.
 #
-# @configure_backports
+# @param [Boolean] configure_backports
 #   Enables the backports repository permanently. Has only an effect on plattforms
 #   simular to Debian. Defaults to 'false'.
 #
-# @manage_epel
+# @param [Boolean] manage_epel
 #   Manage the EPEL (Extra Packages Enterprise Linux) repository that is needed for some package
 #   like newer Boost libraries. Has only an effect on plattforms simular to RedHat. Defaults to 'false'.
 #
-# @configure_scl
+# @param [Boolean] configure_scl
 #   Enables SCL (Software Collection Linux) repositories. Has only an effect on CentOS
 #   or Scientific platforms. Defaults to 'false'.
-#   
 #
 # @example
-#   include icinga::repos
+#   require icinga::repos
 #
 class icinga::repos(
   Boolean $manage_stable       = true,

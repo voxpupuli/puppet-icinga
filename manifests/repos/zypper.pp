@@ -1,3 +1,7 @@
+# @summary
+#   Manage repositories via `zypper`.
+# @api private
+#
 class icinga::repos::zypper {
 
   assert_private()

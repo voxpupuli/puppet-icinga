@@ -1,11 +1,32 @@
-# @summary icinga::redis::globals
-#
+# @summary
 # This class loads the default parameters by doing a hiera lookup.
 #
-# NOTE: This parameters depend on the os plattform. Changes maybe will
-#       break the functional capability of the supported plattforms and versions.
-#       Please only do changes when you know what you're doing.
+# @note
 #
+# This parameters depend on the os plattform. Changes maybe will break the functional
+# capability of the supported plattforms and versions. Please only do changes when you
+# know what you're doing.
+#
+# @param [String] package_name
+#   The package name of Icinga Redis.
+#
+# @param [Stdlib::Absolutepath] conf_dir
+#   Path to the directory in which the main configuration files reside.
+# 
+# @param [Stdlib::Absolutepath] log_dir
+#   Path to the directory in which the log files reside.
+# 
+# @param [Stdlib::Absolutepath] run_dir
+#   Location to store pid files.
+# 
+# @param [Stdlib::Absolutepath] work_dir
+#   Path to the base working directory.
+# 
+# @param [String] user
+#   User who ownes the config files.
+#
+# @param [String] group
+#   Group to which the files belong.
 #
 class icinga::redis::globals(
   String                 $package_name,
