@@ -30,6 +30,7 @@
 #
 class icinga::redis::globals(
   String                 $package_name,
+  Stdlib::Absolutepath   $redis_bin,
   Stdlib::Absolutepath   $conf_dir,
   Stdlib::Absolutepath   $log_dir,
   Stdlib::Absolutepath   $run_dir,

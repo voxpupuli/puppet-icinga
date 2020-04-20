@@ -1,5 +1,6 @@
 ---
 icinga::redis::globals::package_name: icinga-redis
+icinga::redis::globals::redis_bin: /usr/bin/icinga-redis-server
 icinga::redis::globals::conf_dir: /etc/icinga-redis
 icinga::redis::globals::log_dir: /var/log/icinga-redis
 icinga::redis::globals::run_dir: /var/run/icinga-redis
