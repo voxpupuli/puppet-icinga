@@ -2,9 +2,11 @@
   "name": "icinga-icinga",
   "version": "0.1.0",
   "author": "Icinga Team",
-  "summary": "",
+  "summary": "Puppet Module to manage Icinga repositories and provides a base class for Icinga Redis",
   "license": "Apache-2.0",
-  "source": "",
+  "source": "git://github.com/icinga/puppet-icinga",
+  "project_page": "https://github.com/icinga/puppet-icinga",
+  "issues_url": "https://github.com/icinga/puppet-icinga/issues",
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
@@ -90,6 +92,9 @@
       "name": "puppet",
       "version_requirement": ">= 4.10.0 < 7.0.0"
     }
+  ],
+  "tags": [
+    "monitoring"
   ],
   "pdk-version": "1.17.0",
   "template-url": "pdk-default#1.17.0",
