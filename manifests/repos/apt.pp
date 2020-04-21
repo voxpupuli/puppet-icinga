@@ -13,7 +13,8 @@ class icinga::repos::apt {
 
   include ::apt
   if $configure_backports {
-    contain ::apt::backports
+    include ::apt::backports
+    Apt::Source['backports'] -> Package <| |>
   }
 
   $repos.each |String $repo_name, Hash $repo_config| {
@@ -25,6 +26,7 @@ class icinga::repos::apt {
         }
       })
     }
+    Apt::Source[$repo_name] -> Package <| |>
   }
 
 }

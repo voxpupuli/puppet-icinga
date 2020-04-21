@@ -16,7 +16,7 @@ class icinga::redis {
   $user         = $::icinga::redis::globals::user
   $group        = $::icinga::redis::globals::group
 
-  class { 'redis':
+  class { '::redis':
     manage_repo     => false,
     package_name    => $package_name,
     config_dir      => $conf_dir,

@@ -17,6 +17,7 @@ class icinga::repos::zypper {
         $_proxy = undef
       }
 
+
       exec { "import ${repo_name} gpg key":
         path      => '/bin:/usr/bin:/sbin:/usr/sbin',
         command   => "rpm ${_proxy} --import ${repo_config['gpgkey']}",
@@ -32,6 +33,7 @@ class icinga::repos::zypper {
         path => "/etc/zypp/repos.d/${repo_name}.repo",
         line => "proxy=${repo_config['proxy']}",
       }
+      -> Package <| |>
     }
   }
 

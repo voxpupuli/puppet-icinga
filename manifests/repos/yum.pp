@@ -24,6 +24,7 @@ class icinga::repos::yum {
         * =>  merge($repo_config, { enabled => $_enabled[$repo_name] })
       }
     }
+    Yumrepo[$repo_name] -> Package <| |>
   }
 
   if $configure_scl and $facts['os']['name'] in ['CentOS', 'Scientific'] {
