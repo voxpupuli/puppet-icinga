@@ -15,6 +15,9 @@ class icinga::repos::yum {
   if $facts['os']['name'] in ['CentOS', 'Scientific', 'RedHat', 'OracleLinux'] {
     $_enabled = merge($enabled, { epel => $manage_epel })
   } else {
+    if $manage_epel {
+      warning("Repository EPEL isn't available on ${facts['os']['name']} ${facts['os']['release']['major']}.")
+    }
     $_enabled = $enabled
   }
 
@@ -27,8 +30,12 @@ class icinga::repos::yum {
     Yumrepo[$repo_name] -> Package <| |>
   }
 
-  if $configure_scl and $facts['os']['name'] in ['CentOS', 'Scientific'] {
-    ensure_packages('centos-release-scl')
+  if $configure_scl {
+    if $facts['os']['name'] in ['CentOS', 'Scientific'] and Integer($facts['os']['release']['major']) < 8 {
+      ensure_packages('centos-release-scl')
+    } else {
+      warning("Repository SCL isn't available on ${facts['os']['name']} ${facts['os']['release']['major']}.")
+    }
   }
 
 }
