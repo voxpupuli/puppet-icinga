@@ -29,12 +29,12 @@
 #   require icinga::repos
 #
 class icinga::repos(
-  Boolean $manage_stable       = true,
-  Boolean $manage_testing      = false,
-  Boolean $manage_nightly      = false,
-  Boolean $configure_backports = false,
-  Boolean $manage_epel         = false,
-  Boolean $configure_scl       = false,
+  Boolean $manage_stable,
+  Boolean $manage_testing,
+  Boolean $manage_nightly,
+  Boolean $configure_backports,
+  Boolean $manage_epel,
+  Boolean $configure_scl,
 ) {
 
   $list    =  lookup('icinga::repos', Hash, 'deep', {})

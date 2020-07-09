@@ -1,4 +1,11 @@
 ---
+icinga::repos::manage_stable: true
+icinga::repos::manage_testing: false
+icinga::repos::manage_nightly: false
+icinga::repos::configure_backports: false
+icinga::repos::manage_epel: false
+icinga::repos::configure_scl: false
+
 icinga::redis::globals::package_name: icinga-redis
 icinga::redis::globals::redis_bin: /usr/bin/icinga-redis-server
 icinga::redis::globals::conf_dir: /etc/icinga-redis

@@ -23,7 +23,6 @@ icinga::repos:
   epel:
     descr: 'Extra Packages for Enterprise Linux %{facts.os.release.major} - $basearch'
     mirrorlist: 'https://mirrors.fedoraproject.org/metalink?repo=epel-%{facts.os.release.major}&arch=$basearch'
-    baseurl: 'https://download.fedoraproject.org/pub/epel/%{facts.os.release.major}/$basearch'
     enabled: 0
     gpgcheck: 1
     gpgkey: https://fedoraproject.org/static/352C64E5.txt
