@@ -6,17 +6,17 @@ defaults:
   data_hash: 'yaml_data'
 
 hierarchy:
+  - name: 'Operating System Major Version'
+    path: '%{facts.os.family}/%{facts.os.name}/%{facts.os.release.major}.yaml'
+
   - name: 'Operating System'
-    path: '%{facts.os.name}.yaml'
+    path: '%{facts.os.family}/%{facts.os.name}/common.yaml'
 
   - name: 'Operating System Family Major Version'
-    path: '%{facts.os.family}-family-%{facts.os.release.major}.yaml'
-
-  - name: 'Architectur of Operating System Family'
-    path: '%{facts.os.family}-%{facts.os.architecture}-family.yaml'
+    path: '%{facts.os.family}/%{facts.os.release.major}.yaml'
 
   - name: 'Operating System Family'
-    path: '%{facts.os.family}-family.yaml'
+    path: '%{facts.os.family}/common.yaml'
 
   - name: 'Kernel Type'
     path: '%{facts.kernel}-kernel.yaml'

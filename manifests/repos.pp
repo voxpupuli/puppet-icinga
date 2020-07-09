@@ -21,7 +21,7 @@
 #   Manage the EPEL (Extra Packages Enterprise Linux) repository that is needed for some package
 #   like newer Boost libraries. Has only an effect on plattforms simular to RedHat. Defaults to 'false'.
 #
-# @param [Boolean] configure_scl
+# @param [Boolean] manage_scl
 #   Enables SCL (Software Collection Linux) repositories. Has only an effect on CentOS
 #   or Scientific platforms. Defaults to 'false'.
 #
@@ -34,7 +34,7 @@ class icinga::repos(
   Boolean $manage_nightly,
   Boolean $configure_backports,
   Boolean $manage_epel,
-  Boolean $configure_scl,
+  Boolean $manage_scl,
 ) {
 
   $list    =  lookup('icinga::repos', Hash, 'deep', {})
@@ -42,6 +42,9 @@ class icinga::repos(
     icinga-stable-release  => $manage_stable,
     icinga-testing-builds  => $manage_testing,
     icinga-snapshot-builds => $manage_nightly,
+    epel                   => $manage_epel,
+    centos-sclo-sclo       => $manage_scl,
+    centos-sclo-rh         => $manage_scl,
   }
 
   case $::facts['os']['family'] {

@@ -21,8 +21,8 @@ class icinga::repos::apt {
     apt::source { $repo_name:
       * =>  merge($repo_config, {
         ensure => $enabled[$repo_name] ? {
-          true  => present,
-          false => absent,
+          true    => present,
+          default => absent,
         }
       })
     }

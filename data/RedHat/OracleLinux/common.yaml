@@ -1,0 +1,4 @@
+---
+icinga::repos:
+  epel:
+    enabled: 0

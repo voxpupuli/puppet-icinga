@@ -9,33 +9,34 @@ class icinga::repos::yum {
   $repos   = $::icinga::repos::list
   $enabled = $::icinga::repos::enabled
 
-  $manage_epel   = $::icinga::repos::manage_epel
-  $configure_scl = $::icinga::repos::configure_scl
+  $manage_epel = $::icinga::repos::manage_epel
+  $manage_scl  = $::icinga::repos::manage_scl
 
-  if $facts['os']['name'] in ['CentOS', 'Scientific', 'RedHat', 'OracleLinux'] {
-    $_enabled = merge($enabled, { epel => $manage_epel })
+  # EPEL package
+  if 'epel' in keys($repos) {
+    ensure_packages('epel-release', { before => Yumrepo['epel'] })
   } else {
     if $manage_epel {
       warning("Repository EPEL isn't available on ${facts['os']['name']} ${facts['os']['release']['major']}.")
     }
-    $_enabled = $enabled
+  }
+
+  # SCL package
+  if 'centos-sclo-sclo' in keys($repos) and 'centos-sclo-rh' in keys($repos) {
+    ensure_packages('centos-release-scl', { before => Yumrepo['centos-sclo-sclo', 'centos-sclo-rh'] })
+  } else {
+    if $manage_scl {
+      warning("Repository SCL isn't available on ${facts['os']['name']} ${facts['os']['release']['major']}.")
+    }
   }
 
   $repos.each |String $repo_name, Hash $repo_config| {
-    if $repo_name in keys($_enabled) {
+    if $repo_name in keys($enabled) {
       yumrepo { $repo_name:
-        * =>  merge($repo_config, { enabled => $_enabled[$repo_name] })
+        * =>  merge($repo_config, { enabled => Integer($enabled[$repo_name]) })
       }
     }
-    Yumrepo[$repo_name] -> Package <| |>
-  }
-
-  if $configure_scl {
-    if $facts['os']['name'] in ['CentOS', 'Scientific'] and Integer($facts['os']['release']['major']) < 8 {
-      ensure_packages('centos-release-scl')
-    } else {
-      warning("Repository SCL isn't available on ${facts['os']['name']} ${facts['os']['release']['major']}.")
-    }
+    Yumrepo[$repo_name] -> Package <| title != 'epel-release' and title != 'centos-release-scl' |>
   }
 
 }

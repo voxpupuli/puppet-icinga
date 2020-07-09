@@ -20,9 +20,3 @@ icinga::repos:
     gpgcheck: 1
     gpgkey: https://packages.icinga.com/icinga.key
     metadata_expire: 1d
-  epel:
-    descr: 'Extra Packages for Enterprise Linux %{facts.os.release.major} - $basearch'
-    mirrorlist: 'https://mirrors.fedoraproject.org/metalink?repo=epel-%{facts.os.release.major}&arch=$basearch'
-    enabled: 0
-    gpgcheck: 1
-    gpgkey: https://fedoraproject.org/static/352C64E5.txt
