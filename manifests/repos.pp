@@ -15,15 +15,15 @@
 #
 # @param [Boolean] configure_backports
 #   Enables the backports repository permanently. Has only an effect on plattforms
-#   simular to Debian. Defaults to 'false'.
+#   simular to Debian.
 #
 # @param [Boolean] manage_epel
 #   Manage the EPEL (Extra Packages Enterprise Linux) repository that is needed for some package
-#   like newer Boost libraries. Has only an effect on plattforms simular to RedHat. Defaults to 'false'.
+#   like newer Boost libraries. Has only an effect on plattforms simular to RedHat Enterprise.
 #
 # @param [Boolean] manage_scl
-#   Enables SCL (Software Collection Linux) repositories. Has only an effect on CentOS
-#   or Scientific platforms. Defaults to 'false'.
+#   Manage SCL (Software Collection Linux) repositories. Has only an effect on CentOS
+#   or Scientific platforms.
 #
 # @example
 #   require icinga::repos

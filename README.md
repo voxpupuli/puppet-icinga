@@ -90,18 +90,18 @@ Other possible needed repositories like EPEL and SCL on RHEL or the Backports on
 ```
 class { '::icinga::repos':
   manage_epel         => true,
-  configure_scl       => true,
+  manage_scl          => true,
   configure_backports => true,
 }
 ```
-The prefix `configure` means that the repository will be enabled. But if you'll set it back to `false` later, the repository will not be removed.
+The prefix `configure` means that the repository is not manageable by the module. But backports can be configured by the class apt::backports, that is used by this module.
   
 To change to a non upstream repository, e.g. a local mirror, the repos can be customized via hiera. The module does a deep merge lookup for a hash named `icinga::repos`. Allowed keys are:
 
 * icinga-stable-release
 * icinga-testing-builds
 * icinga-snapshot-builds
-* epel (only on RHEL platforms)
+* epel (only on RHEL Enterprise platforms)
 
 An example to configure a local mirror of the stable release:
 ```
@@ -117,7 +117,20 @@ IMPORTANT: The configuration hash depends on the platform an requires one of the
 * yumrepo (RedHat family, https://forge.puppet.com/puppetlabs/yumrepo_core)
 * zypprepo (SUSE, https://forge.puppet.com/puppet/zypprepo)
 
-The SCL repository is not customizable, but the Backports repo on Debian, see https://forge.puppet.com/puppetlabs/apt to configure the class `apt::backports` via Hiera.
+Also the Backports repo on Debian can be configured like the apt class of course, see https://forge.puppet.com/puppetlabs/apt to configure the class `apt::backports` via Hiera.
+
+As an example, how you configure backpaorts on a debian squeeze. For squeeze the repository is already moved to the unsupported archive:
+
+```
+---
+apt::confs:
+  no-check-valid-until:
+    content: 'Acquire::Check-Valid-Until no;'
+    priority: 99
+    notify_update: true
+apt::backports::location: 'http://archive.debian.org/debian'
+```
+
 
 ## Reference
 
