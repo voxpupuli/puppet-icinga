@@ -26,7 +26,7 @@ class icinga::repos::zypper {
       }
 
       -> zypprepo { $repo_name:
-        * => merge(delete($repo_config, 'proxy'), { enabled => $enabled[$repo_name] ? { true => 1, false => 0 } }),
+        * => merge(delete($repo_config, 'proxy'), { enabled => Integer($enabled[$repo_name]) }),
       }
 
       -> file_line { "add proxy settings to ${repo_name}":
