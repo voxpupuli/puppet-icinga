@@ -13,9 +13,8 @@ describe 'icinga::redis' do
         it { is_expected.to contain_class('icinga::redis::globals') }
         it { is_expected.to contain_class('redis') }
       else
-        it { is_expected.to compile.and_raise_error(/not supported/) }
+        it { is_expected.to compile.and_raise_error(%r{not supported}) }
       end
-
     end
   end
 end

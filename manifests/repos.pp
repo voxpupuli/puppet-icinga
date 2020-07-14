@@ -14,16 +14,12 @@
 #   Enabled by setting to 'true'. Defaults to 'false'.
 #
 # @param [Boolean] configure_backports
-#   Enables the backports repository permanently. Has only an effect on plattforms
-#   simular to Debian.
+#   Enables or Disables the backports repository. Has only an effect on plattforms
+#   simular to Debian. To configure the backports repo uses apt::backports in hiera.
 #
 # @param [Boolean] manage_epel
 #   Manage the EPEL (Extra Packages Enterprise Linux) repository that is needed for some package
 #   like newer Boost libraries. Has only an effect on plattforms simular to RedHat Enterprise.
-#
-# @param [Boolean] manage_scl
-#   Manage SCL (Software Collection Linux) repositories. Has only an effect on CentOS
-#   or Scientific platforms.
 #
 # @example
 #   require icinga::repos
@@ -34,7 +30,6 @@ class icinga::repos(
   Boolean $manage_nightly,
   Boolean $configure_backports,
   Boolean $manage_epel,
-  Boolean $manage_scl,
 ) {
 
   $list    =  lookup('icinga::repos', Hash, 'deep', {})
@@ -43,8 +38,6 @@ class icinga::repos(
     icinga-testing-builds  => $manage_testing,
     icinga-snapshot-builds => $manage_nightly,
     epel                   => $manage_epel,
-    centos-sclo-sclo       => $manage_scl,
-    centos-sclo-rh         => $manage_scl,
   }
 
   case $::facts['os']['family'] {
@@ -59,10 +52,6 @@ class icinga::repos(
 
     'suse': {
       contain ::icinga::repos::zypper
-    }
-
-    'windows': {
-      warning("The Icinga Project doesn't offer chocolaty packages at the moment.")
     }
 
     default: {

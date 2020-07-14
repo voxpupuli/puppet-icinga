@@ -5,9 +5,7 @@ pp = <<-PUPPETCODE
 PUPPETCODE
 
 describe 'icinga repositories' do
-
   context 'icinga::repos with defaults' do
     it { idempotent_apply(pp) }
   end
-
 end
