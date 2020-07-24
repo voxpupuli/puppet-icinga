@@ -28,6 +28,8 @@
 # @param [String] group
 #   Group to which the files belong.
 #
+# @api private
+#
 class icinga::redis::globals(
   String                 $package_name,
   Stdlib::Absolutepath   $redis_bin,

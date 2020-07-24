@@ -1,5 +1,6 @@
 # @summary
 #   Manage repositories via `apt`.
+#
 # @api private
 #
 class icinga::repos::apt {
