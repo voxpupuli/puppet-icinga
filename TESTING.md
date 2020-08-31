@@ -2,7 +2,7 @@
 
 ## Prerequisites
 Before starting any test, you should make sure you have installed the Puppet PDK and Bolt,
-also Vagrant and VirtualBox have to be installed.
+also Vagrant and VirtualBox have to be installed for acceptance tests.
 
 Required gems are installed with `bundler`:
 ```
@@ -39,6 +39,7 @@ pdk test unit --tests=repos
 ```
 
 Or dedicated tests:
+```
 pdk test unit --tests=spec/classes/repos_spec.rb,spec/classes/redis_spec.rb
 ```
 
