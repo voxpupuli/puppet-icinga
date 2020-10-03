@@ -6,3 +6,5 @@ icinga::repos:
     location: http://packages.icinga.com/ubuntu
   'icinga-snapshot-builds':
     location: http://packages.icinga.com/ubuntu
+
+icinga::repos::configure_backports: true

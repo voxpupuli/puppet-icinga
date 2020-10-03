@@ -7,3 +7,5 @@ icinga::repos:
     enabled: 0
     gpgcheck: 1
     gpgkey: https://fedoraproject.org/static/352C64E5.txt
+
+icinga::repos::manage_epel: true
