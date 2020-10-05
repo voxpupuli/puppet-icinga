@@ -1,7 +1,7 @@
 {
   "name": "icinga-icinga",
   "version": "0.1.2",
-  "author": "Icinga Team",
+  "author": "Icinga",
   "summary": "Puppet Module to manage Icinga repositories and provides a base class for Icinga Redis",
   "license": "Apache-2.0",
   "source": "git://github.com/icinga/puppet-icinga",
@@ -57,6 +57,7 @@
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
+        "8",
         "9",
         "10"
       ]
@@ -65,7 +66,8 @@
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
         "16.04",
-        "18.04"
+        "18.04",
+        "20.04"
       ]
     },
     {
@@ -96,7 +98,7 @@
   "tags": [
     "monitoring"
   ],
-  "pdk-version": "1.17.0",
-  "template-url": "pdk-default#1.17.0",
-  "template-ref": "tags/1.17.0-0-gd3a4319"
+  "pdk-version": "1.18.1",
+  "template-url": "pdk-default#1.18.1",
+  "template-ref": "tags/1.18.1-0-g3d2e75c"
 }
