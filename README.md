@@ -23,7 +23,7 @@ This module provides the management of upstrem repositories that can use by the 
 
 * Involves the needed repositories to install icinga2, icingadb and icingaweb2:
  * The Icinga Project repository for the stages: stable, testing or nightly builds 
- * EPEL and SCL repository for RHEL simular platforms
+ * EPEL repository for RHEL simular platforms
  * Backports repository for Debian and Ubuntu
 * The Class to install Icinga-Redis, a requirement for the IcingaDB module.
 
@@ -86,11 +86,10 @@ class { '::icinga::repos':
 }
 ```
 
-Other possible needed repositories like EPEL and SCL on RHEL or the Backports on Debian can also be involved:
+Other possible needed repositories like EPEL on RHEL or the Backports on Debian can also be involved:
 ```
 class { '::icinga::repos':
   manage_epel         => true,
-  manage_scl          => true,
   configure_backports => true,
 }
 ```
