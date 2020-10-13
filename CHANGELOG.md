@@ -1,7 +1,7 @@
 # Change Log
 
-## [v1.0.0](https://github.com/icinga/puppet-icinga/tree/v1.0.0) (2020-10-13)
-[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v0.1.2...v1.0.0)
+## [v1.0.1](https://github.com/icinga/puppet-icinga/tree/v1.0.1) (2020-10-13)
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v0.1.2...v1.0.1)
 
 **Implemented enhancements:**
 
