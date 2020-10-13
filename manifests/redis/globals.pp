@@ -10,6 +10,9 @@
 # @param [String] package_name
 #   The package name of Icinga Redis.
 #
+# @param [Stdlib::Absolutepath] redis_bin
+#   Path to the redis binary.
+# 
 # @param [Stdlib::Absolutepath] conf_dir
 #   Path to the directory in which the main configuration files reside.
 # 
