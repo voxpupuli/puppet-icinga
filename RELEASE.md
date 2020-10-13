@@ -37,10 +37,14 @@ Version numbers are incremented regarding the [SemVer 1.0.0] specification.
 Update the version number in `metadata.json`.
 
 ## 5. Changelog
+Install [github-changelog-generator]
+```bash
+gem install github_changelog_generator -v 1.13.2
+```
+
 Generate [CHANGELOG.md]
 ```bash
-export CHANGELOG_GITHUB_TOKEN=<valid_token_here>
-pdk bundle exec rake changelog
+github_changelog_generator -t <github-access-token> --future-release=v1.0.0 -u icinga -p puppet-icinga
 ```
 
 ## 6. Git Tag
