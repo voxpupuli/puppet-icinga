@@ -6,4 +6,4 @@ icinga::repos:
     baseurl: 'https://download.fedoraproject.org/pub/epel/%{facts.os.release.major}/$basearch'
     enabled: 0
     gpgcheck: 1
-    gpgkey: https://fedoraproject.org/static/352C64E5.txt
+    gpgkey: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-%{facts.os.release.major}
