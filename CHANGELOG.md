@@ -1,7 +1,14 @@
 # Change Log
 
-## [v1.0.1](https://github.com/icinga/puppet-icinga/tree/v1.0.1) (2020-10-13)
-[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v0.1.2...v1.0.1)
+## [v1.0.3](https://github.com/icinga/puppet-icinga/tree/v1.0.3) (2020-10-22)
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v1.0.2...v1.0.3)
+
+**Fixed bugs:**
+
+- fix gpgkey for epel EL8 [\#5](https://github.com/Icinga/puppet-icinga/pull/5) ([lbetz](https://github.com/lbetz))
+
+## [v1.0.2](https://github.com/icinga/puppet-icinga/tree/v1.0.2) (2020-10-13)
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v0.1.2...v1.0.2)
 
 **Implemented enhancements:**
 

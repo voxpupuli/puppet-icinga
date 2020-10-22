@@ -1,6 +1,6 @@
 {
   "name": "icinga-icinga",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "Icinga",
   "summary": "Puppet Module to manage Icinga repositories and provides a base class for Icinga Redis",
   "license": "Apache-2.0",
