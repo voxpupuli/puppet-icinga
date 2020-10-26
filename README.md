@@ -15,32 +15,31 @@
 
 ## Description
 
-This module provides the management of upstrem repositories that can use by the other Icinga modules and a base class to handle the Icinga Redis package.
+This module provides several non private helper classes for the official Icinga modules:
+
+* [icinga/icinga2]
+* [icinga/icingaweb2]
+* [icinga/icingadb]
 
 ## Setup
 
 ### What the Icinga Puppet module supports
 
-* Involves the needed repositories to install icinga2, icingadb and icingaweb2:
- * The Icinga Project repository for the stages: stable, testing or nightly builds 
- * EPEL repository for RHEL simular platforms
- * Backports repository for Debian and Ubuntu
-* The Class to install Icinga-Redis, a requirement for the IcingaDB module.
+* [icinga::repos] involves the needed repositories to install icinga2, icingadb and icingaweb2:
+    * The Icinga Project repository for the stages: stable, testing or nightly builds 
+    * EPEL repository for RHEL simular platforms
+    * Backports repository for Debian and Ubuntu
+    * NETWAYS extras repository for Icinga Web 2
+    * NETWAYS plugins repository with some additional monitoring plugins
+* Classes to manage and setup an Icinga environment much easier:
+    * [icinga::server] setups an Icinga 2 including CA, config server, zones and workers aka satellites
+    * [icinga::worker] installs an Icinga 2 worker aka satellite
+    * [icinga::ido] configures the IDO backend including the database
+    * [icinga::web] manages Icinga Web 2, an Apache and a PHP-FPM
 
 ### Setup Requirements
 
-This module supports:
-
-* [puppet] >= 4.10 < 7.0.0
-
-And requiers:
-
-* [puppetlabs/stdlib] >= 4.16.0 < 7.0.0
-    * If Puppet 6 is used a stdlib 5.1 or higher is required
-* [puppetlabs/apt] >= 6.0.0
-* [puppet/zypprepo] >= 2.2.1
-* [puppetlabs/yumrepo_core] >= 1.0.0
-    * If Puppet 6 is used
+The requirements depend on the class to be used.
 
 ### Beginning with icinga
 
@@ -48,7 +47,7 @@ Add this declaration to your Puppetfile:
 ```
 mod 'icinga',
   :git => 'https://github.com/icinga/puppet-icinga.git',
-  :tag => 'v0.1.0'
+  :tag => 'v2.1.0'
 ```
 Then run:
 ```
@@ -62,10 +61,25 @@ git clone https://github.com/icinga/puppet-icinga.git icinga
 Change to `icinga` directory and check out your desired version:
 ```
 cd icinga
-git checkout v0.1.0
+git checkout v2.1.0
 ```
 
 ## Usage
+
+### icinga::repos
+
+The class supports:
+
+* [puppet] >= 4.10 < 8.0
+
+And requiers:
+
+* [puppetlabs/stdlib] >= 4.16.0 < 8.0.0
+    * If Puppet 6 is used a stdlib 5.1 or higher is required
+* [puppetlabs/apt] >= 6.0.0
+* [puppet/zypprepo] >= 2.2.1
+* [puppetlabs/yumrepo_core] >= 1.0.0
+    * If Puppet 6 is used
 
 By default the upstream Icinga repository for stable release are involved.
 ```
@@ -101,6 +115,8 @@ To change to a non upstream repository, e.g. a local mirror, the repos can be cu
 * icinga-testing-builds
 * icinga-snapshot-builds
 * epel (only on RHEL Enterprise platforms)
+* netways-plugins
+* netways-extras
 
 An example to configure a local mirror of the stable release:
 ```
@@ -118,7 +134,7 @@ IMPORTANT: The configuration hash depends on the platform an requires one of the
 
 Also the Backports repo on Debian can be configured like the apt class of course, see https://forge.puppet.com/puppetlabs/apt to configure the class `apt::backports` via Hiera.
 
-As an example, how you configure backpaorts on a debian squeeze. For squeeze the repository is already moved to the unsupported archive:
+As an example, how you configure backports on a debian squeeze. For squeeze the repository is already moved to the unsupported archive:
 
 ```
 ---
@@ -130,6 +146,119 @@ apt::confs:
 apt::backports::location: 'http://archive.debian.org/debian'
 ```
 
+### icinga::server / icinga::worker / icinga::agent
+
+The class supports:
+
+* [puppet] >= 4.10 < 7.0
+
+And requiers:
+
+* [icinga/icinga2] >= 2.0.0 < 4.0.0
+
+Setting up a Icinga Server with a CA and to store configuration:
+
+```
+class { '::icinga::server':
+  ca            => true,
+  config_server => true,
+  workers       => { 'dmz' => { 'endpoints' => { 'worker.example.org' => { 'host' => '172.16.2.11' }}, }},
+  global_zones  => [ 'global-templates', 'linux-commands', 'windows-commands' ],
+}
+```
+
+Addtition a connection to a worker is configured. By default the zone for the server is named `main`. When `config_server` is enabled directories are managed for all zones, including the worker and global zones.
+
+IMPORTANT: A alpha numeric String has to be set to `icinga::ticket_salt` in Hiera to protect the CA! 
+
+The associated worker could look like this:
+
+```
+class { '::icinga::worker':
+  ca_server        => '172.16.1.11',
+  zone             => 'dmz',
+  parent_endpoints => { 'server.example.org' => { 'host' => '172.16.1.11', }, },
+  global_zones     => [ 'global-templates', 'linux-commands', 'windows-commands' ],
+}
+```
+
+If the worker doesn't have a certificate, it sends a certificate request to the CA on the host `ca_server`. The default parent zone is `main`. Thus, only the associated endpoint has to be defined.
+
+If `icinga::ticket_salt` is also set in Hiera for the worker, he's automatically sent a certificate. Otherwise the request will be saved on the CA server and must be signed manually.
+
+Both, server and workers, can operated with a parnter in the same zone to share load. The endpoint of the respective partner is specified as an Icinga object in `colocation_endpoints`.
+
+```
+colocation_endpoints => { 'server2.example.org' => { 'host' => '172.16.1.12', } },
+``` 
+
+Of course, the second endpoint must also be specified in the respective `parent_endpoints` of the worker or agent.
+
+An agent is very similar to a worker, only it has no parameter `colocation_endpoints`:
+
+```
+class { '::icinga::agent':
+  ca_server        => '172.16.1.11',
+  parent_endpoints => { 'worker.example.org' => { 'host' => '172.16.2.11', }, } },
+  global_zones     => [ 'linux-commands' ],
+}
+```
+
+#### icinga::ido
+
+The class supports:
+
+* [puppet] >= 4.10 < 7.0
+
+Ands requires:
+
+* [puppetlabs/mysql] >= 5.0.0 < 10.9.0
+* [puppetlabs/postgresql] >= 5.0.0 < 6.9.0
+* [icinga/icinga2] >= 2.0.0 < 4.0.0
+
+To activate and configure the IDO feature (usally on a server) do:
+
+```
+class { '::icinga::ido':
+  db_type         => 'pgsql',
+  db_host         => 'localhost',
+  db_pass         => 'icinga2',
+  manage_database => true,
+}
+```
+
+Setting `manage_database` to `true` also setups a database as specified in `db_type` including database for the IDO. Supported are `pgsql` for PostgreSQL und `maysql` for MariaDB. By default the database name is set to `icinga2` and the user to `icinga2`.
+
+### icinga::web
+
+The class supports:
+
+* [puppet] >= 4.10 < 7.0
+
+And requires:
+
+* [puppetlabs/mysql] >= 5.0.0 < 10.9.0
+* [puppetlabs/postgresql] >= 5.0.0 < 6.9.0
+* [puppetlabs/apache] >= 3.0.0 < 5.8.0
+* [puppet/php] >= 6.0.0 < 8.0.0
+* [icinga/icinga2] >= 2.0.0 < 4.0.0
+
+A Icinga Web 2 with an Apache and PHP-FPM can be managed as follows:
+
+```
+class { '::icinga::web':
+  backend_db_type => $icinga::ido::db_type,
+  backend_db_host => $icinga::ido::db_host,
+  backend_db_pass => $icinga::ido::db_pass,
+  db_type         => 'pgsql',
+  db_host         => 'localhost',
+  db_pass         => 'icingaweb2',
+  manage_database => true,
+  api_pass        => $icinga::server::web_api_pass,
+}
+```
+
+If the Icinga Web 2 is operated on the same host as the IDO, the required user credentials can be accessed, otherwise they must be specified explicitly. With `manage_database` set to `true`, a database of the specified type is also installed here. It is used to save user settings for the users of the Icinga Web 2.
 
 ## Reference
 

@@ -13,6 +13,7 @@ class icinga::repos::apt {
   $configure_backports = $::icinga::repos::configure_backports
 
   include ::apt
+
   if $configure_backports {
     include ::apt::backports
     Apt::Source['backports'] -> Package <| |>

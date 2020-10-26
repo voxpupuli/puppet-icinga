@@ -6,3 +6,7 @@ icinga::repos:
     location: http://packages.icinga.com/ubuntu
   'icinga-snapshot-builds':
     location: http://packages.icinga.com/ubuntu
+  'netways-plugins-release':
+    location: http://packages.netways.de/plugins/ubuntu
+  'netways-extras-release':
+    location: http://packages.netways.de/extras/ubuntu
