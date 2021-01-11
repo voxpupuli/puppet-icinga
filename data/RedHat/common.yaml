@@ -3,20 +3,20 @@ icinga::repos:
   icinga-stable-release:
     descr: ICINGA (stable release for epel)
     baseurl: 'https://packages.icinga.com/epel/$releasever/release/'
-    enabled: 0
+    enabled: 1
     gpgcheck: 1
     gpgkey: https://packages.icinga.com/icinga.key
   icinga-testing-builds:
     descr: ICINGA (testing builds for epel)
     baseurl: 'https://packages.icinga.com/epel/$releasever/testing/'
-    enabled: 0
+    enabled: 1
     gpgcheck: 1
     gpgkey: https://packages.icinga.com/icinga.key
     metadata_expire: 1d
   icinga-snapshot-builds:
     descr: ICINGA (snapshot builds for epel)
     baseurl: 'https://packages.icinga.com/epel/$releasever/snapshot/'
-    enabled: 0
+    enabled: 1
     gpgcheck: 1
     gpgkey: https://packages.icinga.com/icinga.key
     metadata_expire: 1d

@@ -8,7 +8,7 @@ class icinga::repos::apt {
   assert_private()
 
   $repos   = $::icinga::repos::list
-  $enabled = $::icinga::repos::enabled
+  $managed = $::icinga::repos::managed
 
   $configure_backports = $::icinga::repos::configure_backports
 
@@ -19,13 +19,12 @@ class icinga::repos::apt {
   }
 
   $repos.each |String $repo_name, Hash $repo_config| {
-    apt::source { $repo_name:
-      * =>  merge($repo_config, { ensure => $enabled[$repo_name] ? {
-        true    => present,
-        default => absent,
-      } }),
+    if $managed[$repo_name] {
+      apt::source { $repo_name:
+        * =>  merge({ ensure => present }, $repo_config),
+      }
+      Apt::Source[$repo_name] -> Package <| |>
     }
-    Apt::Source[$repo_name] -> Package <| |>
   }
 
 }

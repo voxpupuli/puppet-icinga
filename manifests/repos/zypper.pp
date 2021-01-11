@@ -8,16 +8,15 @@ class icinga::repos::zypper {
   assert_private()
 
   $repos   = $::icinga::repos::list
-  $enabled = $::icinga::repos::enabled
+  $managed = $::icinga::repos::managed
 
   $repos.each |String $repo_name, Hash $repo_config| {
-    if $repo_name in keys($enabled) {
+    if $repo_name in keys($managed) and $managed[$repo_name] {
       if $repo_config['proxy'] {
         $_proxy = "--httpproxy ${repo_config['proxy']}"
       } else {
         $_proxy = undef
       }
-
 
       exec { "import ${repo_name} gpg key":
         path      => '/bin:/usr/bin:/sbin:/usr/sbin',
@@ -27,7 +26,7 @@ class icinga::repos::zypper {
       }
 
       -> zypprepo { $repo_name:
-        * => merge(delete($repo_config, 'proxy'), { enabled => Integer($enabled[$repo_name]) }),
+        * => delete($repo_config, 'proxy')
       }
 
       -> file_line { "add proxy settings to ${repo_name}":

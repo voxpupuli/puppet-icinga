@@ -13,8 +13,8 @@ describe 'icinga::repos' do
         case os_facts[:osfamily]
         when 'Debian'
           it { is_expected.to contain_apt__source('icinga-stable-release').with('ensure' => 'present') }
-          it { is_expected.to contain_apt__source('icinga-testing-builds').with('ensure' => 'absent') }
-          it { is_expected.to contain_apt__source('icinga-snapshot-builds').with('ensure' => 'absent') }
+          it { is_expected.not_to contain_apt__source('icinga-testing-builds') }
+          it { is_expected.not_to contain_apt__source('icinga-snapshot-builds') }
 
           case os_facts[:operatingsystem] == 'Debian'
           when 'Debian'
@@ -33,8 +33,8 @@ describe 'icinga::repos' do
 
         when 'RedHat'
           it { is_expected.to contain_yumrepo('icinga-stable-release').with('enabled' => 1) }
-          it { is_expected.to contain_yumrepo('icinga-testing-builds').with('enabled' => 0) }
-          it { is_expected.to contain_yumrepo('icinga-snapshot-builds').with('enabled' => 0) }
+          it { is_expected.not_to contain_yumrepo('icinga-testing-builds') }
+          it { is_expected.not_to contain_yumrepo('icinga-snapshot-builds') }
           case os_facts[:operatingsystem]
           when 'Fedora'
             it { is_expected.not_to contain_yumrepo('epel') }
@@ -42,14 +42,14 @@ describe 'icinga::repos' do
             if Integer(os_facts[:operatingsystemmajrelease]) < 8
               it { is_expected.to contain_yumrepo('epel').with('enabled' => 1) }
             else
-              it { is_expected.to contain_yumrepo('epel').with('enabled' => 0) }
+              it { is_expected.not_to contain_yumrepo('epel') }
             end
           end
 
         when 'Suse'
           it { is_expected.to contain_zypprepo('icinga-stable-release').with('enabled' => 1) }
-          it { is_expected.to contain_zypprepo('icinga-testing-builds').with('enabled' => 0) }
-          it { is_expected.to contain_zypprepo('icinga-snapshot-builds').with('enabled' => 0) }
+          it { is_expected.not_to contain_zypprepo('icinga-testing-builds') }
+          it { is_expected.not_to contain_zypprepo('icinga-snapshot-builds') }
         end
       end
 
@@ -58,13 +58,13 @@ describe 'icinga::repos' do
 
         case os_facts[:osfamily]
         when 'Debian'
-          it { is_expected.to contain_apt__source('icinga-stable-release').with('ensure' => 'absent') }
+          it { is_expected.not_to contain_apt__source('icinga-stable-release') }
           it { is_expected.to contain_apt__source('icinga-testing-builds').with('ensure' => 'present') }
         when 'RedHat'
-          it { is_expected.to contain_yumrepo('icinga-stable-release').with('enabled' => 0) }
+          it { is_expected.not_to contain_yumrepo('icinga-stable-release') }
           it { is_expected.to contain_yumrepo('icinga-testing-builds').with('enabled' => 1) }
         when 'Suse'
-          it { is_expected.to contain_zypprepo('icinga-stable-release').with('enabled' => 0) }
+          it { is_expected.not_to contain_zypprepo('icinga-stable-release') }
           it { is_expected.to contain_zypprepo('icinga-testing-builds').with('enabled' => 1) }
         end
       end
@@ -74,19 +74,24 @@ describe 'icinga::repos' do
 
         case os_facts[:osfamily]
         when 'Debian'
-          it { is_expected.to contain_apt__source('icinga-stable-release').with('ensure' => 'absent') }
+          it { is_expected.not_to contain_apt__source('icinga-stable-release') }
           it { is_expected.to contain_apt__source('icinga-snapshot-builds').with('ensure' => 'present') }
         when 'RedHat'
-          it { is_expected.to contain_yumrepo('icinga-stable-release').with('enabled' => 0) }
+          it { is_expected.not_to contain_yumrepo('icinga-stable-release') }
           it { is_expected.to contain_yumrepo('icinga-snapshot-builds').with('enabled' => 1) }
         when 'Suse'
-          it { is_expected.to contain_zypprepo('icinga-stable-release').with('enabled' => 0) }
+          it { is_expected.not_to contain_zypprepo('icinga-stable-release') }
           it { is_expected.to contain_zypprepo('icinga-snapshot-builds').with('enabled' => 1) }
         end
       end
 
       case os_facts[:osfamily]
       when 'RedHat'
+        context 'with manage_epel => false' do
+          let(:params) { { manage_epel: false } }
+
+          it { is_expected.not_to contain_yumrepo('epel') }
+        end
         context 'with manage_epel => true' do
           let(:params) { { manage_epel: true } }
 
@@ -98,6 +103,11 @@ describe 'icinga::repos' do
           end
         end
       when 'Debian'
+        context 'with configure_backports => false' do
+          let(:params) { { configure_backports: false } }
+
+          it { is_expected.not_to contain_class('apt::backports') }
+        end
         context 'with configure_backports => true' do
           let(:params) { { configure_backports: true } }
 

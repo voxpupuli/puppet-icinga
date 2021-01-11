@@ -35,7 +35,6 @@ Run unit tests:
 ```
 cd puppet-icinga
 pdk test unit
-pdk test unit --tests=repos
 ```
 
 Or dedicated tests:

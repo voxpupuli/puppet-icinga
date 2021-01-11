@@ -6,16 +6,23 @@
 
 1. [Description](#description)
 2. [Setup - The basics of getting started with icinga](#setup)
-    * [What icinga affects](#what-icinga-affects)
     * [Setup requirements](#setup-requirements)
     * [Beginning with icinga](#beginning-with-icinga)
 3. [Usage - Configuration options and additional functionality](#usage)
+    * [Enable and disable repositories](#enable-and-disable-repositories)
+    * [Installing from non upstream repositories](#Installing from Non-Upstream Repositories)
 4. [Reference](#reference)
 5. [Release notes](#release-notes)
+
 
 ## Description
 
 This module provides the management of upstrem repositories that can use by the other Icinga modules and a base class to handle the Icinga Redis package.
+
+### Changes in v2.0.0
+
+* Earlier the parameter `manage_*` enables or disables a repository but it was still managed. Now the management is enabled or disabled, see [Enable or disable repositories](#enable-and-disable-repositories). 
+
 
 ## Setup
 
@@ -48,7 +55,7 @@ Add this declaration to your Puppetfile:
 ```
 mod 'icinga',
   :git => 'https://github.com/icinga/puppet-icinga.git',
-  :tag => 'v0.1.0'
+  :tag => 'v2.0.0'
 ```
 Then run:
 ```
@@ -62,8 +69,9 @@ git clone https://github.com/icinga/puppet-icinga.git icinga
 Change to `icinga` directory and check out your desired version:
 ```
 cd icinga
-git checkout v0.1.0
+git checkout v2.0.0
 ```
+
 
 ## Usage
 
@@ -95,6 +103,37 @@ class { '::icinga::repos':
 ```
 The prefix `configure` means that the repository is not manageable by the module. But backports can be configured by the class apt::backports, that is used by this module.
   
+
+### Enable and Disable Repositories
+
+When manage is set to `true` for a repository the ressource is managed and the repository is enabled by default. To switch off a repository again, it still has to be managed and the corresponding parameter has to set via hiera. The module does a deep merge lookup for a hash named `icinga::repos`. Allowed keys are:
+
+* icinga-stable-release
+* icinga-testing-builds
+* icinga-snapshot-builds
+* epel (only on RHEL Enterprise platforms)
+
+An example for Yum or Zypper based platforms to change from stable to testing repo: 
+```
+---
+icinga::repos::manage_testing: true
+icinga::repos:
+  icinga-stable-release:
+    enabled: 0
+```
+
+Or on Apt based platforms:
+```
+---
+icinga::repos::manage_testing: true
+icinga::repos:
+  icinga-stable-release:
+    ensure: absent
+```
+
+
+### Installing from Non-Upstream Repositories
+
 To change to a non upstream repository, e.g. a local mirror, the repos can be customized via hiera. The module does a deep merge lookup for a hash named `icinga::repos`. Allowed keys are:
 
 * icinga-stable-release
