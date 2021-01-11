@@ -35,12 +35,17 @@ This module supports:
 
 And requiers:
 
-* [puppetlabs/stdlib] >= 4.16.0 < 7.0.0
+* [puppetlabs/stdlib] >= 5.0.0 < 7.0.0
     * If Puppet 6 is used a stdlib 5.1 or higher is required
-* [puppetlabs/apt] >= 6.0.0
-* [puppet/zypprepo] >= 2.2.1
+* [puppetlabs/apt] >= 6.0.0 < 8.0.0
+* [puppet/zypprepo] >= 2.2.1 < 4.0.0
 * [puppetlabs/yumrepo_core] >= 1.0.0
     * If Puppet 6 is used
+
+Soft dependencies to manage yourself:
+
+* [puppet/redis] >= 4.2.1 < 7.0.0
+    * If class `icinga::redis` is used
 
 ### Beginning with icinga
 
