@@ -1,5 +1,16 @@
 # Change Log
 
+## [v2.0.0](https://github.com/icinga/puppet-icinga/tree/v2.0.0) (2021-01-11)
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v1.0.3...v2.0.0)
+
+**Fixed bugs:**
+
+- Change Management Behavoir for Repositories [\#6](https://github.com/Icinga/puppet-icinga/issues/6)
+
+**Closed issues:**
+
+- Add Dependency to puppet-redis [\#8](https://github.com/Icinga/puppet-icinga/issues/8)
+
 ## [v1.0.3](https://github.com/icinga/puppet-icinga/tree/v1.0.3) (2020-10-22)
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v1.0.2...v1.0.3)
 
