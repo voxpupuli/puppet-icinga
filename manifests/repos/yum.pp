@@ -7,7 +7,7 @@ class icinga::repos::yum {
 
   assert_private()
 
-  $repos   = $::icinga::repos::list
+  $repos = $::icinga::repos::list
   $enabled = $::icinga::repos::enabled
 
   $manage_epel = $::icinga::repos::manage_epel
@@ -18,12 +18,12 @@ class icinga::repos::yum {
   }
 
   $repos.each |String $repo_name, Hash $repo_config| {
-    if $repo_name in keys($enabled) {
+    if $repo_name in keys($enabled) and $enabled[$repo_name] {
       yumrepo { $repo_name:
         * =>  merge($repo_config, { enabled => Integer($enabled[$repo_name]) })
       }
+      Yumrepo[$repo_name] -> Package <| |>
     }
-    Yumrepo[$repo_name] -> Package <| |>
   }
 
 }
