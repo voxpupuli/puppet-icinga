@@ -33,7 +33,7 @@ class icinga::repos(
 ) {
 
   $list    =  lookup('icinga::repos', Hash, 'deep', {})
-  $enabled = {
+  $managed = {
     icinga-stable-release  => $manage_stable,
     icinga-testing-builds  => $manage_testing,
     icinga-snapshot-builds => $manage_nightly,
