@@ -10,7 +10,7 @@ class { '::icinga::server':
 }
 
 class { '::icinga::ido':
-  db_type         => 'pgsql',
+  db_type         => 'mysql',
   db_host         => 'localhost',
   db_pass         => 'icinga2',
   manage_database => true,
