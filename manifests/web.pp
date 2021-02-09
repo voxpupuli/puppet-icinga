@@ -39,7 +39,23 @@ class icinga::web(
   #
   case $::osfamily {
     'redhat': {
-      $php_globals    = {}
+       case $facts[os][release][major] {
+         '6': {
+            $php_globals = {
+              php_version => 'rh-php70',
+              rhscl_mode => 'rhscl',
+            }
+         }
+         '7': {
+           $php_globals = {
+             php_version => 'rh-php73',
+             rhscl_mode => 'rhscl',
+           }
+        }
+        default: {
+          $php_globals = {}
+        }
+      }
       $php_extensions = {
         mbstring => { ini_prefix => '20-' },
         json     => { ini_prefix => '20-' },
@@ -53,7 +69,13 @@ class icinga::web(
     } # RedHat
 
     'debian': {
-      $php_globals    = {}
+      if $facts[os][distro][codename] == 'focal' {
+        $php_globals = {
+          php_version => '7.4',
+        }
+      } else {
+        $php_globals = {}
+      }
       $php_extensions = {
         mbstring => {},
         json     => {},
