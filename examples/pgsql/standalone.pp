@@ -3,9 +3,10 @@ class { '::icinga::repos':
 }
 
 class { '::icinga::server':
-  ca                   => true,
-  config_server        => true,
-  global_zones         => [ 'global-templates', 'linux-commands', 'windows-commands' ],
+  ca            => true,
+  config_server => true,
+  global_zones  => [ 'global-templates', 'linux-commands', 'windows-commands' ],
+  web_api_pass  => 'icingaweb2',
 }
 
 class { '::icinga::ido':
@@ -23,5 +24,5 @@ class { '::icinga::web':
   db_host         => 'localhost',
   db_pass         => 'icingaweb2',
   manage_database => true,
-  api_pass        => 'icingaweb2',
+  api_pass        => $icinga::server::web_api_pass,
 }

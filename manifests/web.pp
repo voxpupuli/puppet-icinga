@@ -8,7 +8,7 @@ class icinga::web(
   String                                 $db_name          = 'icingaweb2',
   String                                 $db_user          = 'icingaweb2',
   Boolean                                $manage_database  = false,
-  String                                 $api_user         = 'icingaweb2',
+  String                                 $api_host         = 'localhost',
   Enum['mysql', 'pgsql']                 $backend_db_type  = 'mysql',
   Stdlib::Host                           $backend_db_host  = 'localhost',
   Optional[Stdlib::Port::Unprivileged]   $backend_db_port  = undef,
@@ -198,7 +198,8 @@ class icinga::web(
     commandtransports => {
       'icinga2' => {
         transport => 'api',
-        username  => $api_user,
+        host      => $api_host,        
+        username  => 'icingaweb2',
         password  => $api_pass,
       }
     },

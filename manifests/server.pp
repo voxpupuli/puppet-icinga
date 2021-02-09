@@ -23,6 +23,9 @@
 # @param [Optional[String]] ticket_salt
 #   Set an alternate ticket salt to icinga::ticket_salt from Hiera.
 #
+# @param [Optional[String]] web_api_pass
+#   Icinga API password for user icingaweb2.
+#
 class icinga::server(
   Boolean                 $ca                   = false,
   Boolean                 $config_server        = false,
@@ -31,6 +34,7 @@ class icinga::server(
   Array[String]           $global_zones         = [],
   Optional[Stdlib::Host]  $ca_server            = undef,
   Optional[String]        $ticket_salt          = undef,
+  Optional[String]        $web_api_pass         = undef,
 ) {
 
   if empty($colocation_endpoints) {
@@ -74,6 +78,14 @@ class icinga::server(
       purge   => true,
       recurse => true,
       force   => true,
+    }
+  }
+
+  if $_config_server {
+    ::icinga2::object::apiuser { 'icingaweb2':
+      password    => $web_api_pass,
+      permissions => [ 'status/query', 'actions/*', 'objects/modify/*', 'objects/query/*' ],
+      target      => "/etc/icinga2/zones.d/${zone}/api-users.conf",
     }
   }
 
