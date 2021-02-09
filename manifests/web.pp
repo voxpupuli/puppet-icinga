@@ -133,12 +133,12 @@ class icinga::web(
   #
   if $manage_database {
     class { '::icinga::web::database':
-      db_type          => $db_type,
-      db_name          => $db_name,
-      db_user          => $db_user,
-      db_pass          => $db_pass,
-      access_instances => [ 'localhost' ],
-      before           => Class['icingaweb2'],
+      db_type       => $db_type,
+      db_name       => $db_name,
+      db_user       => $db_user,
+      db_pass       => $db_pass,
+      web_instances => [ 'localhost' ],
+      before        => Class['icingaweb2'],
     }
     $_db_host = 'localhost'
   } else {
@@ -186,7 +186,7 @@ class icinga::web(
 
 class icinga::web::database(
   Enum['mysql','pgsql']  $db_type,
-  Array[Stdlib::Host]    $access_instances,
+  Array[Stdlib::Host]    $web_instances,
   String                 $db_pass,
   String                 $db_name       = 'icingaweb2',
   String                 $db_user       = 'icingaweb2',
@@ -197,7 +197,7 @@ class icinga::web::database(
     db_name             => $db_name,
     db_user             => $db_user,
     db_pass             => $db_pass,
-    access_instances    => $access_instances,
+    access_instances    => $web_instances,
     mysql_privileges    => ['ALL'],
   }
 }

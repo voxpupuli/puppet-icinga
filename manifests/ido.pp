@@ -34,12 +34,12 @@ class icinga::ido(
 
   if $manage_database {
     class { '::icinga::ido::database':
-      db_type          => $db_type,
-      db_name          => $db_name,
-      db_user          => $db_user,
-      db_pass          => $db_pass,
-      access_instances => [ 'localhost' ],
-      before           => Class["icinga2::feature::ido${db_type}"],
+      db_type       => $db_type,
+      db_name       => $db_name,
+      db_user       => $db_user,
+      db_pass       => $db_pass,
+      ido_instances => [ 'localhost' ],
+      before        => Class["icinga2::feature::ido${db_type}"],
     }
    $_db_host = 'localhost'
   } else {
@@ -87,7 +87,7 @@ class icinga::ido(
 
 class icinga::ido::database(
   Enum['mysql','pgsql']  $db_type,
-  Array[Stdlib::Host]    $access_instances,
+  Array[Stdlib::Host]    $ido_instances,
   String                 $db_pass,
   String                 $db_name       = 'icinga2',
   String                 $db_user       = 'icinga2',
@@ -98,7 +98,7 @@ class icinga::ido::database(
     db_name          => $db_name,
     db_user          => $db_user,
     db_pass          => $db_pass,
-    access_instances => $access_instances,
+    access_instances => $ido_instances,
     mysql_privileges => ['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'DROP', 'CREATE VIEW', 'CREATE', 'ALTER', 'INDEX', 'EXECUTE'],
   }
 
