@@ -10,6 +10,9 @@
 # @param [Stdlib::Host] db_host
 #   Database host to connect.
 #
+# @param [Stdlib::Port] db_port
+#   Port to connect. Only affects for connection to remote database hosts.
+#
 # @param [String] db_name
 #   Name of the database.
 #
@@ -26,11 +29,21 @@ class icinga::ido(
   String                                 $db_pass,
   Enum['mysql','pgsql']                  $db_type         = 'mysql',
   Stdlib::Host                           $db_host         = 'localhost',
+  Optional[Stdlib::Port]                 $db_port         = undef,
   String                                 $db_name         = 'icinga2',
   String                                 $db_user         = 'icinga2',
   Boolean                                $manage_database = false,
   Boolean                                $enable_ha       = false,
 ) {
+
+  unless $db_port {
+    $_db_port = $db_type ? {
+      'pgsql' => 5432,
+      default => 3306,
+    }
+  } else {
+    $_db_port = $db_port
+  }
 
   if $manage_database {
     class { '::icinga::ido::database':
@@ -75,6 +88,7 @@ class icinga::ido(
 
   class { "::icinga2::feature::ido${db_type}":
     host          => $_db_host,
+    port          => $_db_port,
     database      => $db_name,
     user          => $db_user,
     password      => $db_pass,
