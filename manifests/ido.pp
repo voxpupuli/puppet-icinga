@@ -34,12 +34,12 @@ class icinga::ido(
 
   if $manage_database {
     class { '::icinga::ido::database':
-      db_type       => $db_type,
-      db_name       => $db_name,
-      db_user       => $db_user,
-      db_pass       => $db_pass,
-      ido_instances => [ 'localhost' ],
-      before        => Class["icinga2::feature::ido${db_type}"],
+      db_type          => $db_type,
+      db_name          => $db_name,
+      db_user          => $db_user,
+      db_pass          => $db_pass,
+      access_instances => [ 'localhost' ],
+      before           => Class["icinga2::feature::ido${db_type}"],
     }
    $_db_host = 'localhost'
   } else {
@@ -87,57 +87,19 @@ class icinga::ido(
 
 class icinga::ido::database(
   Enum['mysql','pgsql']  $db_type,
-  Array[Stdlib::Host]    $ido_instances,
+  Array[Stdlib::Host]    $access_instances,
   String                 $db_pass,
   String                 $db_name       = 'icinga2',
   String                 $db_user       = 'icinga2',
 ) {
 
-  if $db_type == 'pgsql' {
-    include ::postgresql::server
-
-    postgresql::server::db { $db_name:
-      user     => $db_user,
-      password => postgresql::postgresql_password($db_user, $db_pass),
-    }
-
-    $ido_instances.each |$ido_host| {
-      
-      if $ido_host =~ Stdlib::IP::Address::V4 {
-        $_net = '/32'
-      } elsif $ido_host =~ Stdlib::IP::Address::V6 {
-        $_net = '/128'
-      } else {
-        $_net = ''
-      }
-
-      ::postgresql::server::pg_hba_rule { "${db_user}@${ido_host}":
-        type        => 'host',
-        database    => $db_name,
-        user        => $db_user,
-        auth_method => 'md5',
-        address     => "${ido_host}${_net}",
-      }
-    }
-  } else {
-    include ::mysql::server
-
-    mysql::db { $db_name:
-      host     => $ido_instances[0],
-      user     => $db_user,
-      password => $db_pass,
-      grant    => ['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'DROP', 'CREATE VIEW', 'CREATE', 'ALTER', 'INDEX', 'EXECUTE'],
-    }
-
-    delete_at($ido_instances,0).each |$ido_host| {
-      mysql_user { "${db_user}@${ido_host}":
-        password_hash => mysql::password($db_pass),
-      }
-      mysql_grant { "${db_user}@${ido_host}/${db_name}.*":
-        user          => "${db_user}@${ido_host}",
-        table         => "${db_name}.*",
-        privileges    => ['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'DROP', 'CREATE VIEW', 'CREATE', 'ALTER', 'INDEX', 'EXECUTE'],
-      }
-    }
+  ::icinga::database { "$db_type-$db_name":
+    db_type          => $db_type,
+    db_name          => $db_name,
+    db_user          => $db_user,
+    db_pass          => $db_pass,
+    access_instances => $access_instances,
+    mysql_privileges => ['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'DROP', 'CREATE VIEW', 'CREATE', 'ALTER', 'INDEX', 'EXECUTE'],
   }
+
 }

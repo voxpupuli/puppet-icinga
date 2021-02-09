@@ -17,8 +17,11 @@
 # @param [Array[String]] global_zones
 #   List of global zones to configure.
 #
-# @param [Optional[Stdlib:Host]] ca_server
+# @param [Optional[Stdlib::Host]] ca_server
 #   The CA to send the certificate request to.
+#
+# @param [Optional[String]] ticket_salt
+#   Set an alternate ticket salt to icinga::ticket_salt from Hiera.
 #
 class icinga::server(
   Boolean                 $ca                   = false,
@@ -27,6 +30,7 @@ class icinga::server(
   Hash[String,Hash]       $colocation_endpoints = {},
   Array[String]           $global_zones         = [],
   Optional[Stdlib::Host]  $ca_server            = undef,
+  Optional[String]        $ticket_salt          = undef,
 ) {
 
   if empty($colocation_endpoints) {
@@ -47,6 +51,7 @@ class icinga::server(
     zones       => {
       'ZoneName' => { 'endpoints' => { 'NodeName' => {}} + $colocation_endpoints },
     },
+    ticket_salt  => $ticket_salt,
   }
 
   ::icinga2::object::zone { $global_zones:
