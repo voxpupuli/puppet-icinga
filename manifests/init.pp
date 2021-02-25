@@ -70,7 +70,7 @@ class icinga(
       if $ssh_pub_key {
         $icinga_shell = '/bin/bash'
       } else {
-        $icinga_shell = '/sbin/nologin'
+        $icinga_shell = '/bin/false'
       }
 
       case $::osfamily {
