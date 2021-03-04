@@ -6,10 +6,6 @@
 # @param [Boolean] ca
 #   Enables a CA on this node.
 #
-# @param [String] ticket_salt
-#   Set the constants `TicketSalt` if `ca` is set to `true`. Otherwise the set value is used
-#   to authenticate the certificate request againt the CA on host `ca_server`.
-#
 # @param [String] this_zone
 #   Name of the Icinga zone.
 #
@@ -28,15 +24,19 @@
 # @param [Optional[Stdlib::Host]] ca_server
 #   The CA to send the certificate request to.
 #
+# @param [Optional[String]] ticket_salt
+#   Set the constants `TicketSalt` if `ca` is set to `true`. Otherwise the set value is used
+#   to authenticate the certificate request againt the CA on host `ca_server`.
+#
 class icinga(
   Boolean                              $ca,
-  String                               $ticket_salt,
   String                               $this_zone,
   Hash[String, Hash]                   $zones,
   Enum['dsa','ecdsa','ed25519','rsa']  $ssh_key_type    = 'rsa',
   Optional[String]                     $ssh_private_key = undef,
   Optional[String]                     $ssh_pub_key     = undef,
   Optional[Stdlib::Host]               $ca_server       = undef,
+  Optional[String]                     $ticket_salt     = undef,
 ) {
 
   assert_private()

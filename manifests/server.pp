@@ -14,6 +14,10 @@
 #   When the zone includes more than one endpoint, set here the additional endpoint(s).
 #   Icinga supports two endpoints per zone only.
 #
+# @param [Hash[String,Hash]] workers
+#   All worker zones with key 'endpoints' for 
+#   endpoint objects.
+#
 # @param [Array[String]] global_zones
 #   List of global zones to configure.
 #
@@ -31,6 +35,7 @@ class icinga::server(
   Boolean                 $config_server        = false,
   String                  $zone                 = 'main',
   Hash[String,Hash]       $colocation_endpoints = {},
+  Hash[String,Hash]       $workers              = {},
   Array[String]           $global_zones         = [],
   Optional[Stdlib::Host]  $ca_server            = undef,
   Optional[String]        $ticket_salt          = undef,
@@ -48,13 +53,18 @@ class icinga::server(
     $_config_server = $config_server
   }
 
+  # inject parent zone
+  $_workers = parseyaml(inline_template(
+    '<%= @workers.inject({}) {|h, (x,y)| h[x] = y.merge({"parent" => @zone}); h}.to_yaml %>'
+  ))
+
   class { '::icinga':
     ca          => $_ca,
     ca_server   => $ca_server,
     this_zone   => $zone,
-    zones       => {
+    zones       => merge({
       'ZoneName' => { 'endpoints' => { 'NodeName' => {}} + $colocation_endpoints },
-    },
+    }, $_workers),
     ticket_salt  => $ticket_salt,
   }
 
