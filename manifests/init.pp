@@ -134,8 +134,7 @@ class icinga(
     } # Linux
 
     'windows': {
-      $manage_package = true
-      $manage_repo    = false
+      $manage_repo = false
     }
 
     default: {
