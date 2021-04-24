@@ -1,7 +1,22 @@
 # Change Log
 
+## [v2.1.0](https://github.com/icinga/puppet-icinga/tree/v2.1.0) (2021-04-24)
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.0.0...v2.1.0)
+
+**Closed issues:**
+
+- Fresh roll-out apt\_key dependency error [\#10](https://github.com/Icinga/puppet-icinga/issues/10)
+
 ## [v2.0.0](https://github.com/icinga/puppet-icinga/tree/v2.0.0) (2021-01-11)
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v1.0.3...v2.0.0)
+
+**Implemented enhancements:**
+
+- Add new class to manage Icinga Web 2 [\#15](https://github.com/Icinga/puppet-icinga/issues/15)
+- Add new class to supports IDO [\#14](https://github.com/Icinga/puppet-icinga/issues/14)
+- Add new classes for simple managing  [\#13](https://github.com/Icinga/puppet-icinga/issues/13)
+- Add new repo packages.netways.de/plugins [\#12](https://github.com/Icinga/puppet-icinga/issues/12)
+- Add new repo packages.netways.de/extras [\#11](https://github.com/Icinga/puppet-icinga/issues/11)
 
 **Fixed bugs:**
 
