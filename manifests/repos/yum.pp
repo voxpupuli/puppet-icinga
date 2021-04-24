@@ -25,4 +25,3 @@ class icinga::repos::yum {
   }
 
 }
-

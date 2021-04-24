@@ -38,4 +38,3 @@ class icinga::repos::zypper {
   }
 
 }
-
