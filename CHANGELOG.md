@@ -1,5 +1,12 @@
 # Change Log
 
+## [v2.1.1](https://github.com/icinga/puppet-icinga/tree/v2.1.1) (2021-04-26)
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.1.0...v2.1.1)
+
+**Fixed bugs:**
+
+- Setting manage for any repo does not work [\#16](https://github.com/Icinga/puppet-icinga/issues/16)
+
 ## [v2.1.0](https://github.com/icinga/puppet-icinga/tree/v2.1.0) (2021-04-24)
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.0.0...v2.1.0)
 
