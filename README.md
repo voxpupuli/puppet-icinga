@@ -126,6 +126,8 @@ When manage is set to `true` for a repository the ressource is managed and the r
 * icinga-testing-builds
 * icinga-snapshot-builds
 * epel (only on RHEL Enterprise platforms)
+* netways-plugins-release
+* netways-extras-release
 
 An example for Yum or Zypper based platforms to change from stable to testing repo: 
 ```
@@ -154,8 +156,8 @@ To change to a non upstream repository, e.g. a local mirror, the repos can be cu
 * icinga-testing-builds
 * icinga-snapshot-builds
 * epel (only on RHEL Enterprise platforms)
-* netways-plugins
-* netways-extras
+* netways-plugins-release
+* netways-extras-release
 
 An example to configure a local mirror of the stable release:
 ```
