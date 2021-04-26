@@ -77,7 +77,7 @@ class icinga::server(
   }
 
   if $_config_server {
-    ($global_zones + keys($_workers) + zone).each |String $dir| {
+    ($global_zones + keys($_workers) + $zone).each |String $dir| {
       file { "${::icinga2::globals::conf_dir}/zones.d/${dir}":
         ensure => directory,
         tag    => 'icinga2::config::file',
