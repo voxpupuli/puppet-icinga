@@ -20,15 +20,15 @@ icinga::repos:
     gpgcheck: 1
     gpgkey: https://packages.icinga.com/icinga.key
     metadata_expire: 1d
-  netways-plugins-release:
+  netways-plugins:
     descr: NETWAYS plugins provide some monitoring plugins - Enterprise Linux
     baseurl: 'https://packages.netways.de/plugins/epel/$releasever'
-    enabled: 0
+    enabled: 1
     gpgcheck: 1
     gpgkey: https://packages.netways.de/netways-repo.asc
-  netways-extras-release:
+  netways-extras:
     descr: NETWAYS extras provide monitoring extras - Enterprise Linux
     baseurl: 'https://packages.netways.de/extras/epel/$releasever'
-    enabled: 0
+    enabled: 1
     gpgcheck: 1
     gpgkey: https://packages.netways.de/netways-repo.asc

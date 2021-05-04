@@ -62,7 +62,7 @@ class icinga(
   class { '::icinga2':
     confd           => false,
     manage_packages => $manage_packages,
-    constants      => lookup('icinga2::constants', undef, undef, {}) + $_constants
+    constants       => lookup('icinga2::constants', undef, undef, {}) + $_constants
   }
 
   case $::kernel {

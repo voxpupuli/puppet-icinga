@@ -8,7 +8,7 @@ class icinga::repos::apt {
   assert_private()
 
   $repos   = $::icinga::repos::list
-  $enabled = $::icinga::repos::enabled
+  $managed = $::icinga::repos::managed
 
   $configure_backports = $::icinga::repos::configure_backports
 
@@ -19,14 +19,19 @@ class icinga::repos::apt {
     Apt::Source['backports'] -> Package <| |>
   }
 
+  # fix issue 21
+  file { ['/etc/apt/sources.list.d/netways-plugins-release.list', '/etc/apt/sources.list.d/netways-extras-release.list']:
+    ensure => 'absent',
+  }
+
   $repos.each |String $repo_name, Hash $repo_config| {
-    apt::source { $repo_name:
-      * =>  merge($repo_config, { ensure => $enabled[$repo_name] ? {
-        true    => present,
-        default => absent,
-      } }),
+    if $managed[$repo_name] {
+      apt::source { $repo_name:
+        *       =>  merge({ ensure => present }, $repo_config),
+        require => File['/etc/apt/sources.list.d/netways-plugins-release.list', '/etc/apt/sources.list.d/netways-extras-release.list'],
+      }
+      Apt::Source[$repo_name] -> Package <| |>
     }
-    Apt::Source[$repo_name] -> Package <| |>
   }
 
 }
