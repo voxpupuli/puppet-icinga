@@ -1,5 +1,13 @@
 # Change Log
 
+## [v2.1.3](https://github.com/icinga/puppet-icinga/tree/v2.1.3) (2021-05-04)
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.1.2...v2.1.3)
+
+**Fixed bugs:**
+
+- Using wrong file names for repos plugins and extras [\#21](https://github.com/Icinga/puppet-icinga/issues/21)
+- manage\_epel do not work [\#20](https://github.com/Icinga/puppet-icinga/issues/20)
+
 ## [v2.1.2](https://github.com/icinga/puppet-icinga/tree/v2.1.2) (2021-04-26)
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.1.1...v2.1.2)
 
