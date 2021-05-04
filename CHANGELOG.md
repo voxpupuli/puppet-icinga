@@ -1,5 +1,12 @@
 # Change Log
 
+## [v2.1.4](https://github.com/icinga/puppet-icinga/tree/v2.1.4) (2021-05-04)
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.1.3...v2.1.4)
+
+**Fixed bugs:**
+
+- Broken dependency for yumrepos [\#22](https://github.com/Icinga/puppet-icinga/issues/22)
+
 ## [v2.1.3](https://github.com/icinga/puppet-icinga/tree/v2.1.3) (2021-05-04)
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.1.2...v2.1.3)
 
