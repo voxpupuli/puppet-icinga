@@ -26,11 +26,11 @@ class icinga::repos::apt {
 
   $repos.each |String $repo_name, Hash $repo_config| {
     if $managed[$repo_name] {
+      Apt::Source[$repo_name] -> Package <| |>
       apt::source { $repo_name:
         *       =>  merge({ ensure => present }, $repo_config),
         require => File['/etc/apt/sources.list.d/netways-plugins-release.list', '/etc/apt/sources.list.d/netways-extras-release.list'],
       }
-      Apt::Source[$repo_name] -> Package <| |>
     }
   }
 
