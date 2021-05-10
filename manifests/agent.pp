@@ -13,11 +13,19 @@
 # @param [Array[String]] global_zones
 #   List of global zones to configure.
 #
+# @param [Enum['file', 'syslog']] logging_type
+#   Switch the log target. Only `file` is supported on Windows.
+#
+# @param [Optional[Icinga2::LogSeverity]] logging_level
+#   Set the log level.
+#
 class icinga::agent(
-  Stdlib::Host            $ca_server,
-  Hash[String, Hash]      $parent_endpoints,
-  String                  $parent_zone  = 'main',
-  Array[String]           $global_zones = [],
+  Stdlib::Host                    $ca_server,
+  Hash[String, Hash]              $parent_endpoints,
+  String                          $parent_zone   = 'main',
+  Array[String]                   $global_zones  = [],
+  Enum['file', 'syslog']          $logging_type  = 'file',
+  Optional[Icinga2::LogSeverity]  $logging_level = undef,
 ) {
 
   class { '::icinga':
@@ -29,6 +37,8 @@ class icinga::agent(
       'ZoneName'   => { 'endpoints' => { 'NodeName' => {} }, 'parent' => $parent_zone, },
       $parent_zone => { 'endpoints' => $parent_endpoints, },
     },
+    logging_type    => $logging_type,
+    logging_level   => $logging_level,
   }
 
   ::icinga2::object::zone { $global_zones:

@@ -28,16 +28,23 @@
 #   Set the constants `TicketSalt` if `ca` is set to `true`. Otherwise the set value is used
 #   to authenticate the certificate request againt the CA on host `ca_server`.
 #
+# @param [Enum['file', 'syslog']] logging_type
+#   Switch the log target. Only `file` is supported on Windows.
+#
+# @param [Optional[Icinga2::LogSeverity]] logging_level
+#   Set the log level.
+#
 class icinga(
   Boolean                              $ca,
   String                               $this_zone,
   Hash[String, Hash]                   $zones,
   Enum['dsa','ecdsa','ed25519','rsa']  $ssh_key_type    = 'rsa',
   Optional[String]                     $ssh_private_key = undef,
-  Optional[String]                     $ssh_public_key   = undef,
+  Optional[String]                     $ssh_public_key  = undef,
   Optional[Stdlib::Host]               $ca_server       = undef,
-#  String                     $ticket_salt,
   Optional[String]                     $ticket_salt     = undef,
+  Enum['file', 'syslog']               $logging_type    = 'file',
+  Optional[Icinga2::LogSeverity]       $logging_level   = undef,
 ) {
 
   assert_private()
@@ -62,7 +69,28 @@ class icinga(
   class { '::icinga2':
     confd           => false,
     manage_packages => $manage_packages,
-    constants       => lookup('icinga2::constants', undef, undef, {}) + $_constants
+    constants       => lookup('icinga2::constants', undef, undef, {}) + $_constants,
+    features        => [],
+  }
+
+  # switch logging between mainlog and syslog
+  # logging on windows only file is supported, warning output see below
+  if $logging_type == 'file' or $::kernel == 'windows' {
+    $_mainlog = 'present'
+    $_syslog  = 'absent' 
+  } else {
+    $_mainlog = 'absent'
+    $_syslog  = 'present' 
+  }
+
+  class { '::icinga2::feature::mainlog':
+    ensure   => $_mainlog,
+    severity => $logging_level,
+  }
+
+  class { '::icinga2::feature::syslog':
+    ensure   => $_syslog,
+    severity => $logging_level,
   }
 
   case $::kernel {
@@ -140,6 +168,10 @@ class icinga(
 
     'windows': {
       $manage_repo = false
+
+      if $logging_type != 'file' {
+        warning('Only file is support as logging_type on Windows')
+      }
     }
 
     default: {
