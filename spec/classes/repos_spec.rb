@@ -19,13 +19,13 @@ describe 'icinga::repos' do
           case os_facts[:operatingsystem] == 'Debian'
           when 'Debian'
             if Integer(os_facts[:operatingsystemmajrelease]) < 10
-              it { is_expected.to contain_class('apt::backports') }
+              it { is_expected.to contain_class('apt::backports').with('ensure' => 'present') }
             else
               it { is_expected.not_to contain_class('apt::backports') }
             end
           when 'Ubuntu'
             if Integer(os_facts[:operatingsystemmajrelease]) < 18
-              it { is_expected.to contain_class('apt::backports') }
+              it { is_expected.to contain_class('apt::backports').with('ensure' => 'present') }
             else
               it { is_expected.not_to contain_class('apt::backports') }
             end
@@ -53,32 +53,36 @@ describe 'icinga::repos' do
         end
       end
 
-      context 'with manage_stable => false, manage_testing => true' do
-        let(:params) { { manage_stable: false, manage_testing: true } }
+      context 'with manage_stable => false, manage_testing => true, manage_plugins => true' do
+        let(:params) { { manage_stable: false, manage_testing: true, manage_plugins: true } }
 
         case os_facts[:osfamily]
         when 'Debian'
           it { is_expected.not_to contain_apt__source('icinga-stable-release') }
           it { is_expected.to contain_apt__source('icinga-testing-builds').with('ensure' => 'present') }
+          it { is_expected.to contain_apt__source('netways-plugins').with('ensure' => 'present') }
         when 'RedHat'
           it { is_expected.not_to contain_yumrepo('icinga-stable-release') }
           it { is_expected.to contain_yumrepo('icinga-testing-builds').with('enabled' => 1) }
+          it { is_expected.to contain_yumrepo('netways-plugins').with('enabled' => 1) }
         when 'Suse'
           it { is_expected.not_to contain_zypprepo('icinga-stable-release') }
           it { is_expected.to contain_zypprepo('icinga-testing-builds').with('enabled' => 1) }
         end
       end
 
-      context 'with manage_stable => false, manage_nightly => true' do
-        let(:params) { { manage_stable: false, manage_nightly: true } }
+      context 'with manage_stable => false, manage_nightly => true, manage_extras' do
+        let(:params) { { manage_stable: false, manage_nightly: true, manage_extras: true } }
 
         case os_facts[:osfamily]
         when 'Debian'
           it { is_expected.not_to contain_apt__source('icinga-stable-release') }
           it { is_expected.to contain_apt__source('icinga-snapshot-builds').with('ensure' => 'present') }
+          it { is_expected.to contain_apt__source('netways-extras').with('ensure' => 'present') }
         when 'RedHat'
           it { is_expected.not_to contain_yumrepo('icinga-stable-release') }
           it { is_expected.to contain_yumrepo('icinga-snapshot-builds').with('enabled' => 1) }
+          it { is_expected.to contain_yumrepo('netways-extras').with('enabled' => 1) }
         when 'Suse'
           it { is_expected.not_to contain_zypprepo('icinga-stable-release') }
           it { is_expected.to contain_zypprepo('icinga-snapshot-builds').with('enabled' => 1) }
