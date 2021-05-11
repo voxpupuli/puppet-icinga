@@ -38,6 +38,7 @@ class icinga(
   Optional[Stdlib::Host]               $ca_server       = undef,
 #  String                     $ticket_salt,
   Optional[String]                     $ticket_salt     = undef,
+  Array[String]                        $extra_packages  = [],
 ) {
 
   assert_private()
@@ -80,7 +81,7 @@ class icinga(
 
       case $::osfamily {
         'redhat': {
-          package { [ 'nagios-common', $icinga_package ]:
+          package { [ 'nagios-common', $icinga_package ]+$extra_packages:
             ensure => installed,
             before => User[$icinga_user],
           }
@@ -94,7 +95,7 @@ class icinga(
         } # RedHat
 
         'debian': {
-          package { ['icinga2']:
+          package { [$icinga_package]+$extra_packages:
             ensure => installed,
             before => User['nagios'],
           }
