@@ -33,17 +33,25 @@
 # @param [Optional[String]] web_api_pass
 #   Icinga API user password.
 #
+# @param [Enum['file', 'syslog']] logging_type
+#   Switch the log target. Only `file` is supported on Windows.
+#
+# @param [Optional[Icinga2::LogSeverity]] logging_level
+#   Set the log level.
+#
 class icinga::server(
-  Boolean                 $ca                   = false,
-  Boolean                 $config_server        = false,
-  String                  $zone                 = 'main',
-  Hash[String,Hash]       $colocation_endpoints = {},
-  Hash[String,Hash]       $workers              = {},
-  Array[String]           $global_zones         = [],
-  Optional[Stdlib::Host]  $ca_server            = undef,
-  Optional[String]        $ticket_salt          = undef,
-  String                  $web_api_user         = 'icingaweb2',
-  Optional[String]        $web_api_pass         = undef,
+  Boolean                         $ca                   = false,
+  Boolean                         $config_server        = false,
+  String                          $zone                 = 'main',
+  Hash[String,Hash]               $colocation_endpoints = {},
+  Hash[String,Hash]               $workers              = {},
+  Array[String]                   $global_zones         = [],
+  Optional[Stdlib::Host]          $ca_server            = undef,
+  Optional[String]                $ticket_salt          = undef,
+  String                          $web_api_user         = 'icingaweb2',
+  Optional[String]                $web_api_pass         = undef,
+  Enum['file', 'syslog']          $logging_type         = 'file',
+  Optional[Icinga2::LogSeverity]  $logging_level        = undef,
 ) {
 
   if empty($colocation_endpoints) {
@@ -63,14 +71,19 @@ class icinga::server(
   ))
 
   class { '::icinga':
-    ca          => $_ca,
-    ca_server   => $ca_server,
-    this_zone   => $zone,
-    zones       => merge({
+    ca            => $_ca,
+    ca_server     => $ca_server,
+    this_zone     => $zone,
+    zones         => merge({
       'ZoneName' => { 'endpoints' => { 'NodeName' => {}} + $colocation_endpoints },
     }, $_workers),
-    ticket_salt => $ticket_salt,
+    logging_type  => $logging_type,
+    logging_level => $logging_level,
+    ticket_salt   => $ticket_salt,
   }
+
+  include ::icinga2::feature::checker
+  include ::icinga2::feature::notification
 
   ::icinga2::object::zone { $global_zones:
     global => true,
