@@ -25,22 +25,22 @@ describe 'icinga' do
           let(:params) { { ca: true, this_zone: 'foo', zones: {}, ticket_salt: 'supersecret' } }
 
           it { is_expected.to compile }
-          it { is_expected.to contain_class('icinga2').with(
+          it { is_expected.to contain_class('icinga2').with({
             'confd'           => false,
             'manage_packages' => false,
             'features'        => [],
-          )}
-          it { is_expected.to contain_class('icinga2::feature::mainlog').with('ensure' => 'present') }
-          it { is_expected.to contain_class('icinga2::feature::syslog').with('ensure' => 'absent') }
+          }) }
+          it { is_expected.to contain_class('icinga2::feature::mainlog').with({'ensure' => 'present'}) }
+          it { is_expected.to contain_class('icinga2::feature::syslog').with({'ensure' => 'absent'}) }
           it { is_expected.to contain_class('icinga2::pki::ca') }
-          it { is_expected.to contain_class('icinga2::feature::api').with(
+          it { is_expected.to contain_class('icinga2::feature::api').with({
             'pki'             => 'none',
             'accept_config'   => true,
             'accept_commands' => true,
             'ticket_salt'     => 'TicketSalt',
             'zones'           => {},
             'endpoints'       => {}
-          )}
+          }) }
         end
 
         context 'ca => false, ca_server => foo, this_zone => foo, zones => { bar => { endpoints => { foobar => { host => 127.0.0.1 }}, parent => foo}}, ticket_salt => supersecret' do
@@ -48,7 +48,7 @@ describe 'icinga' do
 
           it { is_expected.to compile }
           it { is_expected.not_to contain_class('icinga2::pki::ca') }
-          it { is_expected.to contain_class('icinga2::feature::api').with(
+          it { is_expected.to contain_class('icinga2::feature::api').with({
             'pki'             => 'icinga2',
             'accept_config'   => true,
             'accept_commands' => true,
@@ -56,14 +56,14 @@ describe 'icinga' do
             'ca_host'         => 'foo',
             'zones'           => {},
             'endpoints'       => {}
-          )}
-          it { is_expected.to contain_icinga2__object__zone('bar').with(
+          }) }
+          it { is_expected.to contain_icinga2__object__zone('bar').with({
             'endpoints' => [ 'foobar' ],
             'parent' => 'foo'
-          )}
-          it { is_expected.to contain_icinga2__object__endpoint('foobar').with(
+          }) }
+          it { is_expected.to contain_icinga2__object__endpoint('foobar').with({
             'host' => '127.0.0.1'
-        )}
+          }) }
         end
 
       when 'Windows'
@@ -72,22 +72,22 @@ describe 'icinga' do
           let(:params) { { ca: false, this_zone: 'foo', zones: {}, ticket_salt: 'supersecret' } }
 
           it { is_expected.to compile }
-          it { is_expected.to contain_class('icinga2').with(
+          it { is_expected.to contain_class('icinga2').with({
             'confd'           => false,
             'manage_packages' => true,
             'features'        => [],
-          )}
-          it { is_expected.to contain_class('icinga2::feature::mainlog').with('ensure' => 'present') }
-          it { is_expected.to contain_class('icinga2::feature::syslog').with('ensure' => 'absent') }
+          }) }
+          it { is_expected.to contain_class('icinga2::feature::mainlog').with({'ensure' => 'present'}) }
+          it { is_expected.to contain_class('icinga2::feature::syslog').with({'ensure' => 'absent'}) }
           it { is_expected.not_to contain_class('icinga2::pki::ca') }
-          it { is_expected.to contain_class('icinga2::feature::api').with(
+          it { is_expected.to contain_class('icinga2::feature::api').with({
             'pki'             => 'icinga2',
             'accept_config'   => true,
             'accept_commands' => true,
             'ticket_salt'     => 'supersecret',
             'zones'           => {},
             'endpoints'       => {}
-          )}
+          }) }
         end
 
         context 'ca => false, this_zone => foo, zones => {}, logging_type => syslog' do
