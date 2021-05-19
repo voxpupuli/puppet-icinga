@@ -74,6 +74,22 @@ List of global zones to configure.
 
 Default value: `[]`
 
+##### `logging_type`
+
+Data type: `Enum['file', 'syslog']`
+
+Switch the log target. Only `file` is supported on Windows.
+
+Default value: `'file'`
+
+##### `logging_level`
+
+Data type: `Optional[Icinga2::LogSeverity]`
+
+Set the log level.
+
+Default value: ``undef``
+
 ### `icinga::ido`
 
 Configure IDO Backend.
@@ -351,6 +367,22 @@ Icinga API user password.
 
 Default value: ``undef``
 
+##### `logging_type`
+
+Data type: `Enum['file', 'syslog']`
+
+Switch the log target. Only `file` is supported on Windows.
+
+Default value: `'file'`
+
+##### `logging_level`
+
+Data type: `Optional[Icinga2::LogSeverity]`
+
+Set the log level.
+
+Default value: ``undef``
+
 ### `icinga::web`
 
 Setup Icinga Web 2 including a database backend for user settings.
@@ -573,6 +605,22 @@ Data type: `Array[String]`
 List of global zones to configure.
 
 Default value: `[]`
+
+##### `logging_type`
+
+Data type: `Enum['file', 'syslog']`
+
+Switch the log target. Only `file` is supported on Windows.
+
+Default value: `'file'`
+
+##### `logging_level`
+
+Data type: `Optional[Icinga2::LogSeverity]`
+
+Set the log level.
+
+Default value: ``undef``
 
 ## Defined types
 

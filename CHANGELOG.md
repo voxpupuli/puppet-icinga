@@ -1,5 +1,14 @@
 # Change Log
 
+## [v2.2.0](https://github.com/icinga/puppet-icinga/tree/v2.2.0) (2021-05-19)
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.1.4...v2.2.0)
+
+**Implemented enhancements:**
+
+- Add direct management of logging to server, worker and agent [\#23](https://github.com/Icinga/puppet-icinga/issues/23)
+- Rework unit tests for class repos [\#19](https://github.com/Icinga/puppet-icinga/issues/19)
+- Add management of extra packages [\#17](https://github.com/Icinga/puppet-icinga/issues/17)
+
 ## [v2.1.4](https://github.com/icinga/puppet-icinga/tree/v2.1.4) (2021-05-04)
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.1.3...v2.1.4)
 
@@ -43,6 +52,7 @@
 **Closed issues:**
 
 - Fresh roll-out apt\_key dependency error [\#10](https://github.com/Icinga/puppet-icinga/issues/10)
+- Duplicate declaration: Yumrepo\[epel\] is already declared [\#9](https://github.com/Icinga/puppet-icinga/issues/9)
 
 ## [v2.0.0](https://github.com/icinga/puppet-icinga/tree/v2.0.0) (2021-01-11)
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v1.0.3...v2.0.0)
