@@ -78,10 +78,10 @@ class icinga(
   # logging on windows only file is supported, warning output see below
   if $logging_type == 'file' or $::kernel == 'windows' {
     $_mainlog = 'present'
-    $_syslog  = 'absent' 
+    $_syslog  = 'absent'
   } else {
     $_mainlog = 'absent'
-    $_syslog  = 'present' 
+    $_syslog  = 'present'
   }
 
   class { '::icinga2::feature::mainlog':
