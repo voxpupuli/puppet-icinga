@@ -62,9 +62,10 @@ class icinga(
   }
 
   $manage_packages = $facts[os][family] ? {
-    'redhat' => false,
-    'debian' => false,
-    default  => true,
+    'redhat'  => false,
+    'debian'  => false,
+    'windows' => lookup('icinga2::manage_packages', undef, undef, true),
+    default   => true,
   }
 
   class { '::icinga2':
