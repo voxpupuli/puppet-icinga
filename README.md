@@ -245,6 +245,9 @@ class { '::icinga::agent':
 }
 ```
 
+NOTICE: To switch off the package installation via chocolatey on windows, `icinga2::manage_packgaes` must be set to `false` for the corresponding hosts in Hiera. That works only on Windows, on Linux package installation is always used.
+
+
 #### icinga::ido
 
 The class supports:

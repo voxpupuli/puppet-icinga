@@ -14,7 +14,7 @@ describe 'icinga::server' do
           @icinga2_user = 'nagios'
           @icinga2_group = 'nagios'
         end
-      when 'RedHat'
+      when 'RedHat', 'Suse'
         before(:all) do
           @icinga2_config_dir = '/etc/icinga2'
           @icinga2_user = 'icinga'
@@ -23,7 +23,7 @@ describe 'icinga::server' do
       end
 
       case os_facts[:osfamily]
-      when 'RedHat', 'Debian'
+      when 'RedHat', 'Debian', 'Suse'
 
         context 'with defaults' do
           it { is_expected.to compile.and_raise_error(%r{expects a String value if a CA is configured}) }

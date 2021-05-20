@@ -8,7 +8,7 @@ describe 'icinga::worker' do
       let(:facts) { os_facts }
 
       case os_facts[:osfamily]
-      when 'RedHat', 'Debian'
+      when 'RedHat', 'Debian', 'Suse'
 
         context 'with ca_server => foo, zone => bar, parent_endpoints => { foobar => { host => 127.0.0.1}}, global_zones => [foobaz]' do
           let(:params) { { ca_server: 'foo', zone: 'bar', parent_endpoints: { 'foobar' => { 'host' => '127.0.0.1' }}, global_zones: ['foobaz'] } }

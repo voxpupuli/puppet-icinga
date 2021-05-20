@@ -14,7 +14,7 @@ describe 'icinga' do
       let(:facts) { os_facts }
 
       case os_facts[:osfamily]
-      when 'RedHat', 'Debian'
+      when 'RedHat', 'Debian', 'Suse'
 
         context 'ca => true, this_zone => foo, zones => {}' do
           let(:params) { { ca: true, this_zone: 'foo', zones: {} } }
