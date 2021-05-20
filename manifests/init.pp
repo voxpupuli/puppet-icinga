@@ -136,6 +136,19 @@ class icinga(
           }
         } # Debian
 
+        'suse': {
+          package { [$icinga_package]+$extra_packages:
+            ensure => installed,
+            before => User['icinga'],
+          }
+
+          user { 'icinga':
+            ensure => present,
+            shell  => $icinga_shell,
+            before => Class['icinga2'],
+          }
+        } # Suse
+
         default: {
           fail("'Your operatingssystem ${::facts[os][name]} is not supported'")
         }
