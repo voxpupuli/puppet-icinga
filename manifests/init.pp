@@ -34,6 +34,9 @@
 # @param [Optional[Icinga2::LogSeverity]] logging_level
 #   Set the log level.
 #
+# @param [String] cert_name
+#   The certificate name to set as constant NodeName.
+#
 class icinga(
   Boolean                              $ca,
   String                               $this_zone,
@@ -46,6 +49,7 @@ class icinga(
   Array[String]                        $extra_packages  = [],
   Enum['file', 'syslog']               $logging_type    = 'file',
   Optional[Icinga2::LogSeverity]       $logging_level   = undef,
+  String                               $cert_name       = $::fqdn,
 ) {
 
   assert_private()
@@ -53,12 +57,12 @@ class icinga(
   # CA uses const TicketSalt to set the ticket salt
   if $ca {
     if $ticket_salt {
-      $_constants = { 'TicketSalt' => $ticket_salt, 'ZoneName' => $this_zone }
+      $_constants = { 'TicketSalt' => $ticket_salt, 'ZoneName' => $this_zone, 'NodeName' => $cert_name }
     } else {
       fail("Class[Icinga]: parameter 'ticket_salt' expects a String value if a CA is configured, got Undef")
     }
   } else {
-    $_constants = { 'ZoneName' => $this_zone }
+    $_constants = { 'ZoneName' => $this_zone, 'NodeName' => $cert_name }
   }
 
   $manage_packages = $facts[os][family] ? {
@@ -72,7 +76,7 @@ class icinga(
   class { '::icinga2':
     confd           => false,
     manage_packages => $manage_packages,
-    constants       => $_constants + lookup('icinga2::constants', undef, undef, {}),
+    constants       => lookup('icinga2::constants', undef, undef, {}) + $_constants,
     features        => [],
   }
 

@@ -19,6 +19,9 @@
 # @param [Optional[Icinga2::LogSeverity]] logging_level
 #   Set the log level.
 #
+# @param [String] zone
+#   Set a dedicated zone name.
+#
 class icinga::agent(
   Stdlib::Host                    $ca_server,
   Hash[String, Hash]              $parent_endpoints,
@@ -26,13 +29,14 @@ class icinga::agent(
   Array[String]                   $global_zones  = [],
   Enum['file', 'syslog']          $logging_type  = 'file',
   Optional[Icinga2::LogSeverity]  $logging_level = undef,
+  String                          $zone          = 'NodeName',
 ) {
 
   class { '::icinga':
     ca              => false,
     ssh_private_key => undef,
     ca_server       => $ca_server,
-    this_zone       => $::fqdn,
+    this_zone       => $zone,
     zones           => {
       'ZoneName'   => { 'endpoints' => { 'NodeName' => {} }, 'parent' => $parent_zone, },
       $parent_zone => { 'endpoints' => $parent_endpoints, },

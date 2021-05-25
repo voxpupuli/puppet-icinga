@@ -90,6 +90,14 @@ Set the log level.
 
 Default value: ``undef``
 
+##### `zone`
+
+Data type: `String`
+
+Set a dedicated zone name.
+
+Default value: `'NodeName'`
+
 ### `icinga::ido`
 
 Configure IDO Backend.
