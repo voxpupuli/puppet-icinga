@@ -28,8 +28,8 @@
 # @param [Boolean] manage_database
 #   Create database.
 #
-# @param [String] api_host
-#   Icinga 2 API to connect.
+# @param [Variant[Stdlib::Host, Array[Stdlib::Host]]]  $api_host
+#   Single or list of Icinga 2 API endpoints to connect.
 #
 # @param [String] api_user
 #   Icinga 2 API user.
@@ -50,22 +50,22 @@
 #   IDO database backend user name.
 #
 class icinga::web(
-  String                                 $db_pass,
-  String                                 $api_pass,
-  String                                 $backend_db_pass,
-  Enum['mysql', 'pgsql']                 $db_type          = 'mysql',
-  Stdlib::Host                           $db_host          = 'localhost',
-  Optional[Stdlib::Port::Unprivileged]   $db_port          = undef,
-  String                                 $db_name          = 'icingaweb2',
-  String                                 $db_user          = 'icingaweb2',
-  Boolean                                $manage_database  = false,
-  String                                 $api_host         = 'localhost',
-  String                                 $api_user         = 'icingaweb2',
-  Enum['mysql', 'pgsql']                 $backend_db_type  = 'mysql',
-  Stdlib::Host                           $backend_db_host  = 'localhost',
-  Optional[Stdlib::Port::Unprivileged]   $backend_db_port  = undef,
-  String                                 $backend_db_name  = 'icinga2',
-  String                                 $backend_db_user  = 'icinga2',
+  String                                      $db_pass,
+  String                                      $api_pass,
+  String                                      $backend_db_pass,
+  Enum['mysql', 'pgsql']                      $db_type          = 'mysql',
+  Stdlib::Host                                $db_host          = 'localhost',
+  Optional[Stdlib::Port::Unprivileged]        $db_port          = undef,
+  String                                      $db_name          = 'icingaweb2',
+  String                                      $db_user          = 'icingaweb2',
+  Boolean                                     $manage_database  = false,
+  Variant[Stdlib::Host, Array[Stdlib::Host]]  $api_host         = 'localhost',
+  String                                      $api_user         = 'icingaweb2',
+  Enum['mysql', 'pgsql']                      $backend_db_type  = 'mysql',
+  Stdlib::Host                                $backend_db_host  = 'localhost',
+  Optional[Stdlib::Port::Unprivileged]        $backend_db_port  = undef,
+  String                                      $backend_db_name  = 'icinga2',
+  String                                      $backend_db_user  = 'icinga2',
 ) {
 
   unless $backend_db_port {
@@ -248,14 +248,15 @@ class icinga::web(
     ido_db_name       => $backend_db_name,
     ido_db_username   => $backend_db_user,
     ido_db_password   => $backend_db_pass,
-    commandtransports => {
-      'icinga2' => {
-        transport => 'api',
-        host      => $api_host,
-        username  => $api_user,
-        password  => $api_pass,
-      }
-    },
+  }
+
+  any2array($api_host).each |Stdlib::Host $host| {
+    ::icingaweb2::module::monitoring::commandtransport { $host:
+      transport => 'api',
+      host      => $host,
+      username  => $api_user,
+      password  => $api_pass,
+    }
   }
 
 }
