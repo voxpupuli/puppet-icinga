@@ -90,6 +90,12 @@ class icinga::server(
   }
 
   if $_config_server {
+    ::icinga2::object::apiuser { $web_api_user:
+      password    => $web_api_pass,
+      permissions => [ 'status/query', 'actions/*', 'objects/modify/*', 'objects/query/*' ],
+      target      => "/etc/icinga2/zones.d/${zone}/api-users.conf",
+    }
+
     ($global_zones + keys($_workers) + $zone).each |String $dir| {
       file { "${::icinga2::globals::conf_dir}/zones.d/${dir}":
         ensure => directory,
@@ -105,14 +111,6 @@ class icinga::server(
       purge   => true,
       recurse => true,
       force   => true,
-    }
-  }
-
-  if $web_api_pass {
-    ::icinga2::object::apiuser { $web_api_user:
-      password    => $web_api_pass,
-      permissions => [ 'status/query', 'actions/*', 'objects/modify/*', 'objects/query/*' ],
-      target      => "/etc/icinga2/zones.d/${zone}/api-users.conf",
     }
   }
 
