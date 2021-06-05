@@ -467,9 +467,9 @@ Default value: ``false``
 
 ##### `api_host`
 
-Data type: `String`
+Data type: `Variant[Stdlib::Host, Array[Stdlib::Host]]`
 
-Icinga 2 API to connect.
+Single or list of Icinga 2 API endpoints to connect.
 
 Default value: `'localhost'`
 

@@ -28,7 +28,7 @@
 # @param [Boolean] manage_database
 #   Create database.
 #
-# @param [Variant[Stdlib::Host, Array[Stdlib::Host]]]  $api_host
+# @param [Variant[Stdlib::Host, Array[Stdlib::Host]]] api_host
 #   Single or list of Icinga 2 API endpoints to connect.
 #
 # @param [String] api_user
@@ -242,12 +242,12 @@ class icinga::web(
   }
 
   class { '::icingaweb2::module::monitoring':
-    ido_type          => $backend_db_type,
-    ido_host          => $backend_db_host,
-    ido_port          => $_backend_db_port,
-    ido_db_name       => $backend_db_name,
-    ido_db_username   => $backend_db_user,
-    ido_db_password   => $backend_db_pass,
+    ido_type        => $backend_db_type,
+    ido_host        => $backend_db_host,
+    ido_port        => $_backend_db_port,
+    ido_db_name     => $backend_db_name,
+    ido_db_username => $backend_db_user,
+    ido_db_password => $backend_db_pass,
   }
 
   any2array($api_host).each |Stdlib::Host $host| {

@@ -1,5 +1,19 @@
 # Change Log
 
+## [v2.3.0](https://github.com/icinga/puppet-icinga/tree/v2.3.0) (2021-06-05)
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.2.0...v2.3.0)
+
+**Implemented enhancements:**
+
+- Add parameter zone to agent and cert\_name to icinga class [\#28](https://github.com/Icinga/puppet-icinga/issues/28)
+- Add support for Suse [\#25](https://github.com/Icinga/puppet-icinga/issues/25)
+
+**Fixed bugs:**
+
+- web\_api\_user has to manage only on config\_server's [\#30](https://github.com/Icinga/puppet-icinga/issues/30)
+- Parameter api\_host of class web  should be also a list of Stdlib::Host [\#29](https://github.com/Icinga/puppet-icinga/issues/29)
+- Option to switch off the package management on windows [\#27](https://github.com/Icinga/puppet-icinga/issues/27)
+
 ## [v2.2.0](https://github.com/icinga/puppet-icinga/tree/v2.2.0) (2021-05-19)
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.1.4...v2.2.0)
 

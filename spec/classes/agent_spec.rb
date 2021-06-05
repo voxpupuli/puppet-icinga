@@ -17,7 +17,7 @@ describe 'icinga::agent' do
           it { is_expected.to contain_class('icinga').with({
             'ca'           => false,
             'ca_server'    => 'foo',
-            'this_zone'    => os_facts[:fqdn],
+            'this_zone'    => 'NodeName',
             'zones'        => { 'ZoneName' => { 'endpoints' => { 'NodeName' => {} }, 'parent' => 'main' }, 'main' => { 'endpoints' => { 'foobar' => { 'host' => '127.0.0.1' }}} },
             'logging_type' => 'file'
           }) }
