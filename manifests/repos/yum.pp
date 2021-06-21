@@ -15,8 +15,8 @@ class icinga::repos::yum {
     warning("Repository EPEL isn't available on ${facts['os']['name']} ${facts['os']['release']['major']}.")
   }
 
-  # fix issue 21
-  file { ['/etc/yum.repos.d/netways-plugins-release.repo', '/etc/yum.repos.d/netways-extras-release.repo']:
+  # fix issue 21, 33
+  file { ['/etc/yum.repos.d/netways-plugins.repo', '/etc/yum.repos.d/netways-extras.repo']:
     ensure => 'absent',
   }
 
@@ -25,7 +25,7 @@ class icinga::repos::yum {
       Yumrepo[$repo_name] -> Package <| |>
       yumrepo { $repo_name:
         *       =>  $repo_config,
-        require => File['/etc/yum.repos.d/netways-plugins-release.repo', '/etc/yum.repos.d/netways-extras-release.repo'],
+        require => File['/etc/yum.repos.d/netways-plugins.repo', '/etc/yum.repos.d/netways-extras.repo'],
       }
     }
   }

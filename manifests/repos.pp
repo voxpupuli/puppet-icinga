@@ -42,12 +42,12 @@ class icinga::repos(
 
   $list    =  lookup('icinga::repos', Hash, 'deep', {})
   $managed = {
-    icinga-stable-release  => $manage_stable,
-    icinga-testing-builds  => $manage_testing,
-    icinga-snapshot-builds => $manage_nightly,
-    epel                   => $manage_epel,
-    netways-plugins        => $manage_plugins,
-    netways-extras         => $manage_extras,
+    icinga-stable-release   => $manage_stable,
+    icinga-testing-builds   => $manage_testing,
+    icinga-snapshot-builds  => $manage_nightly,
+    epel                    => $manage_epel,
+    netways-plugins-release => $manage_plugins,
+    netways-extras-release  => $manage_extras,
   }
 
   case $::facts['os']['family'] {

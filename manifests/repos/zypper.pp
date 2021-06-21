@@ -10,8 +10,8 @@ class icinga::repos::zypper {
   $repos   = $::icinga::repos::list
   $managed = $::icinga::repos::managed
 
-  # fix issue 21
-  file { ['/etc/zypp/repos.d/netways-plugins-release.repo', '/etc/zypp/repos.d/netways-extras-release.repo']:
+  # fix issue 21, 33
+  file { ['/etc/zypp/repos.d/netways-plugins.repo', '/etc/zypp/repos.d/netways-extras.repo']:
     ensure => 'absent',
   }
 
@@ -32,7 +32,7 @@ class icinga::repos::zypper {
 
       -> zypprepo { $repo_name:
         *       => delete($repo_config, 'proxy'),
-        require => File['/etc/zypp/repos.d/netways-plugins-release.repo', '/etc/zypp/repos.d/netways-extras-release.repo'],
+        require => File['/etc/zypp/repos.d/netways-plugins.repo', '/etc/zypp/repos.d/netways-extras.repo'],
       }
 
       -> file_line { "add proxy settings to ${repo_name}":

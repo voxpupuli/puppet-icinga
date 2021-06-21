@@ -21,14 +21,14 @@ icinga::repos:
     key: 
       id: F51A91A5EE001AA5D77D53C4C6E319C334410682
       source: http://packages.icinga.com/icinga.key
-  'netways-plugins':
+  'netways-plugins-release':
     location: http://packages.netways.de/plugins/debian
     release: '%{facts.os.distro.codename}'
     repos: main
     key:
       id: 0DEE49417F457646CC0C29AD03E3F1C5E8B2FC5E
       source: https://packages.netways.de/netways-repo.asc
-  'netways-extras':
+  'netways-extras-release':
     location: http://packages.netways.de/extras/debian
     release: '%{facts.os.distro.codename}'
     repos: main

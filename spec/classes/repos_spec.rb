@@ -60,11 +60,11 @@ describe 'icinga::repos' do
         when 'Debian'
           it { is_expected.not_to contain_apt__source('icinga-stable-release') }
           it { is_expected.to contain_apt__source('icinga-testing-builds').with('ensure' => 'present') }
-          it { is_expected.to contain_apt__source('netways-plugins').with('ensure' => 'present') }
+          it { is_expected.to contain_apt__source('netways-plugins-release').with('ensure' => 'present') }
         when 'RedHat'
           it { is_expected.not_to contain_yumrepo('icinga-stable-release') }
           it { is_expected.to contain_yumrepo('icinga-testing-builds').with('enabled' => 1) }
-          it { is_expected.to contain_yumrepo('netways-plugins').with('enabled' => 1) }
+          it { is_expected.to contain_yumrepo('netways-plugins-release').with('enabled' => 1) }
         when 'Suse'
           it { is_expected.not_to contain_zypprepo('icinga-stable-release') }
           it { is_expected.to contain_zypprepo('icinga-testing-builds').with('enabled' => 1) }
@@ -78,11 +78,11 @@ describe 'icinga::repos' do
         when 'Debian'
           it { is_expected.not_to contain_apt__source('icinga-stable-release') }
           it { is_expected.to contain_apt__source('icinga-snapshot-builds').with('ensure' => 'present') }
-          it { is_expected.to contain_apt__source('netways-extras').with('ensure' => 'present') }
+          it { is_expected.to contain_apt__source('netways-extras-release').with('ensure' => 'present') }
         when 'RedHat'
           it { is_expected.not_to contain_yumrepo('icinga-stable-release') }
           it { is_expected.to contain_yumrepo('icinga-snapshot-builds').with('enabled' => 1) }
-          it { is_expected.to contain_yumrepo('netways-extras').with('enabled' => 1) }
+          it { is_expected.to contain_yumrepo('netways-extras-release').with('enabled' => 1) }
         when 'Suse'
           it { is_expected.not_to contain_zypprepo('icinga-stable-release') }
           it { is_expected.to contain_zypprepo('icinga-snapshot-builds').with('enabled' => 1) }
