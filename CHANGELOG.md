@@ -1,5 +1,12 @@
 # Change Log
 
+## [v2.3.1](https://github.com/icinga/puppet-icinga/tree/v2.3.1) (2021-06-21)
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.3.0...v2.3.1)
+
+**Fixed bugs:**
+
+- NETWAYS repos named the suffix -release by there packages [\#33](https://github.com/Icinga/puppet-icinga/issues/33)
+
 ## [v2.3.0](https://github.com/icinga/puppet-icinga/tree/v2.3.0) (2021-06-05)
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.2.0...v2.3.0)
 
