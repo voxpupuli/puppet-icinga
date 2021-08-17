@@ -36,6 +36,10 @@
 
 * `icinga::database`: Private define resource for database backends.
 
+### Data types
+
+* [`Icinga::LogLevel`](#icingaloglevel): A strict type for log levels
+
 ## Classes
 
 ### `icinga::agent`
@@ -84,7 +88,7 @@ Default value: `'file'`
 
 ##### `logging_level`
 
-Data type: `Optional[Icinga2::LogSeverity]`
+Data type: `Optional[Icinga::LogLevel]`
 
 Set the log level.
 
@@ -385,7 +389,7 @@ Default value: `'file'`
 
 ##### `logging_level`
 
-Data type: `Optional[Icinga2::LogSeverity]`
+Data type: `Optional[Icinga::LogLevel]`
 
 Set the log level.
 
@@ -624,11 +628,19 @@ Default value: `'file'`
 
 ##### `logging_level`
 
-Data type: `Optional[Icinga2::LogSeverity]`
+Data type: `Optional[Icinga::LogLevel]`
 
 Set the log level.
 
 Default value: ``undef``
 
 ## Defined types
+
+## Data types
+
+### `Icinga::LogLevel`
+
+A strict type for log levels
+
+Alias of `Enum['debug', 'information', 'notice', 'warning', 'critical']`
 

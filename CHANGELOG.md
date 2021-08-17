@@ -1,5 +1,12 @@
 # Change Log
 
+## [v2.3.2](https://github.com/icinga/puppet-icinga/tree/v2.3.2) (2021-08-17)
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.3.1...v2.3.2)
+
+**Fixed bugs:**
+
+- using data types of another module breaks puppet 5 compatibility [\#35](https://github.com/Icinga/puppet-icinga/issues/35)
+
 ## [v2.3.1](https://github.com/icinga/puppet-icinga/tree/v2.3.1) (2021-06-21)
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.3.0...v2.3.1)
 

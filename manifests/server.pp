@@ -51,8 +51,7 @@ class icinga::server(
   String                          $web_api_user         = 'icingaweb2',
   Optional[String]                $web_api_pass         = undef,
   Enum['file', 'syslog']          $logging_type         = 'file',
-#  Optional[Icinga::LogLevel]      $logging_level        = undef,
-  Icinga2::LogSeverity  $logging_level        = 'critical',
+  Optional[Icinga::LogLevel]      $logging_level        = undef,
 ) {
 
   if empty($colocation_endpoints) {
