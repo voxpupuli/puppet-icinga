@@ -16,7 +16,7 @@
 # @param [Enum['file', 'syslog']] logging_type
 #   Switch the log target. Only `file` is supported on Windows.
 #
-# @param [Optional[Icinga2::LogSeverity]] logging_level
+# @param [Optional[Icinga::LogLevel]] logging_level
 #   Set the log level.
 #
 # @param [String] zone
@@ -28,7 +28,7 @@ class icinga::agent(
   String                          $parent_zone   = 'main',
   Array[String]                   $global_zones  = [],
   Enum['file', 'syslog']          $logging_type  = 'file',
-  Optional[Icinga2::LogSeverity]  $logging_level = undef,
+  Optional[Icinga::LogLevel]      $logging_level = undef,
   String                          $zone          = 'NodeName',
 ) {
 

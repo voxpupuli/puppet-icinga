@@ -31,7 +31,7 @@
 # @param [Enum['file', 'syslog']] logging_type
 #   Switch the log target. Only `file` is supported on Windows.
 #
-# @param [Optional[Icinga2::LogSeverity]] logging_level
+# @param [Optional[Icinga::LogLevel]] logging_level
 #   Set the log level.
 #
 # @param [String] cert_name
@@ -48,7 +48,7 @@ class icinga(
   Optional[String]                     $ticket_salt     = undef,
   Array[String]                        $extra_packages  = [],
   Enum['file', 'syslog']               $logging_type    = 'file',
-  Optional[Icinga2::LogSeverity]       $logging_level   = undef,
+  Optional[Icinga::LogLevel]           $logging_level   = undef,
   String                               $cert_name       = $::fqdn,
 ) {
 

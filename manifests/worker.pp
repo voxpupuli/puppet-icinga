@@ -23,7 +23,7 @@
 # @param [Enum['file', 'syslog']] logging_type
 #   Switch the log target. Only `file` is supported on Windows.
 #
-# @param [Optional[Icinga2::LogSeverity]] logging_level
+# @param [Optional[Icinga::LogLevel]] logging_level
 #   Set the log level.
 #
 class icinga::worker(
@@ -34,7 +34,7 @@ class icinga::worker(
   Hash[String, Hash]              $colocation_endpoints = {},
   Array[String]                   $global_zones         = [],
   Enum['file', 'syslog']          $logging_type         = 'file',
-  Optional[Icinga2::LogSeverity]  $logging_level        = undef,
+  Optional[Icinga::LogLevel]      $logging_level        = undef,
 ) {
 
   class { '::icinga':
