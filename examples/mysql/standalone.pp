@@ -1,12 +1,14 @@
 class { '::icinga::repos':
-  manage_epel => true,
+  manage_epel   => true,
+  manage_extras => true,
 }
 
 class { '::icinga::server':
-  ca            => true,
-  config_server => true,
-  global_zones  => [ 'global-templates', 'linux-commands', 'windows-commands' ],
-  web_api_pass  => 'icingaweb2',
+  ca                => true,
+  config_server     => true,
+  global_zones      => [ 'global-templates', 'linux-commands', 'windows-commands' ],
+  web_api_pass      => 'icingaweb2',
+  director_api_pass => 'director',
 }
 
 class { '::icinga::ido':
@@ -25,4 +27,14 @@ class { '::icinga::web':
   db_pass         => 'icingaweb2',
   manage_database => true,
   api_pass        => $icinga::server::web_api_pass,
+}
+
+class { '::icinga::web::director':
+  db_type         => 'mysql',
+  db_host         => 'localhost',
+  db_pass         => 'director',
+  manage_database => true,
+  endpoint        => $::fqdn,
+  api_host        => 'localhost',
+  api_pass        => $icinga::server::director_api_pass,
 }

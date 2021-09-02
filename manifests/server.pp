@@ -33,6 +33,12 @@
 # @param [Optional[String]] web_api_pass
 #   Icinga API user password.
 #
+# @param [String] director_api_user
+#   Icinga API director user to connect Icinga 2.
+#
+# @param [Optional[String]] director_api_pass
+#   Icinga API director user password.
+#
 # @param [Enum['file', 'syslog']] logging_type
 #   Switch the log target. Only `file` is supported on Windows.
 #
@@ -50,6 +56,8 @@ class icinga::server(
   Optional[String]                $ticket_salt          = undef,
   String                          $web_api_user         = 'icingaweb2',
   Optional[String]                $web_api_pass         = undef,
+  String                          $director_api_user    = 'director',
+  Optional[String]                $director_api_pass    = undef,
   Enum['file', 'syslog']          $logging_type         = 'file',
   Optional[Icinga::LogLevel]      $logging_level        = undef,
 ) {
@@ -93,6 +101,12 @@ class icinga::server(
     ::icinga2::object::apiuser { $web_api_user:
       password    => $web_api_pass,
       permissions => [ 'status/query', 'actions/*', 'objects/modify/*', 'objects/query/*' ],
+      target      => "/etc/icinga2/zones.d/${zone}/api-users.conf",
+    }
+
+    ::icinga2::object::apiuser { $director_api_user:
+      password    => $director_api_pass,
+      permissions => [ '*' ],
       target      => "/etc/icinga2/zones.d/${zone}/api-users.conf",
     }
 
