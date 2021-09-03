@@ -15,9 +15,15 @@ define icinga::database(
   if $db_type == 'pgsql' {
     include ::postgresql::server
 
+    if versioncmp($::facts['puppetversion'], '6.0.0') < 0 {
+      $_password = $db_pass
+    } else {
+      $_password = postgresql::postgresql_password($db_user, $db_pass)
+    }
+
     postgresql::server::db { $db_name:
       user     => $db_user,
-      password => postgresql::postgresql_password($db_user, $db_pass),
+      password => $_password,
     }
 
     $access_instances.each |$host| {
