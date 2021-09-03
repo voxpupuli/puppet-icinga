@@ -1,5 +1,12 @@
 # Change Log
 
+## [v2.3.3](https://github.com/icinga/puppet-icinga/tree/v2.3.3) (2021-09-03)
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.3.2...v2.3.3)
+
+**Fixed bugs:**
+
+- Namespace function postgresql::postgresql\_password does not work on Puppet 5 [\#36](https://github.com/Icinga/puppet-icinga/issues/36)
+
 ## [v2.3.2](https://github.com/icinga/puppet-icinga/tree/v2.3.2) (2021-08-17)
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.3.1...v2.3.2)
 
