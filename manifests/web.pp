@@ -182,8 +182,6 @@ class icinga::web(
     mpm_module   => 'worker',
   }
 
-  apache::listen { '80': }
-
   $web_conf_user = $::apache::user
 
   include ::apache::mod::alias
