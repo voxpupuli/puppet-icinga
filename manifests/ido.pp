@@ -20,7 +20,7 @@
 #   Database user name.
 #
 # @param [Boolean] manage_database
-#   Create database.
+#   Create database and import schema.
 #
 # @param [Boolean] enable_ha
 #   Enable HA feature for database.

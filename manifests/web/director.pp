@@ -1,13 +1,51 @@
 # @summary
 #   Setup Director module for Icinga Web 2
 #
-# @param [String] db_pass
-#   Password to connect the database.
+# @param [Stdlib::Ensure::Service] service_ensure
+#   Manages if the Director service should be stopped or running.
+#
+# @param [Boolean] service_enable
+#   If set to true the Director service will start on boot.
+#
+# @param [Enum['mysql', 'pgsql']] db_type
+#   Type of your database. Either `mysql` or `pgsql`.
+#
+# @param [Optional[Stdlib::Host]] db_host
+#   Hostname of the database.
+#
+# @param [Optional[Stdlib::Port]] db_port
+#   Port of the database.
+#
+# @param [Optional[String]] db_name
+#   Name of the database.
+#
+# @param [Optional[String]] db_user
+#   Username for DB connection.
+#
+# @param [Optional[String]] db_pass
+#   Password for DB connection.
+#
+# @param [Optional[String]] endpoint
+#   Endpoint object name of Icinga 2 API.
+#
+# @param [Boolean] manage_database
+#   Create database and import schema.
+#
+# @param [Stdlib::Host] api_host
+#   Icinga 2 API hostname.
+#
+# @param [Optional[String]] api_user
+#   Icinga 2 API username.
+#
+# @param [Optional[String]] api_pass
+#   Icinga 2 API password.
 #
 class icinga::web::director(
   String                                 $db_pass,
   String                                 $api_pass,
   String                                 $endpoint,
+  Stdlib::Ensure::Service                $service_ensure  = 'running',
+  Boolean                                $service_enable  = true,
   Enum['mysql','pgsql']                  $db_type         = 'mysql',
   Stdlib::Host                           $db_host         = 'localhost',
   Optional[Stdlib::Port]                 $db_port         = undef,
@@ -63,6 +101,12 @@ class icinga::web::director(
     api_username   => $api_user,
     api_password   => $api_pass,
     db_charset     => 'UTF8',
+  }
+
+  service { 'icinga-director':
+    ensure  => $service_ensure,
+    enable  => $service_enable,
+    require => Class['icingaweb2::module::director'],
   }
 
 }
