@@ -213,7 +213,6 @@ class icinga(
   } else {
     if $ca_server {
       class { '::icinga2::feature::api':
-        pki             => 'icinga2',
         accept_config   => true,
         accept_commands => true,
         ca_host         => $ca_server,
