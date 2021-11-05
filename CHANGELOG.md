@@ -1,5 +1,12 @@
 # Change Log
 
+## [v2.4.1](https://github.com/icinga/puppet-icinga/tree/v2.4.1) (2021-11-05)
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.4.0...v2.4.1)
+
+**Fixed bugs:**
+
+- Debian Bullseye support is broken [\#43](https://github.com/Icinga/puppet-icinga/issues/43)
+
 ## [v2.4.0](https://github.com/icinga/puppet-icinga/tree/v2.4.0) (2021-11-05)
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.3.3...v2.4.0)
 
