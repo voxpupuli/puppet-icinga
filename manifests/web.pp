@@ -121,7 +121,7 @@ class icinga::web(
     } # RedHat
 
     'debian': {
-      if $facts[os][distro][codename] == 'focal' {
+      if $facts[os][distro][codename] in ['focal', 'bullseye'] {
         $php_globals = {
           php_version => '7.4',
         }
