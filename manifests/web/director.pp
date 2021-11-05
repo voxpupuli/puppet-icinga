@@ -10,22 +10,22 @@
 # @param [Enum['mysql', 'pgsql']] db_type
 #   Type of your database. Either `mysql` or `pgsql`.
 #
-# @param [Optional[Stdlib::Host]] db_host
+# @param [Stdlib::Host] db_host
 #   Hostname of the database.
 #
 # @param [Optional[Stdlib::Port]] db_port
 #   Port of the database.
 #
-# @param [Optional[String]] db_name
+# @param [String] db_name
 #   Name of the database.
 #
-# @param [Optional[String]] db_user
+# @param [String] db_user
 #   Username for DB connection.
 #
-# @param [Optional[String]] db_pass
+# @param [String] db_pass
 #   Password for DB connection.
 #
-# @param [Optional[String]] endpoint
+# @param [String] endpoint
 #   Endpoint object name of Icinga 2 API.
 #
 # @param [Boolean] manage_database
@@ -34,10 +34,10 @@
 # @param [Stdlib::Host] api_host
 #   Icinga 2 API hostname.
 #
-# @param [Optional[String]] api_user
+# @param [String] api_user
 #   Icinga 2 API username.
 #
-# @param [Optional[String]] api_pass
+# @param [String] api_pass
 #   Icinga 2 API password.
 #
 class icinga::web::director(
@@ -46,7 +46,7 @@ class icinga::web::director(
   String                                 $endpoint,
   Stdlib::Ensure::Service                $service_ensure  = 'running',
   Boolean                                $service_enable  = true,
-  Enum['mysql','pgsql']                  $db_type         = 'mysql',
+  Enum['mysql', 'pgsql']                 $db_type         = 'mysql',
   Stdlib::Host                           $db_host         = 'localhost',
   Optional[Stdlib::Port]                 $db_port         = undef,
   String                                 $db_name         = 'director',

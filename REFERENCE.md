@@ -16,6 +16,8 @@
 * [`icinga::server`](#icingaserver): Setup a Icinga server.
 * [`icinga::web`](#icingaweb): Setup Icinga Web 2 including a database backend for user settings.
 * [`icinga::web::database`](#icingawebdatabase): Setup Icinga Web 2 database for user settings.
+* [`icinga::web::director`](#icingawebdirector): Setup Director module for Icinga Web 2
+* [`icinga::web::director::database`](#icingawebdirectordatabase): Setup Director database.
 * [`icinga::worker`](#icingaworker): Setup a Icinga worker (aka satellite).
 
 #### Private Classes
@@ -160,7 +162,7 @@ Default value: `'icinga2'`
 
 Data type: `Boolean`
 
-Create database.
+Create database and import schema.
 
 Default value: ``false``
 
@@ -379,6 +381,22 @@ Icinga API user password.
 
 Default value: ``undef``
 
+##### `director_api_user`
+
+Data type: `String`
+
+Icinga API director user to connect Icinga 2.
+
+Default value: `'director'`
+
+##### `director_api_pass`
+
+Data type: `Optional[String]`
+
+Icinga API director user password.
+
+Default value: ``undef``
+
 ##### `logging_type`
 
 Data type: `Enum['file', 'syslog']`
@@ -566,6 +584,154 @@ Data type: `String`
 Database user name.
 
 Default value: `'icingaweb2'`
+
+### `icinga::web::director`
+
+Setup Director module for Icinga Web 2
+
+#### Parameters
+
+The following parameters are available in the `icinga::web::director` class.
+
+##### `service_ensure`
+
+Data type: `Stdlib::Ensure::Service`
+
+Manages if the Director service should be stopped or running.
+
+Default value: `'running'`
+
+##### `service_enable`
+
+Data type: `Boolean`
+
+If set to true the Director service will start on boot.
+
+Default value: ``true``
+
+##### `db_type`
+
+Data type: `Enum['mysql', 'pgsql']`
+
+Type of your database. Either `mysql` or `pgsql`.
+
+Default value: `'mysql'`
+
+##### `db_host`
+
+Data type: `Stdlib::Host`
+
+Hostname of the database.
+
+Default value: `'localhost'`
+
+##### `db_port`
+
+Data type: `Optional[Stdlib::Port]`
+
+Port of the database.
+
+Default value: ``undef``
+
+##### `db_name`
+
+Data type: `String`
+
+Name of the database.
+
+Default value: `'director'`
+
+##### `db_user`
+
+Data type: `String`
+
+Username for DB connection.
+
+Default value: `'director'`
+
+##### `db_pass`
+
+Data type: `String`
+
+Password for DB connection.
+
+##### `endpoint`
+
+Data type: `String`
+
+Endpoint object name of Icinga 2 API.
+
+##### `manage_database`
+
+Data type: `Boolean`
+
+Create database and import schema.
+
+Default value: ``false``
+
+##### `api_host`
+
+Data type: `Stdlib::Host`
+
+Icinga 2 API hostname.
+
+Default value: `'localhost'`
+
+##### `api_user`
+
+Data type: `String`
+
+Icinga 2 API username.
+
+Default value: `'director'`
+
+##### `api_pass`
+
+Data type: `String`
+
+Icinga 2 API password.
+
+### `icinga::web::director::database`
+
+Setup Director database.
+
+#### Parameters
+
+The following parameters are available in the `icinga::web::director::database` class.
+
+##### `db_type`
+
+Data type: `Enum['mysql','pgsql']`
+
+What kind of database type to use.
+
+##### `web_instances`
+
+Data type: `Array[Stdlib::Host]`
+
+List of Hosts to allow write access to the database. Usually an Icinga Web 2 instance.
+
+##### `db_pass`
+
+Data type: `String`
+
+Password to connect the database.
+
+##### `db_name`
+
+Data type: `String`
+
+Name of the database.
+
+Default value: `'director'`
+
+##### `db_user`
+
+Data type: `String`
+
+Database user name.
+
+Default value: `'director'`
 
 ### `icinga::worker`
 
