@@ -24,6 +24,11 @@ class icinga::web::director::database(
   String                 $db_user = 'director',
 ) {
 
+  $_db_encoding = $db_type ? {
+    'mysql' => 'utf8',
+    default => 'UTF8',
+  }
+
   ::icinga::database { "${db_type}-${db_name}":
     db_type          => $db_type,
     db_name          => $db_name,
@@ -31,7 +36,7 @@ class icinga::web::director::database(
     db_pass          => $db_pass,
     access_instances => $web_instances,
     mysql_privileges => ['ALL'],
-    db_encoding      => 'UTF8',
+    db_encoding      => $_db_encoding,
   }
 }
 
