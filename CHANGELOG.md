@@ -1,5 +1,12 @@
 # Change Log
 
+## [v2.4.2](https://github.com/icinga/puppet-icinga/tree/v2.4.2) (2021-12-01)
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.4.1...v2.4.2)
+
+**Fixed bugs:**
+
+- set import\_schema in web class to hiera lookup [\#34](https://github.com/Icinga/puppet-icinga/issues/34)
+
 ## [v2.4.1](https://github.com/icinga/puppet-icinga/tree/v2.4.1) (2021-11-05)
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.4.0...v2.4.1)
 
