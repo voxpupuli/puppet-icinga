@@ -10,7 +10,8 @@ define icinga::database(
   String                 $db_name,
   String                 $db_user,
   Array[String]          $mysql_privileges,
-  Optional[String]       $db_encoding = undef,
+  Optional[String]       $db_encoding  = undef,
+  Optional[String]       $db_collation = undef,
 ) {
 
   if $db_type == 'pgsql' {
@@ -26,6 +27,7 @@ define icinga::database(
       user     => $db_user,
       password => $_password,
       encoding => $db_encoding,
+      locale   => $db_collation,
     }
 
     $access_instances.each |$host| {
@@ -54,6 +56,7 @@ define icinga::database(
       password => $db_pass,
       grant    => $mysql_privileges,
       charset  => $db_encoding,
+      collate  => $db_collation,
     }
 
     delete_at($access_instances,0).each |$host| {
