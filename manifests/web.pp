@@ -233,7 +233,7 @@ class icinga::web(
     db_name        => $db_name,
     db_username    => $db_user,
     db_password    => $db_pass,
-    import_schema  => true,
+    import_schema  => lookup('icingaweb2::import_schema', undef, undef, true),
     config_backend => 'db',
     conf_user      => $web_conf_user,
     manage_package => $manage_package,
