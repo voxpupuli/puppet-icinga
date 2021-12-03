@@ -153,19 +153,19 @@ class icinga(
       } # osfamily
 
       if $prepare_web {
-         group { 'icingaweb2':
-           system => true,
-         }
+        group { 'icingaweb2':
+          system => true,
+        }
 
-         Package['icinga2'] -> Exec['restarting icinga2'] -> Class['icinga2']
+        Package['icinga2'] -> Exec['restarting icinga2'] -> Class['icinga2']
 
-         exec { 'restarting icinga2':
-           path        => $::facts['path'],
-           command     => "service ${icinga_service} restart",
-           onlyif      => "service ${icinga_service} status",
-           refreshonly => true,
-           subscribe   => User[$icinga_user],
-         }
+        exec { 'restarting icinga2':
+          path        => $::facts['path'],
+          command     => "service ${icinga_service} restart",
+          onlyif      => "service ${icinga_service} status",
+          refreshonly => true,
+          subscribe   => User[$icinga_user],
+        }
       }
 
       user { $icinga_user:

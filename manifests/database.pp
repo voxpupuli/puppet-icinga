@@ -56,7 +56,7 @@ define icinga::database(
           'utf8mb3'
         } else {
           $db_encoding
-        }, 
+        },
         default => $db_encoding,
       },
       default => $db_encoding,

@@ -39,7 +39,7 @@ Run unit tests:
 ``` bash
 cd puppet-icinga
 pdk test unit
-``` bash
+```
 
 Or dedicated tests:
 ``` bash
