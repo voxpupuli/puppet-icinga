@@ -40,6 +40,8 @@ class icinga::web::vspheredb(
   Boolean                                $manage_database = false,
 ) {
 
+  icinga::prepare_web('VSphereDB')
+
   unless $db_port {
     $_db_port = $db_type ? {
       'pgsql' => 5432,

@@ -54,7 +54,7 @@ Add this declaration to your Puppetfile:
 ```
 mod 'icinga',
   :git => 'https://github.com/icinga/puppet-icinga.git',
-  :tag => 'v2.1.0'
+  :tag => 'v2.5.0'
 ```
 Then run:
 ```
@@ -68,7 +68,7 @@ git clone https://github.com/icinga/puppet-icinga.git icinga
 Change to `icinga` directory and check out your desired version:
 ```
 cd icinga
-git checkout v2.1.0
+git checkout v2.5.0
 ```
 
 
@@ -78,16 +78,15 @@ git checkout v2.1.0
 
 The class supports:
 
-* [puppet] >= 4.10 < 8.0
+* [puppet] >= 5.5 < 8.0
 
 And requiers:
 
-* [puppetlabs/stdlib] >= 4.16.0 < 8.0.0
-    * If Puppet 6 is used a stdlib 5.1 or higher is required
+* [puppetlabs/stdlib] >= 5.1.0 < 9.0.0
 * [puppetlabs/apt] >= 6.0.0
 * [puppet/zypprepo] >= 2.2.1
 * [puppetlabs/yumrepo_core] >= 1.0.0
-    * If Puppet 6 is used
+    * If Puppet 6 or 7 is used
 
 By default the upstream Icinga repository for stable release are involved.
 ```
@@ -191,7 +190,7 @@ apt::backports::location: 'http://archive.debian.org/debian'
 
 The class supports:
 
-* [puppet] >= 4.10 < 7.0
+* [puppet] >= 5.5 < 8.0
 
 And requiers:
 
@@ -202,6 +201,7 @@ Setting up a Icinga Server with a CA and to store configuration:
 ```
 class { '::icinga::server':
   ca            => true,
+  ticket_salt   => 'supersecret',
   config_server => true,
   workers       => { 'dmz' => { 'endpoints' => { 'worker.example.org' => { 'host' => '172.16.2.11' }}, }},
   global_zones  => [ 'global-templates', 'linux-commands', 'windows-commands' ],
@@ -210,7 +210,7 @@ class { '::icinga::server':
 
 Addtition a connection to a worker is configured. By default the zone for the server is named `main`. When `config_server` is enabled directories are managed for all zones, including the worker and global zones.
 
-IMPORTANT: A alpha numeric String has to be set to `icinga::ticket_salt` in Hiera to protect the CA! 
+IMPORTANT: A alpha numeric String has to be set to `ticket_salt` in Hiera to protect the CA! An alternative is to set `icinga::ticket_salt` in a hiera common section for all agents, workers and servers.
 
 The associated worker could look like this:
 
@@ -252,12 +252,12 @@ NOTICE: To switch off the package installation via chocolatey on windows, `icing
 
 The class supports:
 
-* [puppet] >= 4.10 < 7.0
+* [puppet] >= 5.5 < 8.0
 
 Ands requires:
 
-* [puppetlabs/mysql] >= 5.0.0 < 10.9.0
-* [puppetlabs/postgresql] >= 5.0.0 < 6.9.0
+* [puppetlabs/mysql] >= 6.0.0
+* [puppetlabs/postgresql] >= 7.0.0
 * [icinga/icinga2] >= 2.0.0 < 4.0.0
 
 To activate and configure the IDO feature (usally on a server) do:
@@ -277,15 +277,16 @@ Setting `manage_database` to `true` also setups a database as specified in `db_t
 
 The class supports:
 
-* [puppet] >= 4.10 < 7.0
+* [puppet] >= 5.5 < 8.0
 
 And requires:
 
-* [puppetlabs/mysql] >= 5.0.0 < 10.9.0
-* [puppetlabs/postgresql] >= 5.0.0 < 6.9.0
-* [puppetlabs/apache] >= 3.0.0 < 5.8.0
-* [puppet/php] >= 6.0.0 < 8.0.0
-* [icinga/icinga2] >= 2.0.0 < 4.0.0
+* [puppetlabs/mysql] >= 6.0.0
+* [puppetlabs/postgresql] >= 7.0.0
+* [puppetlabs/apache] >= 3.0.0
+* [puppet/php] >= 6.0.0
+* [icinga/icinga2] >= 2.0.0
+* [icinga/icingaweb2] >= 2.0.0
 
 A Icinga Web 2 with an Apache and PHP-FPM can be managed as follows:
 
@@ -296,13 +297,58 @@ class { '::icinga::web':
   backend_db_pass => $icinga::ido::db_pass,
   db_type         => 'pgsql',
   db_host         => 'localhost',
-  db_pass         => 'icingaweb2',
+  db_pass         => 'supersecret',
   manage_database => true,
   api_pass        => $icinga::server::web_api_pass,
 }
 ```
 
 If the Icinga Web 2 is operated on the same host as the IDO, the required user credentials can be accessed, otherwise they must be specified explicitly. With `manage_database` set to `true`, a database of the specified type is also installed here. It is used to save user settings for the users of the Icinga Web 2.
+
+IMPORTANT: If you plan tu use icingacli as plugin, e.g. director health checks, businessprocess checks or vspheredb checks, set the parameter `run_web => true` for `icinga::server` on the same host `icinga::web` is declared. That put the Icinga user to the group `icingaweb2` and restart the icinga2 process if necessary.
+
+
+#### icinga::web::director
+
+Install and manage the famous Icinga Director and the required database. A graphical addon to manage your monitoring environment, the hosts, services, notifications etc.
+
+Here an example with an PostgreSQL database on the same host:
+
+```
+class { '::icinga::web::director':
+  db_type         => 'pgsql',
+  db_host         => 'localhost',
+  db_pass         => 'supersecret',
+  manage_database => true,
+  endpoint        => $::fqdn,
+  api_host        => 'localhost',
+  api_pass        => $icinga::server::director_api_pass,
+}
+```
+
+In this example the Icinga server is running on the same Host like the web and the director.
+
+
+#### icinga::web::vspheredb
+
+The class supports:
+
+* [puppet] >= 5.5 < 8.0
+
+And required in addition to `icinga::web`:
+
+* [icinga/icingaweb2] >= 3.2.0
+
+The following example sets up the `vspheredb` Icinga Web 2 module and teh required database. At this time only MySQL/MariaDB is support by the Icinga team, so this class also supports only `mysql`.
+
+```
+class { '::icinga::web::vspheredb':
+  db_type         => 'mysql',
+  db_host         => 'localhost',
+  db_pass         => 'vspheredb',
+  manage_database => true,
+}
+```
 
 ## Reference
 

@@ -56,6 +56,8 @@ class icinga::web::director(
   String                                 $api_user        = 'director',
 ) {
 
+  icinga::prepare_web('Director')
+
   unless $db_port {
     $_db_port = $db_type ? {
       'pgsql' => 5432,

@@ -22,6 +22,10 @@
 # @param [String] zone
 #   Set a dedicated zone name.
 #
+# @param [Boolean] run_web
+#   Prepare to run Icinga Web 2 on the same machine. Manage a group `icingaweb2`
+#   and add the Icinga user to this group.
+#
 class icinga::agent(
   Stdlib::Host                    $ca_server,
   Hash[String, Hash]              $parent_endpoints,
@@ -30,6 +34,7 @@ class icinga::agent(
   Enum['file', 'syslog']          $logging_type  = 'file',
   Optional[Icinga::LogLevel]      $logging_level = undef,
   String                          $zone          = 'NodeName',
+  Boolean                         $run_web       = false,
 ) {
 
   class { '::icinga':
@@ -43,6 +48,7 @@ class icinga::agent(
     },
     logging_type    => $logging_type,
     logging_level   => $logging_level,
+    prepare_web     => $run_web,
   }
 
   ::icinga2::object::zone { $global_zones:

@@ -26,6 +26,10 @@
 # @param [Optional[Icinga::LogLevel]] logging_level
 #   Set the log level.
 #
+# @param [Boolean] run_web
+#   Prepare to run Icinga Web 2 on the same machine. Manage a group `icingaweb2`
+#   and add the Icinga user to this group.
+#
 class icinga::worker(
   Stdlib::Host                    $ca_server,
   String                          $zone,
@@ -35,6 +39,7 @@ class icinga::worker(
   Array[String]                   $global_zones         = [],
   Enum['file', 'syslog']          $logging_type         = 'file',
   Optional[Icinga::LogLevel]      $logging_level        = undef,
+  Boolean                         $run_web              = false,
 ) {
 
   class { '::icinga':
@@ -48,6 +53,7 @@ class icinga::worker(
     },
     logging_type    => $logging_type,
     logging_level   => $logging_level,
+    prepare_web     => $run_web,
   }
 
   include ::icinga2::feature::checker

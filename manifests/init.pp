@@ -37,6 +37,10 @@
 # @param [String] cert_name
 #   The certificate name to set as constant NodeName.
 #
+# @param [Boolean] run_web
+#   Prepare to run Icinga Web 2 on the same machine. Manage a group `icingaweb2`
+#   and add the Icinga user to this group.
+#
 class icinga(
   Boolean                              $ca,
   String                               $this_zone,
@@ -50,6 +54,7 @@ class icinga(
   Enum['file', 'syslog']               $logging_type    = 'file',
   Optional[Icinga::LogLevel]           $logging_level   = undef,
   String                               $cert_name       = $::fqdn,
+  Boolean                              $prepare_web     = false,
 ) {
 
   assert_private()
@@ -106,6 +111,7 @@ class icinga(
       $icinga_group   = $::icinga2::globals::group
       $icinga_package = $::icinga2::globals::package_name
       $icinga_home    = $::icinga2::globals::spool_dir
+      $icinga_service = $::icinga2::globals::service_name
 
       if $ssh_public_key {
         $icinga_shell = '/bin/bash'
@@ -120,12 +126,7 @@ class icinga(
             before => User[$icinga_user],
           }
 
-          user { $icinga_user:
-            ensure => present,
-            shell  => $icinga_shell,
-            groups => [ 'nagios' ],
-            before => Class['icinga2'],
-          }
+          $icinga_user_groups = if $prepare_web { ['nagios', 'icingaweb2'] } else { ['nagios'] }
         } # RedHat
 
         'debian': {
@@ -134,11 +135,7 @@ class icinga(
             before => User['nagios'],
           }
 
-          user { 'nagios':
-            ensure => present,
-            shell  => $icinga_shell,
-            before => Class['icinga2'],
-          }
+          $icinga_user_groups = if $prepare_web { ['icingaweb2'] } else { undef }
         } # Debian
 
         'suse': {
@@ -147,17 +144,36 @@ class icinga(
             before => User['icinga'],
           }
 
-          user { 'icinga':
-            ensure => present,
-            shell  => $icinga_shell,
-            before => Class['icinga2'],
-          }
+          $icinga_user_groups = if $prepare_web { ['icingaweb2'] } else { undef }
         } # Suse
 
         default: {
           fail("'Your operatingssystem ${::facts[os][name]} is not supported'")
         }
       } # osfamily
+
+      if $prepare_web {
+         group { 'icingaweb2':
+           system => true,
+         }
+
+         Package['icinga2'] -> Exec['restarting icinga2'] -> Class['icinga2']
+
+         exec { 'restarting icinga2':
+           path        => $::facts['path'],
+           command     => "service ${icinga_service} restart",
+           onlyif      => "service ${icinga_service} status",
+           refreshonly => true,
+           subscribe   => User[$icinga_user],
+         }
+      }
+
+      user { $icinga_user:
+        ensure => present,
+        shell  => $icinga_shell,
+        groups => $icinga_user_groups,
+        before => Class['icinga2'],
+      }
 
       if $ssh_public_key {
         ssh_authorized_key { "${icinga_user}@${::fqdn}":

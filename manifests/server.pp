@@ -45,6 +45,10 @@
 # @param [Optional[Icinga::LogLevel]] logging_level
 #   Set the log level.
 #
+# @param [Boolean] run_web
+#   Prepare to run Icinga Web 2 on the same machine. Manage a group `icingaweb2`
+#   and add the Icinga user to this group.
+#
 class icinga::server(
   Boolean                         $ca                   = false,
   Boolean                         $config_server        = false,
@@ -60,6 +64,7 @@ class icinga::server(
   Optional[String]                $director_api_pass    = undef,
   Enum['file', 'syslog']          $logging_type         = 'file',
   Optional[Icinga::LogLevel]      $logging_level        = undef,
+  Boolean                         $run_web              = false,
 ) {
 
   if empty($colocation_endpoints) {
@@ -88,6 +93,7 @@ class icinga::server(
     logging_type  => $logging_type,
     logging_level => $logging_level,
     ticket_salt   => $ticket_salt,
+    prepare_web   => $run_web,
   }
 
   include ::icinga2::feature::checker
