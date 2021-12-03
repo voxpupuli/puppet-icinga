@@ -1,5 +1,18 @@
 # Change Log
 
+## [v2.5.0](https://github.com/icinga/puppet-icinga/tree/v2.5.0) (2021-12-03)
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.4.2...v2.5.0)
+
+**Implemented enhancements:**
+
+- Add parameter to icinga to manage icingaweb2 group for the use of icingacli as plugins [\#49](https://github.com/Icinga/puppet-icinga/issues/49)
+- Add vshperedb support [\#45](https://github.com/Icinga/puppet-icinga/issues/45)
+
+**Fixed bugs:**
+
+- Ubuntu focal does not know charset utf8 for mysql [\#48](https://github.com/Icinga/puppet-icinga/issues/48)
+- Idempotency of icinga::web::director is broken [\#44](https://github.com/Icinga/puppet-icinga/issues/44)
+
 ## [v2.4.2](https://github.com/icinga/puppet-icinga/tree/v2.4.2) (2021-12-01)
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.4.1...v2.4.2)
 

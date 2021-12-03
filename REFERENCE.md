@@ -18,6 +18,8 @@
 * [`icinga::web::database`](#icingawebdatabase): Setup Icinga Web 2 database for user settings.
 * [`icinga::web::director`](#icingawebdirector): Setup Director module for Icinga Web 2
 * [`icinga::web::director::database`](#icingawebdirectordatabase): Setup Director database.
+* [`icinga::web::vspheredb`](#icingawebvspheredb): Setup VSphereDB module for Icinga Web 2
+* [`icinga::web::vspheredb::database`](#icingawebvspheredbdatabase): Setup VSphereDB database.
 * [`icinga::worker`](#icingaworker): Setup a Icinga worker (aka satellite).
 
 #### Private Classes
@@ -37,6 +39,10 @@
 #### Private Defined types
 
 * `icinga::database`: Private define resource for database backends.
+
+### Functions
+
+* [`icinga::prepare_web`](#icingaprepare_web): This funktion checks for web preparation and display a warning if fails
 
 ### Data types
 
@@ -103,6 +109,15 @@ Data type: `String`
 Set a dedicated zone name.
 
 Default value: `'NodeName'`
+
+##### `run_web`
+
+Data type: `Boolean`
+
+Prepare to run Icinga Web 2 on the same machine. Manage a group `icingaweb2`
+and add the Icinga user to this group.
+
+Default value: ``false``
 
 ### `icinga::ido`
 
@@ -412,6 +427,15 @@ Data type: `Optional[Icinga::LogLevel]`
 Set the log level.
 
 Default value: ``undef``
+
+##### `run_web`
+
+Data type: `Boolean`
+
+Prepare to run Icinga Web 2 on the same machine. Manage a group `icingaweb2`
+and add the Icinga user to this group.
+
+Default value: ``false``
 
 ### `icinga::web`
 
@@ -733,6 +757,126 @@ Database user name.
 
 Default value: `'director'`
 
+### `icinga::web::vspheredb`
+
+Setup VSphereDB module for Icinga Web 2
+
+#### Parameters
+
+The following parameters are available in the `icinga::web::vspheredb` class.
+
+##### `service_ensure`
+
+Data type: `Stdlib::Ensure::Service`
+
+Manages if the VSphereDB service should be stopped or running.
+
+Default value: `'running'`
+
+##### `service_enable`
+
+Data type: `Boolean`
+
+If set to true the VSphereDB service will start on boot.
+
+Default value: ``true``
+
+##### `db_type`
+
+Data type: `Enum['mysql']`
+
+Type of your database. At the moment only `mysql` is supported by the Icinga team.
+
+Default value: `'mysql'`
+
+##### `db_host`
+
+Data type: `Stdlib::Host`
+
+Hostname of the database.
+
+Default value: `'localhost'`
+
+##### `db_port`
+
+Data type: `Optional[Stdlib::Port]`
+
+Port of the database.
+
+Default value: ``undef``
+
+##### `db_name`
+
+Data type: `String`
+
+Name of the database.
+
+Default value: `'vspheredb'`
+
+##### `db_user`
+
+Data type: `String`
+
+Username for DB connection.
+
+Default value: `'vspheredb'`
+
+##### `db_pass`
+
+Data type: `String`
+
+Password for DB connection.
+
+##### `manage_database`
+
+Data type: `Boolean`
+
+Create database and import schema.
+
+Default value: ``false``
+
+### `icinga::web::vspheredb::database`
+
+Setup VSphereDB database.
+
+#### Parameters
+
+The following parameters are available in the `icinga::web::vspheredb::database` class.
+
+##### `db_type`
+
+Data type: `Enum['mysql']`
+
+What kind of database type to use.
+
+##### `web_instances`
+
+Data type: `Array[Stdlib::Host]`
+
+List of Hosts to allow write access to the database. Usually an Icinga Web 2 instance.
+
+##### `db_pass`
+
+Data type: `String`
+
+Password to connect the database.
+
+##### `db_name`
+
+Data type: `String`
+
+Name of the database.
+
+Default value: `'vspheredb'`
+
+##### `db_user`
+
+Data type: `String`
+
+Database user name.
+
+Default value: `'vspheredb'`
+
 ### `icinga::worker`
 
 Setup a Icinga worker (aka satellite).
@@ -800,7 +944,36 @@ Set the log level.
 
 Default value: ``undef``
 
+##### `run_web`
+
+Data type: `Boolean`
+
+Prepare to run Icinga Web 2 on the same machine. Manage a group `icingaweb2`
+and add the Icinga user to this group.
+
+Default value: ``false``
+
 ## Defined types
+
+## Functions
+
+### `icinga::prepare_web`
+
+Type: Puppet Language
+
+This funktion checks for web preparation and display a warning if fails
+
+#### `icinga::prepare_web(String $icingamod)`
+
+The icinga::prepare_web function.
+
+Returns: `Any`
+
+##### `icingamod`
+
+Data type: `String`
+
+
 
 ## Data types
 

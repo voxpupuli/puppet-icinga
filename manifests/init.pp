@@ -37,7 +37,7 @@
 # @param [String] cert_name
 #   The certificate name to set as constant NodeName.
 #
-# @param [Boolean] run_web
+# @param [Boolean] prepare_web
 #   Prepare to run Icinga Web 2 on the same machine. Manage a group `icingaweb2`
 #   and add the Icinga user to this group.
 #
