@@ -50,12 +50,24 @@ define icinga::database(
   } else {
     include ::mysql::server
 
+    $_db_encoding = $::facts['os']['name'] ? {
+      'ubuntu' => $::facts['os']['distro']['codename'] ? {
+        'focal' => if $db_encoding in ['utf8', undef] {
+          'utf8mb3'
+        } else {
+          $db_encoding
+        }, 
+        default => $db_encoding,
+      },
+      default => $db_encoding,
+    }
+
     mysql::db { $db_name:
       host     => $access_instances[0],
       user     => $db_user,
       password => $db_pass,
       grant    => $mysql_privileges,
-      charset  => $db_encoding,
+      charset  => $_db_encoding,
       collate  => $db_collation,
     }
 
