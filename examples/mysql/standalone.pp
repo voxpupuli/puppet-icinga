@@ -38,3 +38,10 @@ class { '::icinga::web::director':
   api_host        => 'localhost',
   api_pass        => $icinga::server::director_api_pass,
 }
+
+class { '::icinga::web::vspheredb':
+  db_type         => 'mysql',
+  db_host         => 'localhost',
+  db_pass         => 'vspheredb',
+  manage_database => true,
+}
