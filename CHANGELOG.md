@@ -1,5 +1,17 @@
 # Change Log
 
+## [v2.6.0](https://github.com/icinga/puppet-icinga/tree/v2.6.0) (2022-01-05)
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.5.0...v2.6.0)
+
+**Implemented enhancements:**
+
+- Add management of module fileshipper to director class [\#51](https://github.com/Icinga/puppet-icinga/issues/51)
+- Update to https repos for Debian [\#50](https://github.com/Icinga/puppet-icinga/issues/50)
+
+**Fixed bugs:**
+
+- Update to https repos for Debian [\#50](https://github.com/Icinga/puppet-icinga/issues/50)
+
 ## [v2.5.0](https://github.com/icinga/puppet-icinga/tree/v2.5.0) (2021-12-03)
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.4.2...v2.5.0)
 
