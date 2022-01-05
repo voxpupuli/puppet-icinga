@@ -163,8 +163,8 @@ An example to configure a local mirror of the stable release:
 ---
 icinga::repos:
   icinga-stable-release:
-    baseurl: 'http://repo.example.com/icinga/epel/$releasever/release/'
-    gpgkey: http://repo.example.com/icinga/icinga.key
+    baseurl: 'https://repo.example.com/icinga/epel/$releasever/release/'
+    gpgkey: https://repo.example.com/icinga/icinga.key
 ```
 IMPORTANT: The configuration hash depends on the platform an requires one of the following resources:
 
@@ -183,7 +183,7 @@ apt::confs:
     content: 'Acquire::Check-Valid-Until no;'
     priority: 99
     notify_update: true
-apt::backports::location: 'http://archive.debian.org/debian'
+apt::backports::location: 'https://archive.debian.org/debian'
 ```
 
 ### icinga::server / icinga::worker / icinga::agent

@@ -1,11 +1,11 @@
 ---
 icinga::repos:
   icinga-stable-release:
-    baseurl: 'http://packages.icinga.com/fedora/$releasever/release/'
+    baseurl: 'https://packages.icinga.com/fedora/$releasever/release/'
     descr: ICINGA (stable release for fedora)
   icinga-testing-builds:
-    baseurl: 'http://packages.icinga.com/fedora/$releasever/testing/'
+    baseurl: 'https://packages.icinga.com/fedora/$releasever/testing/'
     descr: ICINGA (testing builds for fedora)
   icinga-snapshot-builds:
-    baseurl: 'http://packages.icinga.com/fedora/$releasever/snapshot/'
+    baseurl: 'https://packages.icinga.com/fedora/$releasever/snapshot/'
     descr: ICINGA (snapshot builds for fedora)
