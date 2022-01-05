@@ -9,6 +9,7 @@ class { '::icinga::server':
   global_zones      => [ 'global-templates', 'linux-commands', 'windows-commands' ],
   web_api_pass      => 'icingaweb2',
   director_api_pass => 'director',
+  run_web           => true,
 }
 
 class { '::icinga::ido':

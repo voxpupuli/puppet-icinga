@@ -105,6 +105,10 @@ class icinga::web::director(
     db_charset     => 'UTF8',
   }
 
+  class { 'icingaweb2::module::fileshipper':
+    install_method   => 'package',
+  }
+
   service { 'icinga-director':
     ensure  => $service_ensure,
     enable  => $service_enable,
