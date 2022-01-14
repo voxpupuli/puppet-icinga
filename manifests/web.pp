@@ -185,6 +185,7 @@ class icinga::web(
   $web_conf_user = $::apache::user
 
   include ::apache::mod::alias
+  include ::apache::mod::mime
   include ::apache::mod::status
   include ::apache::mod::dir
   include ::apache::mod::env
