@@ -28,13 +28,13 @@
 #   Set an alternate ticket salt to icinga::ticket_salt from Hiera.
 #
 # @param [String] web_api_user
-#   Icinga API user to connect Icinga 2.
+#   Icinga API user to connect Icinga 2. Notice: user is only created if a password is set.
 #
 # @param [Optional[String]] web_api_pass
 #   Icinga API user password.
 #
 # @param [String] director_api_user
-#   Icinga API director user to connect Icinga 2.
+#   Icinga API director user to connect Icinga 2. Notice: user is only created if a password is set.
 #
 # @param [Optional[String]] director_api_pass
 #   Icinga API director user password.
@@ -104,16 +104,20 @@ class icinga::server(
   }
 
   if $_config_server {
-    ::icinga2::object::apiuser { $web_api_user:
-      password    => $web_api_pass,
-      permissions => [ 'status/query', 'actions/*', 'objects/modify/*', 'objects/query/*' ],
-      target      => "/etc/icinga2/zones.d/${zone}/api-users.conf",
+    if $web_api_pass {
+      ::icinga2::object::apiuser { $web_api_user:
+        password    => $web_api_pass,
+        permissions => [ 'status/query', 'actions/*', 'objects/modify/*', 'objects/query/*' ],
+        target      => "/etc/icinga2/zones.d/${zone}/api-users.conf",
+      }
     }
 
-    ::icinga2::object::apiuser { $director_api_user:
-      password    => $director_api_pass,
-      permissions => [ '*' ],
-      target      => "/etc/icinga2/zones.d/${zone}/api-users.conf",
+    if $director_api_pass {
+      ::icinga2::object::apiuser { $director_api_user:
+        password    => $director_api_pass,
+        permissions => [ '*' ],
+        target      => "/etc/icinga2/zones.d/${zone}/api-users.conf",
+      }
     }
 
     ($global_zones + keys($_workers) + $zone).each |String $dir| {
