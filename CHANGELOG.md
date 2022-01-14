@@ -1,5 +1,13 @@
 # Change Log
 
+## [v2.6.1](https://github.com/icinga/puppet-icinga/tree/v2.6.1) (2022-01-14)
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.6.0...v2.6.1)
+
+**Fixed bugs:**
+
+- Do not set an api user for the director and icingaweb2 if the password is empty [\#54](https://github.com/Icinga/puppet-icinga/issues/54)
+- Add missing mime apache module [\#52](https://github.com/Icinga/puppet-icinga/issues/52)
+
 ## [v2.6.0](https://github.com/icinga/puppet-icinga/tree/v2.6.0) (2022-01-05)
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.5.0...v2.6.0)
 

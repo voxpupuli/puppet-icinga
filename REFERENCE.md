@@ -384,7 +384,7 @@ Default value: ``undef``
 
 Data type: `String`
 
-Icinga API user to connect Icinga 2.
+Icinga API user to connect Icinga 2. Notice: user is only created if a password is set.
 
 Default value: `'icingaweb2'`
 
@@ -400,7 +400,7 @@ Default value: ``undef``
 
 Data type: `String`
 
-Icinga API director user to connect Icinga 2.
+Icinga API director user to connect Icinga 2. Notice: user is only created if a password is set.
 
 Default value: `'director'`
 
