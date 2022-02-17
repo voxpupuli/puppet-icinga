@@ -23,6 +23,11 @@ This module provides several non private helper classes for the official Icinga 
 * [icinga/icingaweb2]
 * [icinga/icingadb]
 
+### Changes in v2.7.0
+
+* The Class icinga::web now uses event as MPM instead of worker.
+
+
 ### Changes in v2.0.0
 
 * Earlier the parameter `manage_*` enables or disables a repository but it was still managed. Now the management is enabled or disabled, see [Enable or disable repositories](#enable-and-disable-repositories). 

@@ -179,7 +179,7 @@ class icinga::web(
 
   class { '::apache':
     default_mods => false,
-    mpm_module   => 'worker',
+    mpm_module   => 'event',
   }
 
   $web_conf_user = $::apache::user
