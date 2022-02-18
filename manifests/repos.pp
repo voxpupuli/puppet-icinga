@@ -21,6 +21,10 @@
 #   Manage the EPEL (Extra Packages Enterprise Linux) repository that is needed for some package
 #   like newer Boost libraries. Has only an effect on plattforms simular to RedHat Enterprise.
 #
+# @param [Boolean] manage_powertools
+#   Manage the PowerTools repository that is needed for some package like nagios-plugins on
+#   Linux Enterprise systems like Alma, Rocky and CentOS Stream.
+#
 # @param [Boolean] manage_plugins
 #   Manage the NETWAYS plugins repository that provides some packages for additional plugins.
 #
@@ -36,6 +40,7 @@ class icinga::repos(
   Boolean $manage_nightly,
   Boolean $configure_backports,
   Boolean $manage_epel,
+  Boolean $manage_powertools,
   Boolean $manage_plugins,
   Boolean $manage_extras,
 ) {
@@ -46,6 +51,7 @@ class icinga::repos(
     icinga-testing-builds   => $manage_testing,
     icinga-snapshot-builds  => $manage_nightly,
     epel                    => $manage_epel,
+    powertools              => $manage_powertools,
     netways-plugins-release => $manage_plugins,
     netways-extras-release  => $manage_extras,
   }

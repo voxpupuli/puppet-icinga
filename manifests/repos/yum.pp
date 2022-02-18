@@ -15,6 +15,11 @@ class icinga::repos::yum {
     warning("Repository EPEL isn't available on ${facts['os']['name']} ${facts['os']['release']['major']}.")
   }
 
+  # PowerTools package
+  if !'powertools' in keys($repos) and $managed['powertools'] {
+    warning("Repository PowerTools isn't available on ${facts['os']['name']} ${facts['os']['release']['major']}.")
+  }
+
   # fix issue 21, 33
   file { ['/etc/yum.repos.d/netways-plugins.repo', '/etc/yum.repos.d/netways-extras.repo']:
     ensure => 'absent',
