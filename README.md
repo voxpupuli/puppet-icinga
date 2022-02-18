@@ -26,6 +26,7 @@ This module provides several non private helper classes for the official Icinga 
 ### Changes in v2.7.0
 
 * The Class icinga::web now uses event as MPM instead of worker.
+* Class icinga::repos got a new parameter 'manage_powertools' to manage the PowerTools on CentOS Stream, Rocky and AlmaLinux.
 
 
 ### Changes in v2.0.0

@@ -4,6 +4,7 @@ icinga::repos::manage_testing: false
 icinga::repos::manage_nightly: false
 icinga::repos::configure_backports: false
 icinga::repos::manage_epel: false
+icinga::repos::manage_powertools: false
 icinga::repos::manage_plugins: false
 icinga::repos::manage_extras: false
 
