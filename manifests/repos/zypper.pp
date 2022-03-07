@@ -34,7 +34,7 @@ class icinga::repos::zypper {
         *       => delete($repo_config, 'proxy'),
         require => File['/etc/zypp/repos.d/netways-plugins.repo', '/etc/zypp/repos.d/netways-extras.repo'],
       }
-
+      
       -> file_line { "add proxy settings to ${repo_name}":
         path => "/etc/zypp/repos.d/${repo_name}.repo",
         line => "proxy=${repo_config['proxy']}",
