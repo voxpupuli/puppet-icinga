@@ -35,8 +35,9 @@ describe 'icinga::repos' do
           it { is_expected.to contain_yumrepo('icinga-stable-release').with('enabled' => 1) }
           it { is_expected.not_to contain_yumrepo('icinga-testing-builds') }
           it { is_expected.not_to contain_yumrepo('icinga-snapshot-builds') }
+          it { is_expected.not_to contain_yumrepo('powertools') }
           case os_facts[:operatingsystem]
-          when 'Fedora'
+          when 'Fedora', 'OracleLinux'
             it { is_expected.not_to contain_yumrepo('epel') }
           else
             if Integer(os_facts[:operatingsystemmajrelease]) < 8
@@ -50,6 +51,7 @@ describe 'icinga::repos' do
           it { is_expected.to contain_zypprepo('icinga-stable-release').with('enabled' => 1) }
           it { is_expected.not_to contain_zypprepo('icinga-testing-builds') }
           it { is_expected.not_to contain_zypprepo('icinga-snapshot-builds') }
+          it { is_expected.not_to contain_zypprepo('server_monitoring') }
         end
       end
 
@@ -71,7 +73,7 @@ describe 'icinga::repos' do
         end
       end
 
-      context 'with manage_stable => false, manage_nightly => true, manage_extras' do
+      context 'with manage_stable => false, manage_nightly => true, manage_extras => true' do
         let(:params) { { manage_stable: false, manage_nightly: true, manage_extras: true } }
 
         case os_facts[:osfamily]
@@ -91,21 +93,29 @@ describe 'icinga::repos' do
 
       case os_facts[:osfamily]
       when 'RedHat'
-        context 'with manage_epel => false' do
+        context 'with manage_epel => false, manage_powertools => false' do
           let(:params) { { manage_epel: false } }
 
           it { is_expected.not_to contain_yumrepo('epel') }
+          it { is_expected.not_to contain_yumrepo('powertools') }
         end
-        context 'with manage_epel => true' do
-          let(:params) { { manage_epel: true } }
+        context 'with manage_epel => true, manage_powertools => true' do
+          let(:params) { { manage_epel: true, manage_powertools: true } }
 
           case os_facts[:operatingsystem]
-          when 'Fedora'
+          when 'Fedora', 'OracleLinux'
             it { is_expected.not_to contain_yumrepo('epel') }
+            it { is_expected.not_to contain_yumrepo('powertools') }
+          when 'CentOS'
+            it { is_expected.to contain_yumrepo('epel').with('enabled' => 1) }
+            if Integer(os_facts[:operatingsystemmajrelease]) >= 8
+              it { is_expected.to contain_yumrepo('powertools').with('enabled' => 1) }
+            end
           else
             it { is_expected.to contain_yumrepo('epel').with('enabled' => 1) }
           end
         end
+
       when 'Debian'
         context 'with configure_backports => false' do
           let(:params) { { configure_backports: false } }
@@ -117,6 +127,21 @@ describe 'icinga::repos' do
 
           it { is_expected.to contain_class('apt::backports') }
         end
+
+      when 'Suse'
+        context 'with manage_server_monitoring => false' do
+          let(:params) { { manage_server_monitoring: false } }
+
+          it { is_expected.not_to contain_zypprepo('server_monitoring') }
+        end
+
+        context 'with manage_server_monitoring => true' do
+          let(:params) { { manage_server_monitoring: true } }
+
+          if os_facts[:operatingsystem] == 'SLES'
+            it { is_expected.to contain_zypprepo('server_monitoring').with('enabled' => 1) }
+          end
+        end 
       end
     end
   end

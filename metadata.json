@@ -71,13 +71,10 @@
     {
       "operatingsystem": "Fedora",
       "operatingsystemrelease": [
-        "28",
-        "29",
-        "30",
-        "31",
         "32",
         "33",
-        "34"
+        "34",
+        "35"
       ]
     },
     {
