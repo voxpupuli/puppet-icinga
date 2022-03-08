@@ -294,6 +294,21 @@ Data type: `Boolean`
 Manage the EPEL (Extra Packages Enterprise Linux) repository that is needed for some package
 like newer Boost libraries. Has only an effect on plattforms simular to RedHat Enterprise.
 
+##### `manage_powertools`
+
+Data type: `Boolean`
+
+Manage the PowerTools repository that is needed for some package like nagios-plugins on
+Linux Enterprise systems like Alma, Rocky and CentOS Stream.
+
+##### `manage_server_monitoring`
+
+Data type: `Boolean`
+
+Manage the 'server:monitoring' repository on SLES platforms that is needed for some package
+like monitoring-plugins-common. Additional also the 'monitoring-plugins' are provided by this
+repository. Bye default the repository is added with a lower priority of 120.
+
 ##### `manage_plugins`
 
 Data type: `Boolean`

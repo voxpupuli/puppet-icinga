@@ -1,5 +1,18 @@
 # Change Log
 
+## [v2.7.0](https://github.com/icinga/puppet-icinga/tree/v2.7.0) (2022-03-08)
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.6.1...v2.7.0)
+
+**Implemented enhancements:**
+
+- Add support to manage repo server\_monitoring on SLES [\#57](https://github.com/Icinga/puppet-icinga/issues/57)
+- Change apache mpm from worker to event [\#53](https://github.com/Icinga/puppet-icinga/issues/53)
+- Manage PowerTools on CentOS8 and other clones [\#42](https://github.com/Icinga/puppet-icinga/issues/42)
+
+**Fixed bugs:**
+
+- Remove management of Fedora's EPEL from OracleLinux  [\#56](https://github.com/Icinga/puppet-icinga/issues/56)
+
 ## [v2.6.1](https://github.com/icinga/puppet-icinga/tree/v2.6.1) (2022-01-14)
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.6.0...v2.6.1)
 
