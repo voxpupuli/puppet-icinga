@@ -1,5 +1,12 @@
 # Change Log
 
+## [v2.7.1](https://github.com/icinga/puppet-icinga/tree/v2.7.1) (2022-05-30)
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.7.0...v2.7.1)
+
+**Fixed bugs:**
+
+- Fix unsupported apache feature CGIPassAuth for older version like on RHEL7 [\#58](https://github.com/Icinga/puppet-icinga/issues/58)
+
 ## [v2.7.0](https://github.com/icinga/puppet-icinga/tree/v2.7.0) (2022-03-08)
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.6.1...v2.7.0)
 
