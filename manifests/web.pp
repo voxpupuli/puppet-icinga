@@ -1,57 +1,62 @@
 # @summary
 #   Setup Icinga Web 2 including a database backend for user settings.
 #
-# @param [String] db_pass
+# @param db_pass
 #   Password to connect the database.
 #
-# @param [String] api_pass
+# @param api_pass
 #   Password to connect the Icinga 2 API.
 #
-# @param [String] backend_db_pass
+# @param apache_cgi_pass_auth
+#   Either turn on or off the apache cgi pass thru auth.
+#   An option available since Apache v2.4.15 and required for authenticated access to the Icinga Web Api.
+#
+# @param backend_db_pass
 #   Pasword to connect the IDO backend.
 #
-# @param [Enum['mysql', 'pgsql']] db_type
+# @param db_type
 #   What kind of database type to use.
 #
-# @param [Stdlib::Host] db_host
+# @param db_host
 #   Database host to connect.
 #
-# @param [Optional[Stdlib::Port::Unprivileged]] db_port
+# @param db_port
 #   Port to connect. Only affects for connection to remote database hosts.
 #
-# @param [String] db_name
+# @param db_name
 #   Name of the database.
 #
-# @param [String] db_user
+# @param db_user
 #   Database user name.
 #
-# @param [Boolean] manage_database
+# @param manage_database
 #   Create database.
 #
-# @param [Variant[Stdlib::Host, Array[Stdlib::Host]]] api_host
+# @param api_host
 #   Single or list of Icinga 2 API endpoints to connect.
 #
-# @param [String] api_user
+# @param api_user
 #   Icinga 2 API user.
 #
-# @param [Enum['mysql', 'pgsql']] backend_db_type
+# @param backend_db_type
 #   What kind of database type to use as IDO backend.
 #
-# @param [Stdlib::Host] backend_db_host
+# @param backend_db_host
 #   Database host to connect for the IDO backenend.
 #
-# @param [Optional[Stdlib::Port::Unprivileged]] backend_db_port
+# @param backend_db_port
 #   Port to connect the IDO backend. Only affects for connection to remote database hosts.
 #
-# @param [String] backend_db_name
+# @param backend_db_name
 #   Name of the IDO database backend.
 #
-# @param [String] backend_db_user
+# @param backend_db_user
 #   IDO database backend user name.
 #
 class icinga::web(
   String                                      $db_pass,
   String                                      $api_pass,
+  Boolean                                     $apache_cgi_pass_auth,
   String                                      $backend_db_pass,
   Enum['mysql', 'pgsql']                      $db_type          = 'mysql',
   Stdlib::Host                                $db_host          = 'localhost',
@@ -108,6 +113,7 @@ class icinga::web(
           $php_globals = {}
         }
       }
+
       $php_extensions = {
         mbstring => { ini_prefix => '20-' },
         json     => { ini_prefix => '20-' },
@@ -197,7 +203,7 @@ class icinga::web(
 
   apache::custom_config { 'icingaweb2':
     ensure        => present,
-    source        => 'puppet:///modules/icingaweb2/examples/apache2/for-mod_proxy_fcgi.conf',
+    content       => template('icinga/apache_custom_default.conf'),
     verify_config => false,
     priority      => false,
   }
