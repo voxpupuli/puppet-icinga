@@ -146,6 +146,25 @@ class icinga::web(
       }
     } # Debian
 
+    'Suse': {
+      if $facts[os][distro][id] == 'SUSE' {
+        $php_globals = {
+          php_version => '7.4',
+        }
+      } else {
+        $php_globals = {}
+      }
+      $php_extensions = {
+        mbstring => {},
+        json     => {},
+        ldap     => {},
+        gd       => {},
+        intl     => {},
+        mysql    => {},
+        pgsql    => {},
+      }
+    }
+
     default: {
       fail("'Your operatingsystem ${::operatingsystem} is not supported.'")
     }
