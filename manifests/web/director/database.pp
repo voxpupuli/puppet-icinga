@@ -38,5 +38,13 @@ class icinga::web::director::database(
     mysql_privileges => ['ALL'],
     db_encoding      => $_db_encoding,
   }
+
+  if $db_type == 'pgsql' {
+    postgresql::server::extension { "${db_name}-pgcrypto":
+      extension    => 'pgcrypto',
+      database     => $db_name,
+      package_name => 'postgresql-contrib',
+    }
+  }
 }
 
