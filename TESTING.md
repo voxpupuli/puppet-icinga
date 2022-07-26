@@ -36,7 +36,7 @@ pdk test unit
 
 Or dedicated tests:
 ``` bash
-pdk test unit --tests=spec/classes/repos_spec.rb,spec/classes/redis_spec.rb
+pdk test unit --tests=spec/classes/repos_spec.rb,spec/classes/server_spec.rb
 ```
 
 ## Acceptance tests
