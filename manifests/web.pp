@@ -1,6 +1,12 @@
 # @summary
 #   Setup Icinga Web 2 including a database backend for user settings.
 #
+# @param default_admin_user
+#   Set the initial name of the admin user.
+#
+# @param default_admin_pass
+#   Set the initial password for the admin user.
+#
 # @param db_pass
 #   Password to connect the database.
 #
@@ -58,19 +64,21 @@ class icinga::web(
   String                                      $api_pass,
   Boolean                                     $apache_cgi_pass_auth,
   String                                      $backend_db_pass,
-  Enum['mysql', 'pgsql']                      $db_type          = 'mysql',
-  Stdlib::Host                                $db_host          = 'localhost',
-  Optional[Stdlib::Port::Unprivileged]        $db_port          = undef,
-  String                                      $db_name          = 'icingaweb2',
-  String                                      $db_user          = 'icingaweb2',
-  Boolean                                     $manage_database  = false,
-  Variant[Stdlib::Host, Array[Stdlib::Host]]  $api_host         = 'localhost',
-  String                                      $api_user         = 'icingaweb2',
-  Enum['mysql', 'pgsql']                      $backend_db_type  = 'mysql',
-  Stdlib::Host                                $backend_db_host  = 'localhost',
-  Optional[Stdlib::Port::Unprivileged]        $backend_db_port  = undef,
-  String                                      $backend_db_name  = 'icinga2',
-  String                                      $backend_db_user  = 'icinga2',
+  String                                      $default_admin_user = 'icingaadmin',
+  String                                      $default_admin_pass = 'icingaadmin',
+  Enum['mysql', 'pgsql']                      $db_type            = 'mysql',
+  Stdlib::Host                                $db_host            = 'localhost',
+  Optional[Stdlib::Port::Unprivileged]        $db_port            = undef,
+  String                                      $db_name            = 'icingaweb2',
+  String                                      $db_user            = 'icingaweb2',
+  Boolean                                     $manage_database    = false,
+  Variant[Stdlib::Host, Array[Stdlib::Host]]  $api_host           = 'localhost',
+  String                                      $api_user           = 'icingaweb2',
+  Enum['mysql', 'pgsql']                      $backend_db_type    = 'mysql',
+  Stdlib::Host                                $backend_db_host    = 'localhost',
+  Optional[Stdlib::Port::Unprivileged]        $backend_db_port    = undef,
+  String                                      $backend_db_name    = 'icinga2',
+  String                                      $backend_db_user    = 'icinga2',
 ) {
 
   unless $backend_db_port {
@@ -234,16 +242,18 @@ class icinga::web(
   # Icinga Web 2
   #
   class { 'icingaweb2':
-    db_type        => $db_type,
-    db_host        => $_db_host,
-    db_port        => $_db_port,
-    db_name        => $db_name,
-    db_username    => $db_user,
-    db_password    => $db_pass,
-    import_schema  => lookup('icingaweb2::import_schema', undef, undef, true),
-    config_backend => 'db',
-    conf_user      => $web_conf_user,
-    manage_package => $manage_package,
+    db_type                => $db_type,
+    db_host                => $_db_host,
+    db_port                => $_db_port,
+    db_name                => $db_name,
+    db_username            => $db_user,
+    db_password            => $db_pass,
+    default_admin_username => $default_admin_user,
+    default_admin_password => $default_admin_pass,
+    import_schema          => lookup('icingaweb2::import_schema', undef, undef, true),
+    config_backend         => 'db',
+    conf_user              => $web_conf_user,
+    manage_package         => $manage_package,
   }
 
   class { '::icingaweb2::module::monitoring':
