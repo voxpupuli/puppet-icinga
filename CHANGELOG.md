@@ -1,5 +1,18 @@
 # Change Log
 
+## [v2.8.0](https://github.com/icinga/puppet-icinga/tree/v2.8.0) (2022-07-26)
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.7.1...v2.8.0)
+
+**Implemented enhancements:**
+
+- Add parameter for initial admin user and password to Icinga Web 2 [\#65](https://github.com/Icinga/puppet-icinga/issues/65)
+- Remove management of redis [\#64](https://github.com/Icinga/puppet-icinga/issues/64)
+
+**Fixed bugs:**
+
+- The director database requires the postgresql extention pgcrypto [\#61](https://github.com/Icinga/puppet-icinga/issues/61)
+- Support Alma and Rocky Linux [\#55](https://github.com/Icinga/puppet-icinga/issues/55)
+
 ## [v2.7.1](https://github.com/icinga/puppet-icinga/tree/v2.7.1) (2022-05-30)
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.7.0...v2.7.1)
 

@@ -11,7 +11,6 @@
 * [`icinga::agent`](#icingaagent): Setup a Icinga agent.
 * [`icinga::ido`](#icingaido): Configure IDO Backend.
 * [`icinga::ido::database`](#icingaidodatabase): Configure IDO backend database.
-* [`icinga::redis`](#icingaredis): icinga::redis
 * [`icinga::repos`](#icingarepos): This class manages the stages stable, testing and snapshot of packages.icinga.com repository and depending on the operating system platform s
 * [`icinga::server`](#icingaserver): Setup a Icinga server.
 * [`icinga::web`](#icingaweb): Setup Icinga Web 2 including a database backend for user settings.
@@ -26,7 +25,6 @@
 
 * `icinga`: Configures the Icinga 2 Core and the api feature.
 * `icinga::ca`: Configures the Icinga 2 CA and the api feature.
-* `icinga::redis::globals`: This class loads the default parameters by doing a hiera lookup.  This parameters depend on the os plattform. Changes maybe will break the fu
 * `icinga::repos::apt`: Manage repositories via `apt`.
 * `icinga::repos::yum`: Manage repositories via `yum`.
 * `icinga::repos::zypper`: Manage repositories via `zypper`.
@@ -254,18 +252,6 @@ Data type: `String`
 Database user name.
 
 Default value: `'icinga2'`
-
-### <a name="icingaredis"></a>`icinga::redis`
-
-Installs and configures the Icinga Redis server package.
-
-#### Examples
-
-##### 
-
-```puppet
-require icinga::redis
-```
 
 ### <a name="icingarepos"></a>`icinga::repos`
 
@@ -510,6 +496,8 @@ Setup Icinga Web 2 including a database backend for user settings.
 
 The following parameters are available in the `icinga::web` class:
 
+* [`default_admin_user`](#default_admin_user)
+* [`default_admin_pass`](#default_admin_pass)
 * [`db_pass`](#db_pass)
 * [`api_pass`](#api_pass)
 * [`apache_cgi_pass_auth`](#apache_cgi_pass_auth)
@@ -527,6 +515,22 @@ The following parameters are available in the `icinga::web` class:
 * [`backend_db_port`](#backend_db_port)
 * [`backend_db_name`](#backend_db_name)
 * [`backend_db_user`](#backend_db_user)
+
+##### <a name="default_admin_user"></a>`default_admin_user`
+
+Data type: `String`
+
+Set the initial name of the admin user.
+
+Default value: `'icingaadmin'`
+
+##### <a name="default_admin_pass"></a>`default_admin_pass`
+
+Data type: `String`
+
+Set the initial password for the admin user.
+
+Default value: `'icingaadmin'`
 
 ##### <a name="db_pass"></a>`db_pass`
 
@@ -1109,7 +1113,7 @@ This funktion checks for web preparation and display a warning if fails
 
 The icinga::prepare_web function.
 
-Returns: `Any`
+Returns: `Any` Nothing, statement function.
 
 ##### `icingamod`
 
