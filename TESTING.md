@@ -5,12 +5,14 @@ Before starting any test, you should make sure you have installed the Puppet PDK
 also Vagrant and VirtualBox have to be installed for acceptance tests.
 
 Required gems are installed with `bundler`:
-``` bash
+```
 cd puppet-icinga
 pdk bundle install
 ```
-Or if already installed do an update.
-``` bash
+
+Or just do an update:
+```
+cd puppet-icinga
 pdk bundle update
 ```
 
@@ -18,18 +20,9 @@ pdk bundle update
 Validation tests will check all manifests, templates and ruby files against syntax violations and style guides .
 
 Run validation tests:
-``` bash
-cd puppet-icinga
-pdk bundle exec rake validate
 ```
-
-## Puppet lint
-With puppet-lint we test if our manifests conform to the recommended style guides from Puppet.
-
-Run lint tests:
-``` bash
 cd puppet-icinga
-pdk bundle exec rake lint
+pdk validate
 ```
 
 ## Unit tests
