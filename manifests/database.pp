@@ -43,7 +43,7 @@ define icinga::database(
         type        => 'host',
         database    => $db_name,
         user        => $db_user,
-        auth_method => 'md5',
+        auth_method => 'scram-sha-256',
         address     => "${host}${_net}",
       }
     }
