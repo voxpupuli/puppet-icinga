@@ -25,7 +25,7 @@
 # @param [Boolean] enable_ha
 #   Enable HA feature for database.
 #
-class icinga::ido(
+class icinga::ido (
   String                                 $db_pass,
   Enum['mysql','pgsql']                  $db_type         = 'mysql',
   Stdlib::Host                           $db_host         = 'localhost',
@@ -35,7 +35,6 @@ class icinga::ido(
   Boolean                                $manage_database = false,
   Boolean                                $enable_ha       = false,
 ) {
-
   unless $db_port {
     $_db_port = $db_type ? {
       'pgsql' => 5432,
@@ -46,31 +45,29 @@ class icinga::ido(
   }
 
   if $manage_database {
-    class { '::icinga::ido::database':
+    class { 'icinga::ido::database':
       db_type       => $db_type,
       db_name       => $db_name,
       db_user       => $db_user,
       db_pass       => $db_pass,
-      ido_instances => [ 'localhost' ],
+      ido_instances => [$db_host],
       before        => Class["icinga2::feature::ido${db_type}"],
     }
-    $_db_host = 'localhost'
   } else {
     if $db_type != 'pgsql' {
-      include ::mysql::client
+      include mysql::client
     } else {
-      include ::postgresql::client
+      include postgresql::client
     }
-    $_db_host = $db_host
   }
 
-  if $::kernel == 'linux' {
+  if $facts['kernel'] == 'linux' {
     $ido_package_name = $db_type ? {
-      'mysql' => $::icinga2::globals::ido_mysql_package_name,
-      'pgsql' => $::icinga2::globals::ido_pgsql_package_name,
+      'mysql' => $icinga2::globals::ido_mysql_package_name,
+      'pgsql' => $icinga2::globals::ido_pgsql_package_name,
     }
 
-    if $::osfamily == 'debian' {
+    if $facts['os']['family'] == 'debian' {
       ensure_resources('file', { '/etc/dbconfig-common' => { ensure => directory, owner => 'root', group => 'root' } })
       file { "/etc/dbconfig-common/${ido_package_name}.conf":
         ensure  => file,
@@ -86,8 +83,8 @@ class icinga::ido(
     }
   } # Linux
 
-  class { "::icinga2::feature::ido${db_type}":
-    host          => $_db_host,
+  class { "icinga2::feature::ido${db_type}":
+    host          => $db_host,
     port          => $_db_port,
     database      => $db_name,
     user          => $db_user,
@@ -95,5 +92,4 @@ class icinga::ido(
     import_schema => true,
     enable_ha     => $enable_ha,
   }
-
 }

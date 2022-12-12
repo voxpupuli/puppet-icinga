@@ -26,7 +26,7 @@
 #   Prepare to run Icinga Web 2 on the same machine. Manage a group `icingaweb2`
 #   and add the Icinga user to this group.
 #
-class icinga::agent(
+class icinga::agent (
   Stdlib::Host                    $ca_server,
   Hash[String, Hash]              $parent_endpoints,
   String                          $parent_zone   = 'main',
@@ -36,8 +36,7 @@ class icinga::agent(
   String                          $zone          = 'NodeName',
   Boolean                         $run_web       = false,
 ) {
-
-  class { '::icinga':
+  class { 'icinga':
     ca              => false,
     ssh_private_key => undef,
     ca_server       => $ca_server,
@@ -51,8 +50,7 @@ class icinga::agent(
     prepare_web     => $run_web,
   }
 
-  ::icinga2::object::zone { $global_zones:
+  icinga2::object::zone { $global_zones:
     global => true,
   }
-
 }

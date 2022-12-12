@@ -3,31 +3,50 @@
 #
 # @api private
 #
-define icinga::database(
-  Enum['mysql','pgsql']  $db_type,
-  Array[Stdlib::Host]    $access_instances,
-  String                 $db_pass,
-  String                 $db_name,
-  String                 $db_user,
-  Array[String]          $mysql_privileges,
-  Optional[String]       $db_encoding  = undef,
-  Optional[String]       $db_collation = undef,
+define icinga::database (
+  Enum['mysql','pgsql']      $db_type,
+  Array[Stdlib::Host]        $access_instances,
+  String                     $db_pass,
+  String                     $db_name,
+  String                     $db_user,
+  Array[String]              $mysql_privileges,
+  Variant[Boolean,
+  Enum['password','cert']]   $tls       = false,
+  Optional[String]           $encoding  = undef,
+  Optional[String]           $collation = undef,
 ) {
+  assert_private()
 
   if $db_type == 'pgsql' {
-    include ::postgresql::server
+    include postgresql::server
+
+    $_auth_method = if $tls =~ String and $tls == 'cert' {
+      'cert'
+    } else {
+      unless $postgresql::server::password_encryption {
+        'md5'
+      } else {
+        $postgresql::server::password_encryption
+      }
+    }
 
     if versioncmp($::facts['puppetversion'], '6.0.0') < 0 {
-      $_password = $db_pass
+      $_pass = $db_pass
     } else {
-      $_password = postgresql::postgresql_password($db_user, $db_pass)
+      $_pass = postgresql::postgresql_password($db_user, $db_pass, true, $postgresql::server::password_encryption)
+    }
+
+    if $tls {
+      $host_type = 'hostssl'
+    } else {
+      $host_type = 'host'
     }
 
     postgresql::server::db { $db_name:
       user     => $db_user,
-      password => $_password,
-      encoding => $db_encoding,
-      locale   => $db_collation,
+      password => $_pass,
+      encoding => $encoding,
+      locale   => $collation,
     }
 
     $access_instances.each |$host| {
@@ -39,36 +58,47 @@ define icinga::database(
         $_net = ''
       }
 
-      ::postgresql::server::pg_hba_rule { "${db_user}@${host}":
-        type        => 'host',
+      postgresql::server::pg_hba_rule { "${db_user}@${host}":
+        type        => $host_type,
         database    => $db_name,
         user        => $db_user,
-        auth_method => 'scram-sha-256',
+        auth_method => $_auth_method,
         address     => "${host}${_net}",
       }
     }
   } else {
-    include ::mysql::server
+    include mysql::server
 
-    $_db_encoding = $::facts['os']['name'] ? {
+    $_tls_options = if $tls {
+      if $tls =~ String and $tls == 'cert' {
+        'X509'
+      } else {
+        'SSL'
+      }
+    } else {
+      'NONE'
+    }
+
+    $_encoding = $::facts['os']['name'] ? {
       'ubuntu' => $::facts['os']['distro']['codename'] ? {
-        'focal' => if $db_encoding in ['utf8', undef] {
+        'focal' => if $encoding in ['utf8', undef] {
           'utf8mb3'
         } else {
-          $db_encoding
+          $encoding
         },
-        default => $db_encoding,
+        default => $encoding,
       },
-      default => $db_encoding,
+      default => $encoding,
     }
 
     mysql::db { $db_name:
-      host     => $access_instances[0],
-      user     => $db_user,
-      password => $db_pass,
-      grant    => $mysql_privileges,
-      charset  => $_db_encoding,
-      collate  => $db_collation,
+      host        => $access_instances[0],
+      user        => $db_user,
+      tls_options => $_tls_options,
+      password    => $db_pass,
+      grant       => $mysql_privileges,
+      charset     => $_encoding,
+      collate     => $collation,
     }
 
     delete_at($access_instances,0).each |$host| {

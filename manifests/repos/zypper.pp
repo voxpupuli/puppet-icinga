@@ -4,11 +4,10 @@
 # @api private
 #
 class icinga::repos::zypper {
-
   assert_private()
 
-  $repos   = $::icinga::repos::list
-  $managed = $::icinga::repos::managed
+  $repos   = $icinga::repos::list
+  $managed = $icinga::repos::managed
 
   # fix issue 21, 33
   file { ['/etc/zypp/repos.d/netways-plugins.repo', '/etc/zypp/repos.d/netways-extras.repo']:
@@ -42,5 +41,4 @@ class icinga::repos::zypper {
       -> Package <| |>
     }
   }
-
 }

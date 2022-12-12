@@ -39,7 +39,7 @@
 # @example
 #   require icinga::repos
 #
-class icinga::repos(
+class icinga::repos (
   Boolean $manage_stable,
   Boolean $manage_testing,
   Boolean $manage_nightly,
@@ -50,7 +50,6 @@ class icinga::repos(
   Boolean $manage_plugins,
   Boolean $manage_extras,
 ) {
-
   $list    =  lookup('icinga::repos', Hash, 'deep', {})
   $managed = {
     icinga-stable-release   => $manage_stable,
@@ -63,24 +62,21 @@ class icinga::repos(
     netways-extras-release  => $manage_extras,
   }
 
-  case $::facts['os']['family'] {
-
+  case $facts['os']['family'] {
     'redhat': {
-      contain ::icinga::repos::yum
+      contain icinga::repos::yum
     }
 
     'debian': {
-      contain ::icinga::repos::apt
+      contain icinga::repos::apt
     }
 
     'suse': {
-      contain ::icinga::repos::zypper
+      contain icinga::repos::zypper
     }
 
     default: {
       fail('Your plattform is not supported to manage repositories.')
     }
-
-  } # osfamily
-
+  }
 }

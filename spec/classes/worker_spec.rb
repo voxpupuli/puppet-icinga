@@ -3,37 +3,46 @@
 require 'spec_helper'
 
 describe 'icinga::worker' do
-  on_supported_os.each do |os, os_facts|
+  on_supported_os.each do |os, facts|
     context "on #{os}" do
-      let(:facts) { os_facts }
+      let(:facts) { facts }
 
-      case os_facts[:osfamily]
-      when 'RedHat', 'Debian', 'Suse'
-
-        context 'with ca_server => foo, zone => bar, parent_endpoints => { foobar => { host => 127.0.0.1}}, global_zones => [foobaz]' do
-          let(:params) { { ca_server: 'foo', zone: 'bar', parent_endpoints: { 'foobar' => { 'host' => '127.0.0.1' }}, global_zones: ['foobaz'] } }
-
-          it { is_expected.to compile }
-          it { is_expected.to contain_class('icinga').with({
-            'ca'           => false,
-            'ca_server'    => 'foo',
-            'this_zone'    => 'bar',
-            'zones'        => { 'ZoneName' => { 'endpoints' => { 'NodeName' => {} }, 'parent' => 'main' }, 'main' => { 'endpoints' => { 'foobar' => { 'host' => '127.0.0.1' }}} },
-            'logging_type' => 'file'
-          }) }
-          it { is_expected.to contain_class('icinga2::feature::checker') }
-          it { is_expected.to contain_icinga2__object__zone('foobaz').with({
-            'global' => true
-          }) }
+      context 'with ca_server => foo, zone => bar, parent_endpoints => { foobar => { host => 127.0.0.1}}, global_zones => [foobaz]' do
+        let(:params) do
+          {
+            ca_server: 'foo',
+            zone: 'bar',
+            parent_endpoints: { 'foobar' => { 'host' => '127.0.0.1' } },
+            global_zones: ['foobaz'],
+          }
         end
 
-      else
-        context 'with ca_server => foo, zone => bar, parent_endpoints => { foobar => { host => 127.0.0.1}}' do
-          let(:params) { { ca_server: 'foo', zone: 'bar', parent_endpoints: { 'foobar' => { 'host' => '127.0.0.1' }} } }
-          it { is_expected.to compile.and_raise_error(%r{not supported}) }
-        end
+        it { is_expected.to compile }
+
+        it {
+          is_expected.to contain_class('icinga').with(
+            {
+              'ca'           => false,
+              'ca_server'    => 'foo',
+              'this_zone'    => 'bar',
+              'zones'        => {
+                'ZoneName' => {
+                  'endpoints' => { 'NodeName' => {} },
+                  'parent' => 'main',
+                },
+                'main' => {
+                  'endpoints' => { 'foobar' => { 'host' => '127.0.0.1' } },
+                },
+              },
+              'logging_type' => 'file',
+            },
+          )
+        }
+
+        it { is_expected.to contain_class('icinga2::feature::checker') }
+
+        it { is_expected.to contain_icinga2__object__zone('foobaz').with({ 'global' => true }) }
       end
-
     end
   end
 end

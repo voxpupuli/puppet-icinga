@@ -41,7 +41,7 @@
 #   Prepare to run Icinga Web 2 on the same machine. Manage a group `icingaweb2`
 #   and add the Icinga user to this group.
 #
-class icinga(
+class icinga (
   Boolean                              $ca,
   String                               $this_zone,
   Hash[String, Hash]                   $zones,
@@ -53,10 +53,9 @@ class icinga(
   Array[String]                        $extra_packages  = [],
   Enum['file', 'syslog']               $logging_type    = 'file',
   Optional[Icinga::LogLevel]           $logging_level   = undef,
-  String                               $cert_name       = $::fqdn,
+  String                               $cert_name       = $facts['networking']['fqdn'],
   Boolean                              $prepare_web     = false,
 ) {
-
   assert_private()
 
   # CA uses const TicketSalt to set the ticket salt
@@ -78,7 +77,7 @@ class icinga(
     default   => true,
   }
 
-  class { '::icinga2':
+  class { 'icinga2':
     confd           => false,
     manage_packages => $manage_packages,
     constants       => lookup('icinga2::constants', undef, undef, {}) + $_constants,
@@ -87,7 +86,7 @@ class icinga(
 
   # switch logging between mainlog and syslog
   # logging on windows only file is supported, warning output see below
-  if $logging_type == 'file' or $::kernel == 'windows' {
+  if $logging_type == 'file' or $facts['kernel'] == 'windows' {
     $_mainlog = 'present'
     $_syslog  = 'absent'
   } else {
@@ -95,23 +94,23 @@ class icinga(
     $_syslog  = 'present'
   }
 
-  class { '::icinga2::feature::mainlog':
+  class { 'icinga2::feature::mainlog':
     ensure   => $_mainlog,
     severity => $logging_level,
   }
 
-  class { '::icinga2::feature::syslog':
+  class { 'icinga2::feature::syslog':
     ensure   => $_syslog,
     severity => $logging_level,
   }
 
-  case $::kernel {
+  case $facts['kernel'] {
     'linux': {
-      $icinga_user    = $::icinga2::globals::user
-      $icinga_group   = $::icinga2::globals::group
-      $icinga_package = $::icinga2::globals::package_name
-      $icinga_home    = $::icinga2::globals::spool_dir
-      $icinga_service = $::icinga2::globals::service_name
+      $icinga_user    = $icinga2::globals::user
+      $icinga_group   = $icinga2::globals::group
+      $icinga_package = $icinga2::globals::package_name
+      $icinga_home    = $icinga2::globals::spool_dir
+      $icinga_service = $icinga2::globals::service_name
 
       if $ssh_public_key {
         $icinga_shell = '/bin/bash'
@@ -119,38 +118,50 @@ class icinga(
         $icinga_shell = '/bin/false'
       }
 
-      case $::osfamily {
+      case $facts['os']['family'] {
         'redhat': {
-          package { [ 'nagios-common', $icinga_package ]+$extra_packages:
+          package { ['nagios-common', $icinga_package] + $extra_packages:
             ensure => installed,
             before => User[$icinga_user],
           }
 
-          $icinga_user_groups = if $prepare_web { ['nagios', 'icingaweb2'] } else { ['nagios'] }
-        } # RedHat
+          $icinga_user_groups = if $prepare_web {
+            ['nagios', 'icingaweb2']
+          } else {
+            ['nagios']
+          }
+        }
 
         'debian': {
-          package { [$icinga_package]+$extra_packages:
+          package { [$icinga_package] + $extra_packages:
             ensure => installed,
             before => User['nagios'],
           }
 
-          $icinga_user_groups = if $prepare_web { ['icingaweb2'] } else { undef }
-        } # Debian
+          $icinga_user_groups = if $prepare_web {
+            ['icingaweb2']
+          } else {
+            undef
+          }
+        }
 
         'suse': {
-          package { [$icinga_package]+$extra_packages:
+          package { [$icinga_package] + $extra_packages:
             ensure => installed,
             before => User['icinga'],
           }
 
-          $icinga_user_groups = if $prepare_web { ['icingaweb2'] } else { undef }
-        } # Suse
+          $icinga_user_groups = if $prepare_web {
+            ['icingaweb2']
+          } else {
+            undef
+          }
+        }
 
         default: {
-          fail("'Your operatingssystem ${::facts[os][name]} is not supported'")
+          fail("'Your operatingssystem ${::facts['os']['name']} is not supported'")
         }
-      } # osfamily
+      }
 
       if $prepare_web {
         group { 'icingaweb2':
@@ -176,7 +187,7 @@ class icinga(
       }
 
       if $ssh_public_key {
-        ssh_authorized_key { "${icinga_user}@${::fqdn}":
+        ssh_authorized_key { "${icinga_user}@${$facts['networking']['fqdn']}":
           ensure => present,
           user   => $icinga_user,
           key    => $ssh_public_key,
@@ -206,7 +217,7 @@ class icinga(
       $manage_repo = false
 
       if $logging_type != 'file' {
-        warning('Only file is support as logging_type on Windows')
+        fail('Only file is supported as logging_type on Windows')
       }
     }
 
@@ -216,9 +227,9 @@ class icinga(
   } # kernel
 
   if $ca {
-    include ::icinga2::pki::ca
+    include icinga2::pki::ca
 
-    class { '::icinga2::feature::api':
+    class { 'icinga2::feature::api':
       pki             => 'none',
       accept_config   => true,
       accept_commands => true,
@@ -228,7 +239,7 @@ class icinga(
     }
   } else {
     if $ca_server {
-      class { '::icinga2::feature::api':
+      class { 'icinga2::feature::api':
         accept_config   => true,
         accept_commands => true,
         ca_host         => $ca_server,
@@ -243,15 +254,15 @@ class icinga(
     $zone_attrs.each|String $attr, $value| {
       if $attr == 'endpoints' {
         $value.each |String $endpoint, Hash $endpoint_attrs| {
-          ::icinga2::object::endpoint { $endpoint:
+          icinga2::object::endpoint { $endpoint:
             * => $endpoint_attrs,
           }
         }
       } # endpoints
     }
-    ::icinga2::object::zone { $zone:
-      * => $zone_attrs + { 'endpoints' => keys($zone_attrs['endpoints']) }
+
+    icinga2::object::zone { $zone:
+      * => $zone_attrs + { 'endpoints' => keys($zone_attrs['endpoints']) },
     }
   }
-
 }

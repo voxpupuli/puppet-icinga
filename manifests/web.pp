@@ -59,7 +59,7 @@
 # @param backend_db_user
 #   IDO database backend user name.
 #
-class icinga::web(
+class icinga::web (
   String                                      $db_pass,
   String                                      $api_pass,
   Boolean                                     $apache_cgi_pass_auth,
@@ -80,7 +80,6 @@ class icinga::web(
   String                                      $backend_db_name    = 'icinga2',
   String                                      $backend_db_user    = 'icinga2',
 ) {
-
   unless $backend_db_port {
     $_backend_db_port = $backend_db_type ? {
       'pgsql' => 5432,
@@ -102,7 +101,7 @@ class icinga::web(
   #
   # Platform
   #
-  case $::osfamily {
+  case $facts['os']['family'] {
     'redhat': {
       case $facts[os][release][major] {
         '6': {
@@ -155,18 +154,18 @@ class icinga::web(
     } # Debian
 
     default: {
-      fail("'Your operatingsystem ${::operatingsystem} is not supported.'")
+      fail("'Your operatingsystem ${facts['os']['name']} is not supported.'")
     }
   }
 
   #
   # PHP
   #
-  class { '::php::globals':
+  class { 'php::globals':
     * => $php_globals,
   }
 
-  class { '::php':
+  class { 'php':
     ensure        => installed,
     manage_repos  => false,
     apache_config => false,
@@ -176,7 +175,7 @@ class icinga::web(
     composer      => false,
     pear          => false,
     phpunit       => false,
-    require       => Class['::php::globals'],
+    require       => Class['php::globals'],
   }
 
   #
@@ -185,29 +184,29 @@ class icinga::web(
   $manage_package = false
 
   Package['icingaweb2']
-    -> Class['apache']
+  -> Class['apache']
 
   package { 'icingaweb2':
     ensure => installed,
   }
 
-  class { '::apache':
+  class { 'apache':
     default_mods => false,
     mpm_module   => 'event',
   }
 
-  $web_conf_user = $::apache::user
+  $web_conf_user = $apache::user
 
-  include ::apache::mod::alias
-  include ::apache::mod::mime
-  include ::apache::mod::status
-  include ::apache::mod::dir
-  include ::apache::mod::env
-  include ::apache::mod::rewrite
-  include ::apache::mod::proxy
-  include ::apache::mod::proxy_fcgi
-  include ::apache::mod::status
-  include ::apache::mod::ssl
+  include apache::mod::alias
+  include apache::mod::mime
+  include apache::mod::status
+  include apache::mod::dir
+  include apache::mod::env
+  include apache::mod::rewrite
+  include apache::mod::proxy
+  include apache::mod::proxy_fcgi
+  include apache::mod::status
+  include apache::mod::ssl
 
   apache::custom_config { 'icingaweb2':
     ensure        => present,
@@ -220,20 +219,20 @@ class icinga::web(
   # Database
   #
   if $manage_database {
-    class { '::icinga::web::database':
+    class { 'icinga::web::database':
       db_type       => $db_type,
       db_name       => $db_name,
       db_user       => $db_user,
       db_pass       => $db_pass,
-      web_instances => [ 'localhost' ],
+      web_instances => ['localhost'],
       before        => Class['icingaweb2'],
     }
     $_db_host = 'localhost'
   } else {
     if $db_type != 'pgsql' {
-      include ::mysql::client
+      include mysql::client
     } else {
-      include ::postgresql::client
+      include postgresql::client
     }
     $_db_host = $db_host
   }
@@ -256,7 +255,7 @@ class icinga::web(
     manage_package         => $manage_package,
   }
 
-  class { '::icingaweb2::module::monitoring':
+  class { 'icingaweb2::module::monitoring':
     ido_type        => $backend_db_type,
     ido_host        => $backend_db_host,
     ido_port        => $_backend_db_port,
@@ -266,12 +265,11 @@ class icinga::web(
   }
 
   any2array($api_host).each |Stdlib::Host $host| {
-    ::icingaweb2::module::monitoring::commandtransport { $host:
+    icingaweb2::module::monitoring::commandtransport { $host:
       transport => 'api',
       host      => $host,
       username  => $api_user,
       password  => $api_pass,
     }
   }
-
 }

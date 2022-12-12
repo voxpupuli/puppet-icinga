@@ -4,11 +4,10 @@
 # @api private
 #
 class icinga::repos::yum {
-
   assert_private()
 
-  $repos   = $::icinga::repos::list
-  $managed = $::icinga::repos::managed
+  $repos   = $icinga::repos::list
+  $managed = $icinga::repos::managed
 
   # EPEL package
   if !'epel' in keys($repos) and $managed['epel'] {
@@ -29,10 +28,9 @@ class icinga::repos::yum {
     if $repo_name in keys($managed) and $managed[$repo_name] {
       Yumrepo[$repo_name] -> Package <| |>
       yumrepo { $repo_name:
-        *       =>  $repo_config,
+        *       => $repo_config,
         require => File['/etc/yum.repos.d/netways-plugins.repo', '/etc/yum.repos.d/netways-extras.repo'],
       }
     }
   }
-
 }

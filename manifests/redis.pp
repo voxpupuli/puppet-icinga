@@ -1,3 +1,6 @@
+# @summary
+#   Base class for all redis owned by Icinga.
+#
 class icinga::redis {
   class { 'redis':
     manage_repo     => false,
@@ -10,4 +13,5 @@ class icinga::redis {
     service_user    => 'root',
     service_group   => 'root',
   }
+  contain redis
 }
