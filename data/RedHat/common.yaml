@@ -32,3 +32,4 @@ icinga::repos:
     enabled: 1
     gpgcheck: 1
     gpgkey: https://packages.netways.de/netways-repo.asc
+icinga::web::director::install_method: git

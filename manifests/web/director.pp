@@ -40,6 +40,9 @@
 # @param [String] api_pass
 #   Icinga 2 API password.
 #
+# @param [Enum['git', 'package', 'none']] install_method
+#   Install methods are `git`, `package` and `none` is supported as installation method.
+#
 class icinga::web::director(
   String                                 $db_pass,
   String                                 $api_pass,
@@ -54,6 +57,7 @@ class icinga::web::director(
   Boolean                                $manage_database = false,
   Stdlib::Host                           $api_host        = 'localhost',
   String                                 $api_user        = 'director',
+  Enum['git', 'package', 'none']         $install_method  = 'package',
 ) {
 
   icinga::prepare_web('Director')
@@ -90,7 +94,7 @@ class icinga::web::director(
   }
 
   class { 'icingaweb2::module::director':
-    install_method => 'package',
+    install_method => $install_method,
     db_type        => $db_type,
     db_host        => $_db_host,
     db_name        => $db_name,
@@ -106,7 +110,7 @@ class icinga::web::director(
   }
 
   class { 'icingaweb2::module::fileshipper':
-    install_method   => 'package',
+    install_method   => $install_method,
   }
 
   service { 'icinga-director':
