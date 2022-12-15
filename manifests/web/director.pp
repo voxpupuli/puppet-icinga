@@ -113,10 +113,9 @@ class icinga::web::director(
     install_method   => $install_method,
   }
 
-  service { 'icinga-director':
-    ensure  => $service_ensure,
-    enable  => $service_enable,
-    require => Class['icingaweb2::module::director'],
+  class { 'icingaweb2::module::director::service':
+    ensure => $service_ensure,
+    enable => $service_enable,
   }
 
 }
