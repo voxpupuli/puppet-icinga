@@ -84,15 +84,15 @@ git checkout v2.5.0
 
 The class supports:
 
-* [puppet] >= 5.5 < 8.0
+* [puppet] >= 6.0 < 8.0
 
 And requiers:
 
-* [puppetlabs/stdlib] >= 5.1.0 < 9.0.0
+* [puppetlabs/stdlib] >= 5.1.0
 * [puppetlabs/apt] >= 6.0.0
 * [puppet/zypprepo] >= 2.2.1
 * [puppetlabs/yumrepo_core] >= 1.0.0
-    * If Puppet 6 or 7 is used
+* [puppet/redis] >= 7.0.0
 
 By default the upstream Icinga repository for stable release are involved.
 ```
@@ -196,7 +196,7 @@ apt::backports::location: 'https://archive.debian.org/debian'
 
 The class supports:
 
-* [puppet] >= 5.5 < 8.0
+* [puppet] >= 6.0 < 8.0
 
 And requiers:
 
@@ -258,7 +258,7 @@ NOTICE: To switch off the package installation via chocolatey on windows, `icing
 
 The class supports:
 
-* [puppet] >= 5.5 < 8.0
+* [puppet] >= 6.0 < 8.0
 
 Ands requires:
 
@@ -283,7 +283,7 @@ Setting `manage_database` to `true` also setups a database as specified in `db_t
 
 The class supports:
 
-* [puppet] >= 5.5 < 8.0
+* [puppet] >= 6.0 < 8.0
 
 And requires:
 
@@ -339,7 +339,7 @@ In this example the Icinga server is running on the same Host like the web and t
 
 The class supports:
 
-* [puppet] >= 5.5 < 8.0
+* [puppet] >= 6.0 < 8.0
 
 And required in addition to `icinga::web`:
 
