@@ -23,7 +23,11 @@
 #
 # @param [Boolean] manage_powertools
 #   Manage the PowerTools repository that is needed for some package like nagios-plugins on
-#   Linux Enterprise systems like Alma, Rocky and CentOS Stream.
+#   Linux Enterprise systems like Alma 8, Rocky 8 and CentOS Stream 8.
+#
+# @param [Boolean] manage_crb
+#   Manage the CRB repository that is needed for some package like nagios-plugins on
+#   Linux Enterprise systems like Alma 9, Rocky 9 and CentOS Stream 9.
 #
 # @param [Boolean] manage_server_monitoring
 #   Manage the 'server:monitoring' repository on SLES platforms that is needed for some package
@@ -46,6 +50,7 @@ class icinga::repos (
   Boolean $configure_backports,
   Boolean $manage_epel,
   Boolean $manage_powertools,
+  Boolean $manage_crb,
   Boolean $manage_server_monitoring,
   Boolean $manage_plugins,
   Boolean $manage_extras,
@@ -57,6 +62,7 @@ class icinga::repos (
     icinga-snapshot-builds  => $manage_nightly,
     epel                    => $manage_epel,
     powertools              => $manage_powertools,
+    crb                     => $manage_crb,
     server_monitoring       => $manage_server_monitoring,
     netways-plugins-release => $manage_plugins,
     netways-extras-release  => $manage_extras,
