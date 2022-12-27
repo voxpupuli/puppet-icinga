@@ -16,17 +16,22 @@ define icinga::cert (
   String              $owner,
   String              $group,
 ) {
-  File {
-    owner => $owner,
-    group => $group,
-    mode  => '0640',
+  if $facts['os']['family'] == 'windows' {
+    $key_mode = undef
+  } else {
+    File {
+      owner => $owner,
+      group => $group,
+      mode  => '0640',
+    }
+    $key_mode = '0400'
   }
 
   if $args[key] {
     file { $args['key_file']:
       ensure    => file,
-      content   => icinga::unwrap($args['key']),
-      mode      => '0400',
+      content   => icinga::newline(icinga::unwrap($args['key'])),
+      mode      => $key_mode,
       show_diff => false,
     }
   }
@@ -34,14 +39,14 @@ define icinga::cert (
   if $args['cert'] {
     file { $args['cert_file']:
       ensure  => file,
-      content => $args['cert'],
+      content => icinga::newline($args['cert']),
     }
   }
 
   if $args['cacert'] {
     file { $args['cacert_file']:
       ensure  => file,
-      content => $args['cacert'],
+      content => icinga::newline($args['cacert']),
     }
   }
 }

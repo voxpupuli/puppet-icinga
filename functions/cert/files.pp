@@ -41,7 +41,13 @@ function icinga::cert::files(
   #   The CA certificate to store in specified cacert_file.
   #
   $result = {
-    'key'         => icinga::unwrap($key),
+    'key'         => if $key =~ Sensitive {
+      $key
+    } elsif $key =~ String {
+      Sensitive($key)
+    } else {
+      undef
+    },
     'key_file'    => if $key {
       if $key_file {
         $key_file

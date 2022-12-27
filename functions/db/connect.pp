@@ -80,10 +80,10 @@ function icinga::db::connect(
             },
             '-P'               => $db['port'],
             '-u'               => $db['username'],
-            "-p'${_password}'" => '',
+            "-p'${_password}'" => if $db['password'] { '' } else { undef },
             '-D'               => $db['database'],
     })), ' ')
   }
 
-  "${options} ${tls_options}"
+  strip(regsubst("${options} ${tls_options}", '\s{2,}', ' '))
 }
