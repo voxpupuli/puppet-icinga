@@ -17,16 +17,21 @@
 
 ## Description
 
-This module provides several non private helper classes for the official Icinga modules:
+This module provides several non private helper classes for the other official Icinga modules:
 
 * [icinga/icinga2]
 * [icinga/icingaweb2]
 * [icinga/icingadb]
 
+### Changes in v2.9.0
+
+* Class icinga::repos got a new parameter 'manage_crb' to manage the CRB repository on CentOS Stream 9, Rocky 9 and AlmaLinux 9.
+* Add functions and a base class 'redis' to support the new IcingaDB from module [icingadb](https://github.com/Icinga/puppet-icingadb).
+
 ### Changes in v2.7.0
 
 * The Class icinga::web now uses event as MPM instead of worker.
-* Class icinga::repos got a new parameter 'manage_powertools' to manage the PowerTools on CentOS Stream, Rocky and AlmaLinux.
+* Class icinga::repos got a new parameter 'manage_powertools' to manage the PowerTools on CentOS Stream 8, Rocky 8 and AlmaLinux 8.
 
 
 ### Changes in v2.0.0
