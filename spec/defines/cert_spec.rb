@@ -19,7 +19,7 @@ describe('icinga::cert', type: :define) do
           {
             owner: 'foo',
             group: 'bar',
-            args: { key_file: '/key.file', cert_file: '/cert.file', cacert_file: '/cacert.file' }, 
+            args: { key_file: '/key.file', cert_file: '/cert.file', cacert_file: '/cacert.file' },
           }
         end
 
@@ -33,7 +33,7 @@ describe('icinga::cert', type: :define) do
           {
             owner: 'foo',
             group: 'bar',
-            args: { key: 'key', key_file: '/key.file', cert: 'cert', cert_file: '/cert.file', cacert: 'cacert', cacert_file: '/cacert.file' }, 
+            args: { key: 'key', key_file: '/key.file', cert: 'cert', cert_file: '/cert.file', cacert: 'cacert', cacert_file: '/cacert.file' },
           }
         end
 
