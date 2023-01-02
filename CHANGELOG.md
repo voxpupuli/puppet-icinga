@@ -1,5 +1,13 @@
 # Change Log
 
+## [v2.9.1](https://github.com/icinga/puppet-icinga/tree/v2.9.1) (2023-01-02)
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.9.0...v2.9.1)
+
+**Fixed bugs:**
+
+- Database schema import always failed for PostgreSQL [\#71](https://github.com/Icinga/puppet-icinga/issues/71)
+- error: Could not find template 'icinga/apache\_custom\_default.conf' [\#70](https://github.com/Icinga/puppet-icinga/issues/70)
+
 ## [v2.9.0](https://github.com/icinga/puppet-icinga/tree/v2.9.0) (2022-12-27)
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.8.0...v2.9.0)
 
