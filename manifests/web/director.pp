@@ -1,43 +1,43 @@
 # @summary
 #   Setup Director module for Icinga Web 2
 #
-# @param [Stdlib::Ensure::Service] service_ensure
+# @param service_ensure
 #   Manages if the Director service should be stopped or running.
 #
-# @param [Boolean] service_enable
+# @param service_enable
 #   If set to true the Director service will start on boot.
 #
-# @param [Enum['mysql', 'pgsql']] db_type
+# @param db_type
 #   Type of your database. Either `mysql` or `pgsql`.
 #
-# @param [Stdlib::Host] db_host
+# @param db_host
 #   Hostname of the database.
 #
-# @param [Optional[Stdlib::Port]] db_port
+# @param db_port
 #   Port of the database.
 #
-# @param [String] db_name
+# @param db_name
 #   Name of the database.
 #
-# @param [String] db_user
+# @param db_user
 #   Username for DB connection.
 #
-# @param [String] db_pass
+# @param db_pass
 #   Password for DB connection.
 #
-# @param [String] endpoint
+# @param endpoint
 #   Endpoint object name of Icinga 2 API.
 #
-# @param [Boolean] manage_database
+# @param manage_database
 #   Create database and import schema.
 #
-# @param [Stdlib::Host] api_host
+# @param api_host
 #   Icinga 2 API hostname.
 #
-# @param [String] api_user
+# @param api_user
 #   Icinga 2 API username.
 #
-# @param [String] api_pass
+# @param api_pass
 #   Icinga 2 API password.
 #
 class icinga::web::director (
@@ -71,12 +71,12 @@ class icinga::web::director (
   #
   if $manage_database {
     class { 'icinga::web::director::database':
-      db_type        => $db_type,
-      db_name        => $db_name,
-      db_user        => $db_user,
-      db_pass        => $db_pass,
-      iweb_instances => ['localhost'],
-      before         => Class['icingaweb2::module::director'],
+      db_type       => $db_type,
+      db_name       => $db_name,
+      db_user       => $db_user,
+      db_pass       => $db_pass,
+      web_instances => ['localhost'],
+      before        => Class['icingaweb2::module::director'],
     }
     $_db_host = 'localhost'
   } else {

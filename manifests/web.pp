@@ -122,6 +122,7 @@ class icinga::web (
       }
 
       $php_extensions = {
+        process  => { ini_prefix => '20-' },
         mbstring => { ini_prefix => '20-' },
         json     => { ini_prefix => '20-' },
         ldap     => { ini_prefix => '20-' },
@@ -210,7 +211,7 @@ class icinga::web (
 
   apache::custom_config { 'icingaweb2':
     ensure        => present,
-    content       => template('icinga/apache_custom_default.conf'),
+    content       => template('icinga/apache_custom_default.conf.erb'),
     verify_config => false,
     priority      => false,
   }
