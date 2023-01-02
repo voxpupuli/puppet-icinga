@@ -33,7 +33,7 @@ define icinga::database (
     if versioncmp($::facts['puppetversion'], '6.0.0') < 0 {
       $_pass = $db_pass
     } else {
-      $_pass = postgresql::postgresql_password($db_user, $db_pass, true, $postgresql::server::password_encryption)
+      $_pass = postgresql::postgresql_password($db_user, $db_pass, false, $postgresql::server::password_encryption)
     }
 
     if $tls {
