@@ -206,7 +206,6 @@ class icinga::web (
   include apache::mod::rewrite
   include apache::mod::proxy
   include apache::mod::proxy_fcgi
-  include apache::mod::status
   include apache::mod::ssl
 
   apache::custom_config { 'icingaweb2':
