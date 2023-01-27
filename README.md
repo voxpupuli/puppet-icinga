@@ -154,6 +154,20 @@ icinga::repos:
     ensure: absent
 ```
 
+#### Configure Icinga subscription repositories
+
+For some time now, access to current RPM packages on Icinga has required a paid [subscription](https://icinga.com/subscription). Unfortunately, using older package versions for an Icinga server is not provided for in this project.
+
+A subscription is required, it is configured as follows, e.g. in hiera:
+
+```bash
+---
+icinga::repos:
+  icinga-stable-release:
+    baseurl: 'https://packages.icinga.com/subscription/rhel/$releasever/release/'
+    username: <username>
+    password: <password>
+```
 
 #### Installing from Non-Upstream Repositories
 
