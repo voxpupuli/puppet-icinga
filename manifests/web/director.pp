@@ -108,9 +108,18 @@ class icinga::web::director (
     install_method   => 'package',
   }
 
-  service { 'icinga-director':
-    ensure  => $service_ensure,
-    enable  => $service_enable,
-    require => Class['icingaweb2::module::director'],
+  # dirty hack around deamon restart
+  # after pdo_psql is available
+  Package[$icingaweb2::module::director::package_name, $icingaweb2::module::fileshipper::package_name]
+  ~> exec { 'restart icinga-director daemon':
+    path        => $facts['path'],
+    command     => 'systemctl restart icinga-director',
+    refreshonly => true,
+    onlyif      => 'systemctl status icinga-director',
+  }
+
+  class { 'icingaweb2::module::director::service':
+    ensure => $service_ensure,
+    enable => $service_enable,
   }
 }

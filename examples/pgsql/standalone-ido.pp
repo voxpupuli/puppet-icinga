@@ -13,18 +13,14 @@ class { 'icinga::server':
 }
 
 class { 'icinga::ido':
-  db_type         => 'mysql',
+  db_type         => 'pgsql',
   db_host         => 'localhost',
   db_pass         => 'icinga2',
   manage_database => true,
 }
 
 class { 'icinga::web':
-  backend_db_type    => $icinga::ido::db_type,
-  backend_db_host    => $icinga::ido::db_host,
-  backend_db_pass    => $icinga::ido::db_pass,
-  db_type            => 'mysql',
-  db_host            => 'localhost',
+  db_type            => 'pgsql',
   db_pass            => 'icingaweb2',
   default_admin_user => 'admin',
   default_admin_pass => 'admin',
@@ -32,19 +28,17 @@ class { 'icinga::web':
   api_pass           => $icinga::server::web_api_pass,
 }
 
+class { 'icinga::web::monitoring':
+  db_type => $icinga::ido::db_type,
+  db_host => $icinga::ido::db_host,
+  db_pass => $icinga::ido::db_pass,
+}
+
 class { 'icinga::web::director':
-  db_type         => 'mysql',
-  db_host         => 'localhost',
+  db_type         => 'pgsql',
   db_pass         => 'director',
   manage_database => true,
   endpoint        => $facts['networking']['fqdn'],
   api_host        => 'localhost',
   api_pass        => $icinga::server::director_api_pass,
-}
-
-class { 'icinga::web::vspheredb':
-  db_type         => 'mysql',
-  db_host         => 'localhost',
-  db_pass         => 'vspheredb',
-  manage_database => true,
 }

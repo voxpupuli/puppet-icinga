@@ -44,6 +44,12 @@ class icinga::ido (
     $_db_port = $db_port
   }
 
+  if $db_type != 'pgsql' {
+    include mysql::client
+  } else {
+    include postgresql::client
+  }
+
   if $manage_database {
     class { 'icinga::ido::database':
       db_type       => $db_type,
@@ -53,13 +59,14 @@ class icinga::ido (
       ido_instances => [$db_host],
       before        => Class["icinga2::feature::ido${db_type}"],
     }
-  } else {
-    if $db_type != 'pgsql' {
-      include mysql::client
-    } else {
-      include postgresql::client
-    }
   }
+#  } else {
+#    if $db_type != 'pgsql' {
+#      include mysql::client
+#    } else {
+#      include postgresql::client
+#    }
+#  }
 
   if $facts['kernel'] == 'linux' {
     $ido_package_name = $db_type ? {
