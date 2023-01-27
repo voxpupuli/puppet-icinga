@@ -41,11 +41,14 @@ class { 'mysql::server':
   package_manage   => false,
   override_options => {
     'mysqld' => {
-      bind-address => '0.0.0.0',
-      ssl          => 'on',
-      ssl-cert     => "${ssl_dir}/certs/mysql.pem",
-      ssl-key      => "${ssl_dir}/private/mysql.pem",
-      ssl-ca       => "${ssl_dir}/certs/mysql-ca.crt",
+      innodb_file_format    => 'barracuda',
+      innodb_file_per_table => 1,
+      innodb_large_prefix   => 1,
+      bind-address          => '0.0.0.0',
+      ssl                   => 'on',
+      ssl-cert              => "${ssl_dir}/certs/mysql.pem",
+      ssl-key               => "${ssl_dir}/private/mysql.pem",
+      ssl-ca                => "${ssl_dir}/certs/mysql-ca.crt",
     },
   },
 }

@@ -23,21 +23,16 @@ This module provides several non private helper classes for the other official I
 * [icinga/icingaweb2]
 * [icinga/icingadb]
 
+### What's new in v3.0.0
+
+Support for the IcingaDB. For this purpose, the management of monitoring, previously exclusively the monitoring module, has been separated from the web class.
+
+From now on, the IDO based monitoring must be done by the additional declaration of the class `icinga::web::monitoring`. Likewise, the IcingaDB is configured with `icinga::web::icingadb`. Thus, the use of both in parallel is also possible.
+
 ### Changes in v2.9.0
 
 * Class icinga::repos got a new parameter 'manage_crb' to manage the CRB repository on CentOS Stream 9, Rocky 9 and AlmaLinux 9.
 * Add functions and a base class 'redis' to support the new IcingaDB from module [icingadb](https://github.com/Icinga/puppet-icingadb).
-
-### Changes in v2.7.0
-
-* The Class icinga::web now uses event as MPM instead of worker.
-* Class icinga::repos got a new parameter 'manage_powertools' to manage the PowerTools on CentOS Stream 8, Rocky 8 and AlmaLinux 8.
-
-
-### Changes in v2.0.0
-
-* Earlier the parameter `manage_*` enables or disables a repository but it was still managed. Now the management is enabled or disabled, see [Enable or disable repositories](#enable-and-disable-repositories). 
-
 
 ## Setup
 
@@ -135,7 +130,9 @@ When manage is set to `true` for a repository the ressource is managed and the r
 * icinga-stable-release
 * icinga-testing-builds
 * icinga-snapshot-builds
-* epel (only on RHEL Enterprise platforms)
+* epel (only on RHEL platforms)
+* powertools (only RHEL 8 platforms)
+* crb (only RHEL 9 platforms)
 * netways-plugins
 * netways-extras
 
@@ -166,6 +163,8 @@ To change to a non upstream repository, e.g. a local mirror, the repos can be cu
 * icinga-testing-builds
 * icinga-snapshot-builds
 * epel (only on RHEL Enterprise platforms)
+* powertools (only RHEL 8 platforms)
+* crb (only RHEL 9 platforms)
 * netways-plugins
 * netways-extras
 
@@ -259,6 +258,34 @@ class { '::icinga::agent':
 NOTICE: To switch off the package installation via chocolatey on windows, `icinga2::manage_packgaes` must be set to `false` for the corresponding hosts in Hiera. That works only on Windows, on Linux package installation is always used.
 
 
+#### icinga::db
+
+The class supports:
+
+* [puppet] >= 6.0 < 8.0
+
+Ands requires:
+
+* [puppetlabs/mysql] >= 6.0.0
+* [puppetlabs/postgresql] >= 7.0.0
+* [icinga/icinga2] >= 2.0.0 < 4.0.0
+* [icinga/icingadb] >= 1.0.0 < 2.0.0
+
+To activate and configure the IcingaDB (usally on a server) do:
+
+```
+class { '::icinga::db':
+  db_type         => 'pgsql',
+  db_host         => 'localhost',
+  db_pass         => 'icingadb',
+  manage_database => true,
+  manage_redis    => true,
+  manage_feature  => true,
+}
+```
+
+Setting `manage_database` to `true` also setups a database as specified in `db_type` including database for the IcingaDB. The same applies to `manage_redis` and the required Redis cache. With `manage_feature` the Icinga 2 feature for the IcingaDB is additionally activated. The latter two are switched on by default.
+
 #### icinga::ido
 
 The class supports:
@@ -303,9 +330,6 @@ A Icinga Web 2 with an Apache and PHP-FPM can be managed as follows:
 
 ```
 class { '::icinga::web':
-  backend_db_type => $icinga::ido::db_type,
-  backend_db_host => $icinga::ido::db_host,
-  backend_db_pass => $icinga::ido::db_pass,
   db_type         => 'pgsql',
   db_host         => 'localhost',
   db_pass         => 'supersecret',
@@ -314,10 +338,39 @@ class { '::icinga::web':
 }
 ```
 
-If the Icinga Web 2 is operated on the same host as the IDO, the required user credentials can be accessed, otherwise they must be specified explicitly. With `manage_database` set to `true`, a database of the specified type is also installed here. It is used to save user settings for the users of the Icinga Web 2.
+Setting `manage_database` to `true`, a database of the specified type is also installed here. It is used to save user settings for the users of the Icinga Web 2 and serves as a backend for managing Icinga Web 2 users and user groups.
 
 IMPORTANT: If you plan tu use icingacli as plugin, e.g. director health checks, businessprocess checks or vspheredb checks, set the parameter `run_web => true` for `icinga::server` on the same host `icinga::web` is declared. That put the Icinga user to the group `icingaweb2` and restart the icinga2 process if necessary.
 
+#### icinga::web::icingadb
+
+If the Icinga Web 2 is operated on the same host as the IcingaDB, the required user credentials can be accessed, otherwise they must be specified explicitly.
+
+```
+class { 'icinga::web::icingadb':
+  db_type => $icinga::db::db_type,
+  db_host => $icinga::db::db_host,
+  db_name => $icinga::db::db_name,
+  db_user => $icinga::db::db_user,
+  db_pass => $icinga::db::db_pass,
+}
+```
+
+IMPORTANT: Must be declared on the same host as `icinga::web`.
+
+#### icinga::web::monitoring
+
+If the Icinga Web 2 is operated on the same host as the IDO, the required user credentials can be accessed, otherwise they must be specified explicitly.
+
+```
+class { 'icinga::web::monitoring':
+  db_type => $icinga::ido::db_type,
+  db_host => $icinga::ido::db_host,
+  db_pass => $icinga::ido::db_pass,
+}
+```
+
+IMPORTANT: Must be declareid on the same host as `icinga::web`.
 
 #### icinga::web::director
 
