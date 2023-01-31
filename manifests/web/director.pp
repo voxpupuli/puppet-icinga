@@ -41,8 +41,8 @@
 #   Icinga 2 API password.
 #
 class icinga::web::director (
-  String                   $db_pass,
-  String                   $api_pass,
+  Icinga::Secret           $db_pass,
+  Icinga::Secret           $api_pass,
   String                   $endpoint,
   Stdlib::Ensure::Service  $service_ensure  = 'running',
   Boolean                  $service_enable  = true,

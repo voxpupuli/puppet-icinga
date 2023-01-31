@@ -3,41 +3,41 @@
 #
 # @api private
 #
-# @param [Boolean] ca
+# @param ca
 #   Enables a CA on this node.
 #
-# @param [String] this_zone
+# @param this_zone
 #   Name of the Icinga zone.
 #
-# @param [Hash[String, Hash]] zones
+# @param zones
 #   All other zones.
 #
-# @param [Enum['dsa','ecdsa','ed25519','rsa']] ssh_key_type
+# @param ssh_key_type
 #   SSH key type.
 #
-# @param [Optional[String]] ssh_private_key
+# @param ssh_private_key
 #   The private key to install.
 #
-# @param [Optional[String]] ssh_public_key
+# @param ssh_public_key
 #   The public key to install.
 #
-# @param [Optional[Stdlib::Host]] ca_server
+# @param ca_server
 #   The CA to send the certificate request to.
 #
-# @param [Optional[String]] ticket_salt
+# @param ticket_salt
 #   Set the constants `TicketSalt` if `ca` is set to `true`. Otherwise the set value is used
 #   to authenticate the certificate request againt the CA on host `ca_server`.
 #
-# @param [Enum['file', 'syslog']] logging_type
+# @param logging_type
 #   Switch the log target. Only `file` is supported on Windows.
 #
-# @param [Optional[Icinga::LogLevel]] logging_level
+# @param logging_level
 #   Set the log level.
 #
-# @param [String] cert_name
+# @param cert_name
 #   The certificate name to set as constant NodeName.
 #
-# @param [Boolean] prepare_web
+# @param prepare_web
 #   Prepare to run Icinga Web 2 on the same machine. Manage a group `icingaweb2`
 #   and add the Icinga user to this group.
 #
@@ -46,10 +46,10 @@ class icinga (
   String                               $this_zone,
   Hash[String, Hash]                   $zones,
   Enum['dsa','ecdsa','ed25519','rsa']  $ssh_key_type    = 'rsa',
-  Optional[String]                     $ssh_private_key = undef,
+  Optional[Icinga::Secret]             $ssh_private_key = undef,
   Optional[String]                     $ssh_public_key  = undef,
   Optional[Stdlib::Host]               $ca_server       = undef,
-  Optional[String]                     $ticket_salt     = undef,
+  Optional[Icinga::Secret]             $ticket_salt     = undef,
   Array[String]                        $extra_packages  = [],
   Enum['file', 'syslog']               $logging_type    = 'file',
   Optional[Icinga::LogLevel]           $logging_level   = undef,
@@ -205,8 +205,9 @@ class icinga (
             ensure => directory,
             mode   => '0700';
           "${icinga_home}/.ssh/id_${ssh_key_type}":
-            mode    => '0600',
-            content => $ssh_private_key;
+            mode      => '0600',
+            show_diff => false,
+            content   => icinga::unwrap($ssh_private_key);
           "${icinga_home}/.ssh/config":
             content => "Host *\n  StrictHostKeyChecking no\n  ControlPath ${icinga_home}/.ssh/controlmasters/%r@%h:%p.socket\n  ControlMaster auto\n  ControlPersist 5m";
         }

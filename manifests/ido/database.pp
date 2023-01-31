@@ -24,7 +24,7 @@
 class icinga::ido::database (
   Enum['mysql','pgsql']      $db_type,
   Array[Stdlib::Host]        $ido_instances,
-  String                     $db_pass,
+  Icinga::Secret             $db_pass,
   String                     $db_name  = 'icinga2',
   String                     $db_user  = 'icinga2',
   Variant[Boolean,

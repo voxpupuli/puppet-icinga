@@ -47,21 +47,21 @@
 #   Password for the second Redis server.
 #
 class icinga::web::icingadb (
-  Variant[String, Sensitive[String]]           $db_pass,
-  Enum['mysql', 'pgsql']                       $db_type,
-  Stdlib::Host                                 $db_host              = 'localhost',
-  Optional[Stdlib::Port::Unprivileged]         $db_port              = undef,
-  String                                       $db_name              = 'icingadb',
-  String                                       $db_user              = 'icingadb',
-  Stdlib::Host                                 $redis_host           = 'localhost',
-  Optional[Stdlib::Port]                       $redis_port           = undef,
-  Optional[Variant[String, Sensitive[String]]] $redis_pass           = undef,
-  Stdlib::Host                                 $redis_primary_host   = $redis_host,
-  Optional[Stdlib::Port]                       $redis_primary_port   = $redis_port,
-  Optional[Variant[String, Sensitive[String]]] $redis_primary_pass   = $redis_pass,
-  Optional[Stdlib::Host]                       $redis_secondary_host = undef,
-  Optional[Stdlib::Port]                       $redis_secondary_port = undef,
-  Optional[Variant[String, Sensitive[String]]] $redis_secondary_pass = undef,
+  Icinga::Secret                        $db_pass,
+  Enum['mysql', 'pgsql']                $db_type,
+  Stdlib::Host                          $db_host              = 'localhost',
+  Optional[Stdlib::Port::Unprivileged]  $db_port              = undef,
+  String                                $db_name              = 'icingadb',
+  String                                $db_user              = 'icingadb',
+  Stdlib::Host                          $redis_host           = 'localhost',
+  Optional[Stdlib::Port]                $redis_port           = undef,
+  Optional[Icinga::Secret]              $redis_pass           = undef,
+  Stdlib::Host                          $redis_primary_host   = $redis_host,
+  Optional[Stdlib::Port]                $redis_primary_port   = $redis_port,
+  Optional[Icinga::Secret]              $redis_primary_pass   = $redis_pass,
+  Optional[Stdlib::Host]                $redis_secondary_host = undef,
+  Optional[Stdlib::Port]                $redis_secondary_port = undef,
+  Optional[Icinga::Secret]              $redis_secondary_pass = undef,
 ) {
   require icinga::web
 

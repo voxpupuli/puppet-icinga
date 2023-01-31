@@ -23,7 +23,7 @@
 class icinga::web::database (
   Enum['mysql','pgsql']      $db_type,
   Array[Stdlib::Host]        $web_instances,
-  String                     $db_pass,
+  Icinga::Secret             $db_pass,
   String                     $db_name = 'icingaweb2',
   String                     $db_user = 'icingaweb2',
   Variant[Boolean,

@@ -6,7 +6,7 @@
 define icinga::database (
   Enum['mysql','pgsql']      $db_type,
   Array[Stdlib::Host]        $access_instances,
-  String                     $db_pass,
+  Icinga::Secret             $db_pass,
   String                     $db_name,
   String                     $db_user,
   Array[String]              $mysql_privileges,
@@ -31,7 +31,7 @@ define icinga::database (
     }
 
     if versioncmp($::facts['puppetversion'], '6.0.0') < 0  or ($facts['os']['family'] == 'redhat' and Integer($facts['os']['release']['major']) < 8) {
-      $_pass = $db_pass
+      $_pass = icinga::unwrap($db_pass)
     } else {
       $_pass = postgresql::postgresql_password($db_user, $db_pass, false, $postgresql::server::password_encryption)
     }
@@ -79,25 +79,12 @@ define icinga::database (
       'NONE'
     }
 
-#    $_encoding = $::facts['os']['name'] ? {
-#      'ubuntu' => $::facts['os']['distro']['codename'] ? {
-#        'focal' => if $encoding in ['utf8', undef] {
-#          'utf8mb3'
-#        } else {
-#          $encoding
-#        },
-#        default => $encoding,
-#      },
-#      default => $encoding,
-#    }
-
     mysql::db { $db_name:
       host        => $access_instances[0],
       user        => $db_user,
       tls_options => $_tls_options,
       password    => $db_pass,
       grant       => $mysql_privileges,
-#      charset     => $_encoding,
       charset     => $encoding,
       collate     => $collation,
     }

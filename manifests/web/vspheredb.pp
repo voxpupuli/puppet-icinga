@@ -29,7 +29,7 @@
 #   Create database and import schema.
 #
 class icinga::web::vspheredb (
-  String                    $db_pass,
+  Icinga::Secret            $db_pass,
   Stdlib::Ensure::Service   $service_ensure  = 'running',
   Boolean                   $service_enable  = true,
   Enum['mysql']             $db_type         = 'mysql',

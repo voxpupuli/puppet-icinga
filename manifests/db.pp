@@ -44,20 +44,20 @@
 #   This only make sense when an Icinga 2 Server is running on the same host.
 #
 class icinga::db (
-  Variant[String, Sensitive[String]]             $db_pass,
-  Enum['mysql', 'pgsql']                         $db_type,
-  Stdlib::Host                                   $db_host         = 'localhost',
-  Optional[Stdlib::Port::Unprivileged]           $db_port         = undef,
-  String                                         $db_name         = 'icingadb',
-  String                                         $db_user         = 'icingadb',
-  Boolean                                        $manage_database = false,
-  Array[Stdlib::Host]                            $db_accesses     = [],
-  Stdlib::Host                                   $redis_host      = 'localhost',
-  Optional[Array[Stdlib::Host]]                  $redis_bind      = undef,
-  Optional[Stdlib::Port]                         $redis_port      = undef,
-  Optional[Variant[String, Sensitive[String]]]   $redis_pass      = undef,
-  Boolean                                        $manage_redis    = true,
-  Boolean                                        $manage_feature  = true,
+  Icinga::Secret                        $db_pass,
+  Enum['mysql', 'pgsql']                $db_type,
+  Stdlib::Host                          $db_host         = 'localhost',
+  Optional[Stdlib::Port::Unprivileged]  $db_port         = undef,
+  String                                $db_name         = 'icingadb',
+  String                                $db_user         = 'icingadb',
+  Boolean                               $manage_database = false,
+  Array[Stdlib::Host]                   $db_accesses     = [],
+  Stdlib::Host                          $redis_host      = 'localhost',
+  Optional[Array[Stdlib::Host]]         $redis_bind      = undef,
+  Optional[Stdlib::Port]                $redis_port      = undef,
+  Optional[Icinga::Secret]              $redis_pass      = undef,
+  Boolean                               $manage_redis    = true,
+  Boolean                               $manage_feature  = true,
 ) {
   if $manage_database {
     $_db_host = 'localhost'

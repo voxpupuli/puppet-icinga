@@ -2,42 +2,42 @@
 # This class manages the stages stable, testing and snapshot of packages.icinga.com repository
 # and depending on the operating system platform some other repositories.
 #
-# @param [Boolean] manage_stable
+# @param manage_stable
 #   Manage the Icinga stable repository. Disabled by setting to 'false'. Defaults to 'true'.
 #
-# @param [Boolean] manage_testing
+# @param manage_testing
 #   Manage the Icinga testing repository to get access to release candidates.
 #   Enabled by setting to 'true'. Defaults to 'false'.
 #
-# @param [Boolean] manage_nightly
+# @param manage_nightly
 #   Manage the Icinga snapshot repository to get access to nightly snapshots.
 #   Enabled by setting to 'true'. Defaults to 'false'.
 #
-# @param [Boolean] configure_backports
+# @param configure_backports
 #   Enables or Disables the backports repository. Has only an effect on plattforms
 #   simular to Debian. To configure the backports repo uses apt::backports in hiera.
 #
-# @param [Boolean] manage_epel
+# @param manage_epel
 #   Manage the EPEL (Extra Packages Enterprise Linux) repository that is needed for some package
 #   like newer Boost libraries. Has only an effect on plattforms simular to RedHat Enterprise.
 #
-# @param [Boolean] manage_powertools
+# @param manage_powertools
 #   Manage the PowerTools repository that is needed for some package like nagios-plugins on
 #   Linux Enterprise systems like Alma 8, Rocky 8 and CentOS Stream 8.
 #
-# @param [Boolean] manage_crb
+# @param manage_crb
 #   Manage the CRB repository that is needed for some package like nagios-plugins on
 #   Linux Enterprise systems like Alma 9, Rocky 9 and CentOS Stream 9.
 #
-# @param [Boolean] manage_server_monitoring
+# @param manage_server_monitoring
 #   Manage the 'server:monitoring' repository on SLES platforms that is needed for some package
 #   like monitoring-plugins-common. Additional also the 'monitoring-plugins' are provided by this
 #   repository. Bye default the repository is added with a lower priority of 120.
 #
-# @param [Boolean] manage_plugins
+# @param manage_plugins
 #   Manage the NETWAYS plugins repository that provides some packages for additional plugins.
 #
-# @param [Boolean] manage_extras
+# @param manage_extras
 #   Manage the NETWAYS extras repository that provides some packages for extras.
 #
 # @example
