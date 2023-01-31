@@ -1,5 +1,18 @@
 # Change Log
 
+## [v3.0.0](https://github.com/icinga/puppet-icinga/tree/v3.0.0) (2023-01-31)
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.9.1...v3.0.0)
+
+**Implemented enhancements:**
+
+- Add datatype sensitive to all passwords in all classes [\#73](https://github.com/Icinga/puppet-icinga/pull/73) ([lbetz](https://github.com/lbetz))
+- Add IcingaDB support [\#72](https://github.com/Icinga/puppet-icinga/pull/72) ([lbetz](https://github.com/lbetz))
+
+**Closed issues:**
+
+- Rename default branch to main [\#74](https://github.com/Icinga/puppet-icinga/issues/74)
+- Add example for using the Icinga Subscription Repo [\#69](https://github.com/Icinga/puppet-icinga/issues/69)
+
 ## [v2.9.1](https://github.com/icinga/puppet-icinga/tree/v2.9.1) (2023-01-02)
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.9.0...v2.9.1)
 
