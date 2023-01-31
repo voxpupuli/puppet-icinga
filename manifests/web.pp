@@ -43,11 +43,11 @@
 #   Password to connect the Icinga 2 API.
 #
 class icinga::web (
-  Variant[String, Sensitive[String]]          $db_pass,
-  Variant[String, Sensitive[String]]          $api_pass,
+  Icinga::Secret                              $db_pass,
+  Icinga::Secret                              $api_pass,
   Boolean                                     $apache_cgi_pass_auth,
   String                                      $default_admin_user = 'icingaadmin',
-  Variant[String, Sensitive[String]]          $default_admin_pass = 'icingaadmin',
+  Icinga::Secret                              $default_admin_pass = 'icingaadmin',
   Enum['mysql', 'pgsql']                      $db_type            = 'mysql',
   Stdlib::Host                                $db_host            = 'localhost',
   Optional[Stdlib::Port::Unprivileged]        $db_port            = undef,
@@ -89,6 +89,7 @@ class icinga::web (
         }
       }
 
+      $package_prefix = undef
       $php_extensions = {
         process  => { ini_prefix => '20-' },
         mbstring => { ini_prefix => '20-' },
@@ -103,13 +104,8 @@ class icinga::web (
     } # RedHat
 
     'debian': {
-      if $facts[os][distro][codename] in ['focal', 'bullseye'] {
-        $php_globals = {
-          php_version => '7.4',
-        }
-      } else {
-        $php_globals = {}
-      }
+      $php_globals    = {}
+      $package_prefix = 'php-'
       $php_extensions = {
         mbstring => {},
         json     => {},
@@ -135,16 +131,17 @@ class icinga::web (
   }
 
   class { 'php':
-    ensure        => installed,
-    manage_repos  => false,
-    apache_config => false,
-    fpm           => true,
-    extensions    => $php_extensions,
-    dev           => false,
-    composer      => false,
-    pear          => false,
-    phpunit       => false,
-    require       => Class['php::globals'],
+    ensure         => installed,
+    manage_repos   => false,
+    package_prefix => $package_prefix,
+    apache_config  => false,
+    fpm            => true,
+    extensions     => $php_extensions,
+    dev            => false,
+    composer       => false,
+    pear           => false,
+    phpunit        => false,
+    require        => Class['php::globals'],
   }
 
   #

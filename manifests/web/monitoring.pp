@@ -20,7 +20,7 @@
 #   Pasword to connect the IDO backend.
 #
 class icinga::web::monitoring (
-  Variant[String, Sensitive[String]]   $db_pass,
+  Icinga::Secret                       $db_pass,
   Enum['mysql', 'pgsql']               $db_type    = 'mysql',
   Stdlib::Host                         $db_host    = 'localhost',
   Optional[Stdlib::Port::Unprivileged] $db_port    = undef,

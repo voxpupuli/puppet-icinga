@@ -336,7 +336,7 @@ And requires:
 * [puppetlabs/mysql] >= 6.0.0
 * [puppetlabs/postgresql] >= 7.0.0
 * [puppetlabs/apache] >= 3.0.0
-* [puppet/php] >= 6.0.0
+* [puppet/php] >= 8.0.0
 * [icinga/icinga2] >= 2.0.0
 * [icinga/icingaweb2] >= 2.0.0
 

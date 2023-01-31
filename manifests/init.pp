@@ -46,10 +46,10 @@ class icinga (
   String                               $this_zone,
   Hash[String, Hash]                   $zones,
   Enum['dsa','ecdsa','ed25519','rsa']  $ssh_key_type    = 'rsa',
-  Optional[String]                     $ssh_private_key = undef,
+  Optional[Icinga::Secret]             $ssh_private_key = undef,
   Optional[String]                     $ssh_public_key  = undef,
   Optional[Stdlib::Host]               $ca_server       = undef,
-  Optional[String]                     $ticket_salt     = undef,
+  Optional[Icinga::Secret]             $ticket_salt     = undef,
   Array[String]                        $extra_packages  = [],
   Enum['file', 'syslog']               $logging_type    = 'file',
   Optional[Icinga::LogLevel]           $logging_level   = undef,
@@ -205,8 +205,9 @@ class icinga (
             ensure => directory,
             mode   => '0700';
           "${icinga_home}/.ssh/id_${ssh_key_type}":
-            mode    => '0600',
-            content => $ssh_private_key;
+            mode      => '0600',
+            show_diff => false,
+            content => icinga::unwrap($ssh_private_key);
           "${icinga_home}/.ssh/config":
             content => "Host *\n  StrictHostKeyChecking no\n  ControlPath ${icinga_home}/.ssh/controlmasters/%r@%h:%p.socket\n  ControlMaster auto\n  ControlPersist 5m";
         }
