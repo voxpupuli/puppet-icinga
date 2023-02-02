@@ -1,6 +1,6 @@
 {
   "name": "icinga-icinga",
-  "version": "2.9.1",
+  "version": "3.0.0",
   "author": "Icinga",
   "summary": "Puppet Module to manage the Icinga Software Stack",
   "license": "Apache-2.0",
@@ -30,33 +30,30 @@
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
         "7",
-        "8"
-      ]
-    },
-    {
-      "operatingsystem": "OracleLinux",
-      "operatingsystemrelease": [
-        "7",
-        "8"
+        "8",
+        "9"
       ]
     },
     {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
         "7",
-        "8"
+        "8",
+        "9"
       ]
     },
     {
       "operatingsystem": "AlmaLinux",
       "operatingsystemrelease": [
-        "8"
+        "8",
+        "9"
       ]
     },
     {
       "operatingsystem": "Rocky",
       "operatingsystemrelease": [
-        "8"
+        "8",
+        "9"
       ]
     },
     {
@@ -75,8 +72,8 @@
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
-        "18.04",
-        "20.04"
+        "20.04",
+        "22.04"
       ]
     },
     {

@@ -9,16 +9,20 @@
 #### Public Classes
 
 * [`icinga::agent`](#icingaagent): Setup a Icinga agent.
+* [`icinga::db`](#icingadb)
 * [`icinga::db::database`](#icingadbdatabase): Setup database for IcingaDB.
 * [`icinga::ido`](#icingaido): Configure IDO Backend.
 * [`icinga::ido::database`](#icingaidodatabase): Configure IDO backend database.
 * [`icinga::redis`](#icingaredis): Base class for all redis owned by Icinga.
 * [`icinga::repos`](#icingarepos): This class manages the stages stable, testing and snapshot of packages.icinga.com repository and depending on the operating system platform s
 * [`icinga::server`](#icingaserver): Setup a Icinga server.
-* [`icinga::web`](#icingaweb): Setup Icinga Web 2 including a database backend for user settings.
+* [`icinga::web`](#icingaweb): Setup Icinga Web 2 including a database backend for user settings,
+PHP and a Webserver.
 * [`icinga::web::database`](#icingawebdatabase): Setup Icinga Web 2 database for user settings.
 * [`icinga::web::director`](#icingawebdirector): Setup Director module for Icinga Web 2
 * [`icinga::web::director::database`](#icingawebdirectordatabase): Setup Director database.
+* [`icinga::web::icingadb`](#icingawebicingadb): Setup IcingaDB module for the new backend.
+* [`icinga::web::monitoring`](#icingawebmonitoring): Setup Monitoring module for the IDO backend.
 * [`icinga::web::vspheredb`](#icingawebvspheredb): Setup VSphereDB module for Icinga Web 2
 * [`icinga::web::vspheredb::database`](#icingawebvspheredbdatabase): Setup VSphereDB database.
 * [`icinga::worker`](#icingaworker): Setup a Icinga worker (aka satellite).
@@ -54,6 +58,7 @@ with or without TLS information.
 
 * [`Icinga::Certificate`](#icingacertificate): A strict type for a certificate
 * [`Icinga::LogLevel`](#icingaloglevel): A strict type for log levels
+* [`Icinga::Secret`](#icingasecret): A strict type for the secrets like passwords or keys
 
 ## Classes
 
@@ -135,6 +140,140 @@ and add the Icinga user to this group.
 
 Default value: ``false``
 
+### <a name="icingadb"></a>`icinga::db`
+
+The icinga::db class.
+
+#### Parameters
+
+The following parameters are available in the `icinga::db` class:
+
+* [`db_type`](#db_type)
+* [`db_host`](#db_host)
+* [`db_port`](#db_port)
+* [`db_name`](#db_name)
+* [`db_user`](#db_user)
+* [`db_pass`](#db_pass)
+* [`manage_database`](#manage_database)
+* [`db_accesses`](#db_accesses)
+* [`redis_host`](#redis_host)
+* [`redis_bind`](#redis_bind)
+* [`redis_port`](#redis_port)
+* [`redis_pass`](#redis_pass)
+* [`manage_redis`](#manage_redis)
+* [`manage_feature`](#manage_feature)
+
+##### <a name="db_type"></a>`db_type`
+
+Data type: `Enum['mysql', 'pgsql']`
+
+Choose wether MySQL or PostgreSQL as backend for historical data.
+
+##### <a name="db_host"></a>`db_host`
+
+Data type: `Stdlib::Host`
+
+Database server.
+
+Default value: `'localhost'`
+
+##### <a name="db_port"></a>`db_port`
+
+Data type: `Optional[Stdlib::Port::Unprivileged]`
+
+Port to connect the database.
+
+Default value: ``undef``
+
+##### <a name="db_name"></a>`db_name`
+
+Data type: `String`
+
+The IcingaDB database.
+
+Default value: `'icingadb'`
+
+##### <a name="db_user"></a>`db_user`
+
+Data type: `String`
+
+User to connect the database.
+
+Default value: `'icingadb'`
+
+##### <a name="db_pass"></a>`db_pass`
+
+Data type: `Icinga::Secret`
+
+Passwort to login into database.
+
+##### <a name="manage_database"></a>`manage_database`
+
+Data type: `Boolean`
+
+Install and create database on localhost.
+
+Default value: ``false``
+
+##### <a name="db_accesses"></a>`db_accesses`
+
+Data type: `Array[Stdlib::Host]`
+
+List of hosts with access to the database, e.g. host running Icinga Web 2.
+Omly valid if `manage_database` is `true`.
+
+Default value: `[]`
+
+##### <a name="redis_host"></a>`redis_host`
+
+Data type: `Stdlib::Host`
+
+Redis host to connect.
+
+Default value: `'localhost'`
+
+##### <a name="redis_bind"></a>`redis_bind`
+
+Data type: `Optional[Array[Stdlib::Host]]`
+
+When Redis runs on a differnt host than Icinga, here the listining interfaces
+have to be set.
+
+Default value: ``undef``
+
+##### <a name="redis_port"></a>`redis_port`
+
+Data type: `Optional[Stdlib::Port]`
+
+Port for Redis listening.
+
+Default value: ``undef``
+
+##### <a name="redis_pass"></a>`redis_pass`
+
+Data type: `Optional[Icinga::Secret]`
+
+Password to authenticate against Redis.
+
+Default value: ``undef``
+
+##### <a name="manage_redis"></a>`manage_redis`
+
+Data type: `Boolean`
+
+Install and create the IcingaDB Redis service on localhost.
+
+Default value: ``true``
+
+##### <a name="manage_feature"></a>`manage_feature`
+
+Data type: `Boolean`
+
+If you wanna manage the Icinga 2 feature for the IcingaDB, set this to `true`.
+This only make sense when an Icinga 2 Server is running on the same host.
+
+Default value: ``true``
+
 ### <a name="icingadbdatabase"></a>`icinga::db::database`
 
 Setup database for IcingaDB.
@@ -164,7 +303,7 @@ List of Hosts to allow write access to the database. Usually an IcingaDB instanc
 
 ##### <a name="db_pass"></a>`db_pass`
 
-Data type: `String`
+Data type: `Icinga::Secret`
 
 Password to connect the database.
 
@@ -213,7 +352,7 @@ The following parameters are available in the `icinga::ido` class:
 
 ##### <a name="db_pass"></a>`db_pass`
 
-Data type: `String`
+Data type: `Icinga::Secret`
 
 Password to connect the database.
 
@@ -303,7 +442,7 @@ Usually an Icinga Server with enabled IDO feature.
 
 ##### <a name="db_pass"></a>`db_pass`
 
-Data type: `String`
+Data type: `Icinga::Secret`
 
 Password to connect the database.
 
@@ -517,7 +656,7 @@ Default value: ``undef``
 
 ##### <a name="ticket_salt"></a>`ticket_salt`
 
-Data type: `Optional[String]`
+Data type: `Optional[Icinga::Secret]`
 
 Set an alternate ticket salt to icinga::ticket_salt from Hiera.
 
@@ -533,7 +672,7 @@ Default value: `'icingaweb2'`
 
 ##### <a name="web_api_pass"></a>`web_api_pass`
 
-Data type: `Optional[String]`
+Data type: `Optional[Icinga::Secret]`
 
 Icinga API user password.
 
@@ -549,7 +688,7 @@ Default value: `'director'`
 
 ##### <a name="director_api_pass"></a>`director_api_pass`
 
-Data type: `Optional[String]`
+Data type: `Optional[Icinga::Secret]`
 
 Icinga API director user password.
 
@@ -582,7 +721,8 @@ Default value: ``false``
 
 ### <a name="icingaweb"></a>`icinga::web`
 
-Setup Icinga Web 2 including a database backend for user settings.
+Setup Icinga Web 2 including a database backend for user settings,
+PHP and a Webserver.
 
 #### Parameters
 
@@ -591,9 +731,7 @@ The following parameters are available in the `icinga::web` class:
 * [`default_admin_user`](#default_admin_user)
 * [`default_admin_pass`](#default_admin_pass)
 * [`db_pass`](#db_pass)
-* [`api_pass`](#api_pass)
 * [`apache_cgi_pass_auth`](#apache_cgi_pass_auth)
-* [`backend_db_pass`](#backend_db_pass)
 * [`db_type`](#db_type)
 * [`db_host`](#db_host)
 * [`db_port`](#db_port)
@@ -602,11 +740,7 @@ The following parameters are available in the `icinga::web` class:
 * [`manage_database`](#manage_database)
 * [`api_host`](#api_host)
 * [`api_user`](#api_user)
-* [`backend_db_type`](#backend_db_type)
-* [`backend_db_host`](#backend_db_host)
-* [`backend_db_port`](#backend_db_port)
-* [`backend_db_name`](#backend_db_name)
-* [`backend_db_user`](#backend_db_user)
+* [`api_pass`](#api_pass)
 
 ##### <a name="default_admin_user"></a>`default_admin_user`
 
@@ -618,7 +752,7 @@ Default value: `'icingaadmin'`
 
 ##### <a name="default_admin_pass"></a>`default_admin_pass`
 
-Data type: `String`
+Data type: `Icinga::Secret`
 
 Set the initial password for the admin user.
 
@@ -626,15 +760,9 @@ Default value: `'icingaadmin'`
 
 ##### <a name="db_pass"></a>`db_pass`
 
-Data type: `String`
+Data type: `Icinga::Secret`
 
 Password to connect the database.
-
-##### <a name="api_pass"></a>`api_pass`
-
-Data type: `String`
-
-Password to connect the Icinga 2 API.
 
 ##### <a name="apache_cgi_pass_auth"></a>`apache_cgi_pass_auth`
 
@@ -642,12 +770,6 @@ Data type: `Boolean`
 
 Either turn on or off the apache cgi pass thru auth.
 An option available since Apache v2.4.15 and required for authenticated access to the Icinga Web Api.
-
-##### <a name="backend_db_pass"></a>`backend_db_pass`
-
-Data type: `String`
-
-Pasword to connect the IDO backend.
 
 ##### <a name="db_type"></a>`db_type`
 
@@ -713,45 +835,11 @@ Icinga 2 API user.
 
 Default value: `'icingaweb2'`
 
-##### <a name="backend_db_type"></a>`backend_db_type`
+##### <a name="api_pass"></a>`api_pass`
 
-Data type: `Enum['mysql', 'pgsql']`
+Data type: `Icinga::Secret`
 
-What kind of database type to use as IDO backend.
-
-Default value: `'mysql'`
-
-##### <a name="backend_db_host"></a>`backend_db_host`
-
-Data type: `Stdlib::Host`
-
-Database host to connect for the IDO backenend.
-
-Default value: `'localhost'`
-
-##### <a name="backend_db_port"></a>`backend_db_port`
-
-Data type: `Optional[Stdlib::Port::Unprivileged]`
-
-Port to connect the IDO backend. Only affects for connection to remote database hosts.
-
-Default value: ``undef``
-
-##### <a name="backend_db_name"></a>`backend_db_name`
-
-Data type: `String`
-
-Name of the IDO database backend.
-
-Default value: `'icinga2'`
-
-##### <a name="backend_db_user"></a>`backend_db_user`
-
-Data type: `String`
-
-IDO database backend user name.
-
-Default value: `'icinga2'`
+Password to connect the Icinga 2 API.
 
 ### <a name="icingawebdatabase"></a>`icinga::web::database`
 
@@ -782,7 +870,7 @@ List of Hosts to allow write access to the database. Usually an Icinga Web 2 ins
 
 ##### <a name="db_pass"></a>`db_pass`
 
-Data type: `String`
+Data type: `Icinga::Secret`
 
 Password to connect the database.
 
@@ -892,7 +980,7 @@ Default value: `'director'`
 
 ##### <a name="db_pass"></a>`db_pass`
 
-Data type: `String`
+Data type: `Icinga::Secret`
 
 Password for DB connection.
 
@@ -928,7 +1016,7 @@ Default value: `'director'`
 
 ##### <a name="api_pass"></a>`api_pass`
 
-Data type: `String`
+Data type: `Icinga::Secret`
 
 Icinga 2 API password.
 
@@ -962,7 +1050,7 @@ Usually an Icinga Web 2 instance.
 
 ##### <a name="db_pass"></a>`db_pass`
 
-Data type: `String`
+Data type: `Icinga::Secret`
 
 Password to connect the database.
 
@@ -991,6 +1079,207 @@ Access only for TLS encrypted connections. Authentication via `password` or `cer
 value `true` means password auth.
 
 Default value: ``false``
+
+### <a name="icingawebicingadb"></a>`icinga::web::icingadb`
+
+Setup IcingaDB module for the new backend.
+
+#### Parameters
+
+The following parameters are available in the `icinga::web::icingadb` class:
+
+* [`db_type`](#db_type)
+* [`db_host`](#db_host)
+* [`db_port`](#db_port)
+* [`db_name`](#db_name)
+* [`db_user`](#db_user)
+* [`db_pass`](#db_pass)
+* [`redis_host`](#redis_host)
+* [`redis_port`](#redis_port)
+* [`redis_pass`](#redis_pass)
+* [`redis_primary_host`](#redis_primary_host)
+* [`redis_primary_port`](#redis_primary_port)
+* [`redis_primary_pass`](#redis_primary_pass)
+* [`redis_secondary_host`](#redis_secondary_host)
+* [`redis_secondary_port`](#redis_secondary_port)
+* [`redis_secondary_pass`](#redis_secondary_pass)
+
+##### <a name="db_type"></a>`db_type`
+
+Data type: `Enum['mysql', 'pgsql']`
+
+What kind of database type to use as backend.
+
+##### <a name="db_host"></a>`db_host`
+
+Data type: `Stdlib::Host`
+
+Database host to connect for the backenend.
+
+Default value: `'localhost'`
+
+##### <a name="db_port"></a>`db_port`
+
+Data type: `Optional[Stdlib::Port::Unprivileged]`
+
+Port to connect the backend.
+
+Default value: ``undef``
+
+##### <a name="db_name"></a>`db_name`
+
+Data type: `String`
+
+Name of the database backend.
+
+Default value: `'icingadb'`
+
+##### <a name="db_user"></a>`db_user`
+
+Data type: `String`
+
+Database backend user name.
+
+Default value: `'icingadb'`
+
+##### <a name="db_pass"></a>`db_pass`
+
+Data type: `Icinga::Secret`
+
+Password to connect the backend.
+
+##### <a name="redis_host"></a>`redis_host`
+
+Data type: `Stdlib::Host`
+
+Redis host to connect.
+
+Default value: `'localhost'`
+
+##### <a name="redis_port"></a>`redis_port`
+
+Data type: `Optional[Stdlib::Port]`
+
+Connect `redis_host` om this port.
+
+Default value: ``undef``
+
+##### <a name="redis_pass"></a>`redis_pass`
+
+Data type: `Optional[Icinga::Secret]`
+
+Password for Redis connection.
+
+Default value: ``undef``
+
+##### <a name="redis_primary_host"></a>`redis_primary_host`
+
+Data type: `Stdlib::Host`
+
+Alternative parameter to use for `redis_host`. Useful for high availability environments.
+
+Default value: `$redis_host`
+
+##### <a name="redis_primary_port"></a>`redis_primary_port`
+
+Data type: `Optional[Stdlib::Port]`
+
+Alternative parameter to use for `redis_port`. Useful for high availability environments.
+
+Default value: `$redis_port`
+
+##### <a name="redis_primary_pass"></a>`redis_primary_pass`
+
+Data type: `Optional[Icinga::Secret]`
+
+Alternative parameter to use for `redis_passwod`. Useful for high availability environments.
+
+Default value: `$redis_pass`
+
+##### <a name="redis_secondary_host"></a>`redis_secondary_host`
+
+Data type: `Optional[Stdlib::Host]`
+
+Fallback Redis host to connect if the first one fails.
+
+Default value: ``undef``
+
+##### <a name="redis_secondary_port"></a>`redis_secondary_port`
+
+Data type: `Optional[Stdlib::Port]`
+
+Port to connect on the fallback Redis server.
+
+Default value: ``undef``
+
+##### <a name="redis_secondary_pass"></a>`redis_secondary_pass`
+
+Data type: `Optional[Icinga::Secret]`
+
+Password for the second Redis server.
+
+Default value: ``undef``
+
+### <a name="icingawebmonitoring"></a>`icinga::web::monitoring`
+
+Setup Monitoring module for the IDO backend.
+
+#### Parameters
+
+The following parameters are available in the `icinga::web::monitoring` class:
+
+* [`db_type`](#db_type)
+* [`db_host`](#db_host)
+* [`db_port`](#db_port)
+* [`db_name`](#db_name)
+* [`db_user`](#db_user)
+* [`db_pass`](#db_pass)
+
+##### <a name="db_type"></a>`db_type`
+
+Data type: `Enum['mysql', 'pgsql']`
+
+What kind of database type to use as IDO backend.
+
+Default value: `'mysql'`
+
+##### <a name="db_host"></a>`db_host`
+
+Data type: `Stdlib::Host`
+
+Database host to connect for the IDO backenend.
+
+Default value: `'localhost'`
+
+##### <a name="db_port"></a>`db_port`
+
+Data type: `Optional[Stdlib::Port::Unprivileged]`
+
+Port to connect the IDO backend.
+
+Default value: ``undef``
+
+##### <a name="db_name"></a>`db_name`
+
+Data type: `String`
+
+Name of the IDO database backend.
+
+Default value: `'icinga2'`
+
+##### <a name="db_user"></a>`db_user`
+
+Data type: `String`
+
+IDO database backend user name.
+
+Default value: `'icinga2'`
+
+##### <a name="db_pass"></a>`db_pass`
+
+Data type: `Icinga::Secret`
+
+Pasword to connect the IDO backend.
 
 ### <a name="icingawebvspheredb"></a>`icinga::web::vspheredb`
 
@@ -1068,7 +1357,7 @@ Default value: `'vspheredb'`
 
 ##### <a name="db_pass"></a>`db_pass`
 
-Data type: `String`
+Data type: `Icinga::Secret`
 
 Password for DB connection.
 
@@ -1109,7 +1398,7 @@ List of Hosts to allow write access to the database. Usually an Icinga Web 2 ins
 
 ##### <a name="db_pass"></a>`db_pass`
 
-Data type: `String`
+Data type: `Icinga::Secret`
 
 Password to connect the database.
 
@@ -1447,5 +1736,15 @@ Alias of
 
 ```puppet
 Enum['debug', 'information', 'notice', 'warning', 'critical']
+```
+
+### <a name="icingasecret"></a>`Icinga::Secret`
+
+A strict type for the secrets like passwords or keys
+
+Alias of
+
+```puppet
+Variant[String, Sensitive[String]]
 ```
 
