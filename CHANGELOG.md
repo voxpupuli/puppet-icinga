@@ -1,5 +1,12 @@
 # Change Log
 
+## [v3.0.1](https://github.com/icinga/puppet-icinga/tree/v3.0.1) (2023-02-02)
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v3.0.0...v3.0.1)
+
+**Fixed bugs:**
+
+- Fix php extentions mysql and process [\#75](https://github.com/Icinga/puppet-icinga/pull/75) ([lbetz](https://github.com/lbetz))
+
 ## [v3.0.0](https://github.com/icinga/puppet-icinga/tree/v3.0.0) (2023-01-31)
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.9.1...v3.0.0)
 
