@@ -91,7 +91,6 @@ class icinga::web (
 
       $package_prefix = undef
       $php_extensions = {
-        process  => { ini_prefix => '20-' },
         mbstring => { ini_prefix => '20-' },
         json     => { ini_prefix => '20-' },
         ldap     => { ini_prefix => '20-' },
@@ -113,7 +112,7 @@ class icinga::web (
         gd       => {},
         xml      => {},
         intl     => {},
-        mysql    => {},
+        mysqlnd  => {},
         pgsql    => {},
       }
     } # Debian
