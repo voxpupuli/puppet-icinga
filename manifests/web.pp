@@ -112,7 +112,7 @@ class icinga::web (
         gd       => {},
         xml      => {},
         intl     => {},
-        mysqlnd  => {},
+        mysql    => {},
         pgsql    => {},
       }
     } # Debian
@@ -150,6 +150,7 @@ class icinga::web (
 
   Package['icingaweb2']
   -> Class['apache']
+  -> Class['icingaweb2']
 
   package { 'icingaweb2':
     ensure => installed,
