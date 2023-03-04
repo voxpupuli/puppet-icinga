@@ -41,15 +41,6 @@ class icinga::web::vspheredb (
 ) {
   icinga::prepare_web('VSphereDB')
 
-  unless $db_port {
-    $_db_port = $db_type ? {
-      'pgsql' => 5432,
-      default => 3306,
-    }
-  } else {
-    $_db_port = $db_port
-  }
-
   $_db_charset = $db_type ? {
     'mysql' => 'utf8mb4',
     default => 'UTF8',
@@ -81,6 +72,7 @@ class icinga::web::vspheredb (
     install_method => 'package',
     db_type        => $db_type,
     db_host        => $_db_host,
+    db_port        => $db_port,
     db_name        => $db_name,
     db_username    => $db_user,
     db_password    => $db_pass,
