@@ -19,6 +19,7 @@ describe 'icinga::repos' do
           it { is_expected.not_to contain_yumrepo('icinga-testing-builds') }
           it { is_expected.not_to contain_yumrepo('icinga-snapshot-builds') }
           it { is_expected.not_to contain_yumrepo('powertools') }
+          it { is_expected.not_to contain_yumrepo('crb') }
 
           if facts[:os]['name'] == 'Fedora' || facts[:os]['name'] == 'OracleLinux'
             it { is_expected.not_to contain_yumrepo('epel').with('enabled' => 1) }
@@ -91,8 +92,8 @@ describe 'icinga::repos' do
           it { is_expected.not_to contain_yumrepo('powertools') }
         end
 
-        context 'with manage_epel => true, manage_powertools => true' do
-          let(:params) { { manage_epel: true, manage_powertools: true } }
+        context 'with manage_epel => true, manage_powertools => true, manage_crb => true' do
+          let(:params) { { manage_epel: true, manage_powertools: true, manage_crb: true } }
 
           if facts[:os]['name'] ==  'Fedora' || facts[:os]['name'] == 'OracleLinux'
             it { is_expected.not_to contain_yumrepo('epel') }
@@ -101,8 +102,12 @@ describe 'icinga::repos' do
             it { is_expected.to contain_yumrepo('epel').with('enabled' => 1) }
           end
 
-          if facts[:os]['name'] == 'CentOS' && Integer(facts[:os]['release']['major']) > 7
-            it { is_expected.to contain_yumrepo('powertools').with('enabled' => 1) }
+          if facts[:os]['name'] == 'CentOS'
+            if Integer(facts[:os]['release']['major']) == 8
+              it { is_expected.to contain_yumrepo('powertools').with('enabled' => 1) }
+            elsif Integer(facts[:os]['release']['major']) > 8
+              it { is_expected.to contain_yumrepo('crb').with('enabled' => 1) }
+            end
           end
         end
 
