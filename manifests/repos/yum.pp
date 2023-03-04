@@ -19,6 +19,11 @@ class icinga::repos::yum {
     warning("Repository PowerTools isn't available on ${facts['os']['name']} ${facts['os']['release']['major']}.")
   }
 
+  # CRB package
+  if !'crb' in keys($repos) and $managed['crb'] {
+    warning("Repository CRB isn't available on ${facts['os']['name']} ${facts['os']['release']['major']}.")
+  }
+
   # fix issue 21, 33
   file { ['/etc/yum.repos.d/netways-plugins.repo', '/etc/yum.repos.d/netways-extras.repo']:
     ensure => 'absent',
