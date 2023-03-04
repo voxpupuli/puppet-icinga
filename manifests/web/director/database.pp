@@ -47,10 +47,11 @@ class icinga::web::director::database (
   }
 
   if $db_type == 'pgsql' {
+    include postgresql::server::contrib
+
     postgresql::server::extension { "${db_name}-pgcrypto":
-      extension    => 'pgcrypto',
-      database     => $db_name,
-      package_name => 'postgresql-contrib',
+      extension => 'pgcrypto',
+      database  => $db_name,
     }
   }
 }
