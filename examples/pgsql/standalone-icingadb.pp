@@ -34,7 +34,7 @@ class { 'icinga::web::icingadb':
 
 class { 'icinga::web::director':
   db_type         => 'pgsql',
-  db_pass         => 'director',
+  db_pass         => Sensitive('director'),
   manage_database => true,
   endpoint        => $facts['networking']['fqdn'],
   api_pass        => $icinga::server::director_api_pass,
