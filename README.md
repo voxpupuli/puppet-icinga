@@ -96,18 +96,18 @@ And requiers:
 
 By default the upstream Icinga repository for stable release are involved.
 ```
-include ::icinga::repos
+include icinga::repos
 ```
 To setup the testing repository for release candidates use instead:
 ```
-class { '::icinga::repos':
+class { 'icinga::repos':
   manage_stable  => false,
   manage_testing => true,
 }
 ```
 Or the nightly builds:
 ```
-class { '::icinga::repos':
+class { 'icinga::repos':
   manage_stable  => false,
   manage_nightly => true,
 }
@@ -115,7 +115,7 @@ class { '::icinga::repos':
 
 Other possible needed repositories like EPEL on RHEL or the Backports on Debian can also be involved:
 ```
-class { '::icinga::repos':
+class { 'icinga::repos':
   manage_epel         => true,
   configure_backports => true,
 }
@@ -223,9 +223,9 @@ And requiers:
 Setting up a Icinga Server with a CA and to store configuration:
 
 ```
-class { '::icinga::server':
+class { 'icinga::server':
   ca            => true,
-  ticket_salt   => 'supersecret',
+  ticket_salt   => Sensitive('supersecret'),
   config_server => true,
   workers       => { 'dmz' => { 'endpoints' => { 'worker.example.org' => { 'host' => '172.16.2.11' }}, }},
   global_zones  => [ 'global-templates', 'linux-commands', 'windows-commands' ],
@@ -239,7 +239,7 @@ IMPORTANT: A alpha numeric String has to be set to `ticket_salt` in Hiera to pro
 The associated worker could look like this:
 
 ```
-class { '::icinga::worker':
+class { 'icinga::worker':
   ca_server        => '172.16.1.11',
   zone             => 'dmz',
   parent_endpoints => { 'server.example.org' => { 'host' => '172.16.1.11', }, },
@@ -262,7 +262,7 @@ Of course, the second endpoint must also be specified in the respective `parent_
 An agent is very similar to a worker, only it has no parameter `colocation_endpoints`:
 
 ```
-class { '::icinga::agent':
+class { 'icinga::agent':
   ca_server        => '172.16.1.11',
   parent_endpoints => { 'worker.example.org' => { 'host' => '172.16.2.11', }, } },
   global_zones     => [ 'linux-commands' ],
@@ -288,10 +288,10 @@ Ands requires:
 To activate and configure the IcingaDB (usally on a server) do:
 
 ```
-class { '::icinga::db':
+class { 'icinga::db':
   db_type         => 'pgsql',
   db_host         => 'localhost',
-  db_pass         => 'icingadb',
+  db_pass         => Sensitive('icingadb'),
   manage_database => true,
   manage_redis    => true,
   manage_feature  => true,
@@ -315,10 +315,10 @@ Ands requires:
 To activate and configure the IDO feature (usally on a server) do:
 
 ```
-class { '::icinga::ido':
+class { 'icinga::ido':
   db_type         => 'pgsql',
   db_host         => 'localhost',
-  db_pass         => 'icinga2',
+  db_pass         => Sensitive('icinga2'),
   manage_database => true,
 }
 ```
@@ -343,10 +343,10 @@ And requires:
 A Icinga Web 2 with an Apache and PHP-FPM can be managed as follows:
 
 ```
-class { '::icinga::web':
+class { 'icinga::web':
   db_type         => 'pgsql',
   db_host         => 'localhost',
-  db_pass         => 'supersecret',
+  db_pass         => Sensitive('supersecret'),
   manage_database => true,
   api_pass        => $icinga::server::web_api_pass,
 }
@@ -393,12 +393,12 @@ Install and manage the famous Icinga Director and the required database. A graph
 Here an example with an PostgreSQL database on the same host:
 
 ```
-class { '::icinga::web::director':
+class { 'icinga::web::director':
   db_type         => 'pgsql',
   db_host         => 'localhost',
-  db_pass         => 'supersecret',
+  db_pass         => Sensitive('supersecret'),
   manage_database => true,
-  endpoint        => $::fqdn,
+  endpoint        => $facts['networking']['fqdn'],
   api_host        => 'localhost',
   api_pass        => $icinga::server::director_api_pass,
 }
@@ -417,16 +417,40 @@ And required in addition to `icinga::web`:
 
 * [icinga/icingaweb2] >= 3.2.0
 
-The following example sets up the `vspheredb` Icinga Web 2 module and teh required database. At this time only MySQL/MariaDB is support by the Icinga team, so this class also supports only `mysql`.
+The following example sets up the `vspheredb` Icinga Web 2 module and the required database. At this time only MySQL/MariaDB is support by the Icinga team, so this class also supports only `mysql`.
 
 ```
-class { '::icinga::web::vspheredb':
+class { 'icinga::web::vspheredb':
   db_type         => 'mysql',
   db_host         => 'localhost',
-  db_pass         => 'vspheredb',
+  db_pass         => Sensitive('vspheredb'),
   manage_database => true,
 }
 ```
+
+#### icinga::web::reporting
+
+The class supports:
+
+* [puppet] >= 6.0 < 8.0
+
+And required in addition to `icinga::web::icingadb` or `icinga::web::monitoring`:
+
+* [icinga/icingaweb2] >= 3.7.0
+
+An example to setup reporting and the required database:
+
+```
+class { 'icinga::web::reporting':
+  db_type         => 'pqsql',
+  db_host         => 'localhost',
+  db_pass         => Sensitive('reporting'),
+  manage_database => true,
+}
+```
+
+If icinga::web::monitoring is declared before, the required module idoreports for IDO is declared automatically.
+
 
 ## Reference
 
