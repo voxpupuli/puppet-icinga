@@ -23,6 +23,8 @@ PHP and a Webserver.
 * [`icinga::web::director::database`](#icingawebdirectordatabase): Setup Director database.
 * [`icinga::web::icingadb`](#icingawebicingadb): Setup IcingaDB module for the new backend.
 * [`icinga::web::monitoring`](#icingawebmonitoring): Setup Monitoring module for the IDO backend.
+* [`icinga::web::reporting`](#icingawebreporting): Setup the reporting module for Icinga Web 2
+* [`icinga::web::reporting::database`](#icingawebreportingdatabase): Setup the reporting database.
 * [`icinga::web::vspheredb`](#icingawebvspheredb): Setup VSphereDB module for Icinga Web 2
 * [`icinga::web::vspheredb::database`](#icingawebvspheredbdatabase): Setup VSphereDB database.
 * [`icinga::worker`](#icingaworker): Setup a Icinga worker (aka satellite).
@@ -1280,6 +1282,161 @@ Default value: `'icinga2'`
 Data type: `Icinga::Secret`
 
 Pasword to connect the IDO backend.
+
+### <a name="icingawebreporting"></a>`icinga::web::reporting`
+
+Setup the reporting module for Icinga Web 2
+
+#### Parameters
+
+The following parameters are available in the `icinga::web::reporting` class:
+
+* [`service_ensure`](#service_ensure)
+* [`service_enable`](#service_enable)
+* [`db_type`](#db_type)
+* [`db_host`](#db_host)
+* [`db_port`](#db_port)
+* [`db_name`](#db_name)
+* [`db_user`](#db_user)
+* [`db_pass`](#db_pass)
+* [`manage_database`](#manage_database)
+* [`mail`](#mail)
+
+##### <a name="service_ensure"></a>`service_ensure`
+
+Data type: `Stdlib::Ensure::Service`
+
+Manages if the reporting service should be stopped or running.
+
+Default value: `'running'`
+
+##### <a name="service_enable"></a>`service_enable`
+
+Data type: `Boolean`
+
+If set to true the reporting service will start on boot.
+
+Default value: ``true``
+
+##### <a name="db_type"></a>`db_type`
+
+Data type: `Enum['mysql', 'pgsql']`
+
+Type of your database.
+
+##### <a name="db_host"></a>`db_host`
+
+Data type: `Stdlib::Host`
+
+Hostname of the database.
+
+Default value: `'localhost'`
+
+##### <a name="db_port"></a>`db_port`
+
+Data type: `Optional[Stdlib::Port]`
+
+Port of the database.
+
+Default value: ``undef``
+
+##### <a name="db_name"></a>`db_name`
+
+Data type: `String`
+
+Name of the database.
+
+Default value: `'reporting'`
+
+##### <a name="db_user"></a>`db_user`
+
+Data type: `String`
+
+Username for DB connection.
+
+Default value: `'reporting'`
+
+##### <a name="db_pass"></a>`db_pass`
+
+Data type: `Icinga::Secret`
+
+Password for DB connection.
+
+##### <a name="manage_database"></a>`manage_database`
+
+Data type: `Boolean`
+
+Create database and import schema.
+
+Default value: ``false``
+
+##### <a name="mail"></a>`mail`
+
+Data type: `Optional[String]`
+
+Mails are sent with this sender address.
+
+Default value: ``undef``
+
+### <a name="icingawebreportingdatabase"></a>`icinga::web::reporting::database`
+
+Setup the reporting database.
+
+#### Parameters
+
+The following parameters are available in the `icinga::web::reporting::database` class:
+
+* [`db_type`](#db_type)
+* [`web_instances`](#web_instances)
+* [`db_pass`](#db_pass)
+* [`db_name`](#db_name)
+* [`db_user`](#db_user)
+* [`tls`](#tls)
+
+##### <a name="db_type"></a>`db_type`
+
+Data type: `Enum['mysql','pgsql']`
+
+What kind of database type to use.
+
+##### <a name="web_instances"></a>`web_instances`
+
+Data type: `Array[Stdlib::Host]`
+
+List of Hosts to allow write access to the database.
+Usually an Icinga Web 2 instance.
+
+##### <a name="db_pass"></a>`db_pass`
+
+Data type: `Icinga::Secret`
+
+Password to connect the database.
+
+##### <a name="db_name"></a>`db_name`
+
+Data type: `String`
+
+Name of the database.
+
+Default value: `'reporting'`
+
+##### <a name="db_user"></a>`db_user`
+
+Data type: `String`
+
+Database user name.
+
+Default value: `'reporting'`
+
+##### <a name="tls"></a>`tls`
+
+Data type: `Variant[Boolean,
+  Enum['password','cert']]`
+
+Access only for TLS encrypted connections. Authentication via `password` or `cert`,
+value `true` means password auth.
+
+Default value: ``false``
 
 ### <a name="icingawebvspheredb"></a>`icinga::web::vspheredb`
 
