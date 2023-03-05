@@ -46,10 +46,11 @@ class icinga::db::database (
   }
 
   if $db_type == 'pgsql' {
+    include postgresql::server::contrib
+
     postgresql::server::extension { "${db_name}-citext":
       extension    => 'citext',
       database     => $db_name,
-      package_name => 'postgresql-contrib',
     }
   }
 }
