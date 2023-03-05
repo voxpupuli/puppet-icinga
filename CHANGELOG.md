@@ -1,10 +1,18 @@
 # Change Log
 
+## [v3.1.1](https://github.com/icinga/puppet-icinga/tree/v3.1.1) (2023-03-05)
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v3.1.0...v3.1.1)
+
+**Fixed bugs:**
+
+- Install citext extension via contrib class [\#82](https://github.com/Icinga/puppet-icinga/pull/82) ([lbetz](https://github.com/lbetz))
+
 ## [v3.1.0](https://github.com/icinga/puppet-icinga/tree/v3.1.0) (2023-03-05)
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v3.0.1...v3.1.0)
 
 **Implemented enhancements:**
 
+- Add classes to manage idoreports [\#47](https://github.com/Icinga/puppet-icinga/issues/47)
 - Add support for reporting [\#81](https://github.com/Icinga/puppet-icinga/pull/81) ([lbetz](https://github.com/lbetz))
 - Add warning for CRB on unsupported os [\#77](https://github.com/Icinga/puppet-icinga/pull/77) ([lbetz](https://github.com/lbetz))
 
@@ -13,10 +21,6 @@
 - Turn on backports for Debian Buster by default  [\#79](https://github.com/Icinga/puppet-icinga/issues/79)
 - Install pgcrypto extension via contrib class [\#80](https://github.com/Icinga/puppet-icinga/pull/80) ([lbetz](https://github.com/lbetz))
 - fix broken idempotency on Debian [\#78](https://github.com/Icinga/puppet-icinga/pull/78) ([lbetz](https://github.com/lbetz))
-
-**Closed issues:**
-
-- Add classes to manage idoreports [\#47](https://github.com/Icinga/puppet-icinga/issues/47)
 
 **Merged pull requests:**
 
