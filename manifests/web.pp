@@ -57,14 +57,12 @@ class icinga::web (
   Variant[Stdlib::Host, Array[Stdlib::Host]]  $api_host           = 'localhost',
   String                                      $api_user           = 'icingaweb2',
 ) {
-  unless $db_port {
-    $_db_port = $db_type ? {
-      'pgsql' => 5432,
-      default => 3306,
-    }
-  } else {
-    $_db_port = $db_port
-  }
+  # install all required php extentions
+  # by icingaweb (done by package dependencies) before PHP
+  Package['icingaweb2']
+  -> Class['php']
+  -> Class['apache']
+  -> Class['icingaweb2']
 
   #
   # Platform
@@ -90,31 +88,11 @@ class icinga::web (
       }
 
       $package_prefix = undef
-      $php_extensions = {
-        mbstring => { ini_prefix => '20-' },
-        json     => { ini_prefix => '20-' },
-        ldap     => { ini_prefix => '20-' },
-        gd       => { ini_prefix => '20-' },
-        xml      => { ini_prefix => '20-' },
-        intl     => { ini_prefix => '20-' },
-        mysqlnd  => { ini_prefix => '20-' },
-        pgsql    => { ini_prefix => '20-' },
-      }
     } # RedHat
 
     'debian': {
       $php_globals    = {}
       $package_prefix = 'php-'
-      $php_extensions = {
-        mbstring => {},
-        json     => {},
-        ldap     => {},
-        gd       => {},
-        xml      => {},
-        intl     => {},
-        mysql    => {},
-        pgsql    => {},
-      }
     } # Debian
 
     default: {
@@ -135,7 +113,6 @@ class icinga::web (
     package_prefix => $package_prefix,
     apache_config  => false,
     fpm            => true,
-    extensions     => $php_extensions,
     dev            => false,
     composer       => false,
     pear           => false,
@@ -147,10 +124,6 @@ class icinga::web (
   # Apache
   #
   $manage_package = false
-
-  Package['icingaweb2']
-  -> Class['apache']
-  -> Class['icingaweb2']
 
   package { 'icingaweb2':
     ensure => installed,
@@ -208,7 +181,7 @@ class icinga::web (
   class { 'icingaweb2':
     db_type                => $db_type,
     db_host                => $_db_host,
-    db_port                => $_db_port,
+    db_port                => $db_port,
     db_name                => $db_name,
     db_username            => $db_user,
     db_password            => $db_pass,
