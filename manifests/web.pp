@@ -125,7 +125,7 @@ class icinga::web (
   #
   $manage_package = false
 
-  package { 'icingaweb2':
+  package { ['icingaweb2', 'icingaweb2-module-pdfexport']:
     ensure => installed,
   }
 
@@ -136,6 +136,8 @@ class icinga::web (
 
   $web_conf_user = $apache::user
 
+  include apache::vhosts
+
   include apache::mod::alias
   include apache::mod::mime
   include apache::mod::status
@@ -144,6 +146,7 @@ class icinga::web (
   include apache::mod::rewrite
   include apache::mod::proxy
   include apache::mod::proxy_fcgi
+  include apache::mod::proxy_http
   include apache::mod::ssl
 
   apache::custom_config { 'icingaweb2':
