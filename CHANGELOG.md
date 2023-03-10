@@ -1,5 +1,17 @@
 # Change Log
 
+## [v3.2.0](https://github.com/icinga/puppet-icinga/tree/v3.2.0) (2023-03-10)
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v3.1.1...v3.2.0)
+
+**Implemented enhancements:**
+
+- Install icingaweb2 model pdfexport by default [\#85](https://github.com/Icinga/puppet-icinga/pull/85) ([lbetz](https://github.com/lbetz))
+- Add additional Apache vhost support, add apache module proxy\_http [\#84](https://github.com/Icinga/puppet-icinga/pull/84) ([lbetz](https://github.com/lbetz))
+
+**Fixed bugs:**
+
+- Remove handling of PHP extensions [\#83](https://github.com/Icinga/puppet-icinga/pull/83) ([lbetz](https://github.com/lbetz))
+
 ## [v3.1.1](https://github.com/icinga/puppet-icinga/tree/v3.1.1) (2023-03-05)
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v3.1.0...v3.1.1)
 
