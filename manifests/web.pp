@@ -152,7 +152,7 @@ class icinga::web (
   -> Class['apache']
   -> Class['icingaweb2']
 
-  package { 'icingaweb2':
+  package { ['icingaweb2', 'icingaweb2-module-pdfexport']:
     ensure => installed,
   }
 
