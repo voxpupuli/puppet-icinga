@@ -76,6 +76,7 @@ class icinga::web::icingadb (
     db_name                  => $db_name,
     db_username              => $db_user,
     db_password              => $db_pass,
+    db_charset               => 'UTF8',
     redis_primary_host       => $redis_primary_host,
     redis_primary_port       => $redis_primary_port,
     redis_primary_password   => $redis_primary_pass,
