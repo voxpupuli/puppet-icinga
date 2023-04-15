@@ -1,5 +1,12 @@
 # Change Log
 
+## [v3.2.1](https://github.com/icinga/puppet-icinga/tree/v3.2.1) (2023-04-15)
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v3.2.0...v3.2.1)
+
+**Fixed bugs:**
+
+- Fix db\_charset \(UTF8\) for the web-icingadb resource [\#86](https://github.com/Icinga/puppet-icinga/pull/86) ([lbetz](https://github.com/lbetz))
+
 ## [v3.2.0](https://github.com/icinga/puppet-icinga/tree/v3.2.0) (2023-03-10)
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v3.1.1...v3.2.0)
 
