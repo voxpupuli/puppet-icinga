@@ -280,7 +280,7 @@ The class supports:
 
 Ands requires:
 
-* [puppetlabs/mysql] >= 6.0.0
+* [puppetlabs/mysql] >= 6.0.0 =< 13.1.0
 * [puppetlabs/postgresql] >= 7.0.0
 * [icinga/icinga2] >= 2.0.0 < 4.0.0
 * [icinga/icingadb] >= 1.0.0 < 2.0.0
@@ -308,7 +308,7 @@ The class supports:
 
 Ands requires:
 
-* [puppetlabs/mysql] >= 6.0.0
+* [puppetlabs/mysql] >= 6.0.0 =< 13.1.0
 * [puppetlabs/postgresql] >= 7.0.0
 * [icinga/icinga2] >= 2.0.0 < 4.0.0
 
@@ -333,7 +333,7 @@ The class supports:
 
 And requires:
 
-* [puppetlabs/mysql] >= 6.0.0
+* [puppetlabs/mysql] >= 6.0.0 =< 13.1.0
 * [puppetlabs/postgresql] >= 7.0.0
 * [puppetlabs/apache] >= 3.0.0
 * [puppet/php] >= 8.0.0
