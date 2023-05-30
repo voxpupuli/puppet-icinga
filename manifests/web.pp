@@ -95,6 +95,12 @@ class icinga::web (
       $package_prefix = 'php-'
     } # Debian
 
+    'Suse': {
+      $php_globals = {
+        php_version => 'php8',
+      }
+    } # Suse
+
     default: {
       fail("'Your operatingsystem ${facts['os']['name']} is not supported.'")
     }
