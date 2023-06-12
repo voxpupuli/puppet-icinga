@@ -95,7 +95,7 @@ class icinga::web (
       $package_prefix = 'php-'
     } # Debian
 
-    'suse': {
+    'Suse': {
       $php_globals = {
         php_version => 'php8.0',
       }
