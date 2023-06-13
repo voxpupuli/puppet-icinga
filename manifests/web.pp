@@ -136,8 +136,8 @@ class icinga::web (
   }
 
   class { 'apache':
-    default_mods => false,
-    mpm_module   => 'prefork',
+    default_mods => true,
+    mpm_module   => 'event',
   }
 
   $web_conf_user = $apache::user
