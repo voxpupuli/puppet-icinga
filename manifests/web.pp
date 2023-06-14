@@ -136,7 +136,7 @@ class icinga::web (
   }
 
   class { 'apache':
-    default_mods => true,
+    default_mods => false
     mpm_module   => 'event',
   }
 
