@@ -135,10 +135,7 @@ class icinga::web (
     ensure => installed,
   }
 
-  class { 'apache':
-    default_mods => false
-    mpm_module   => 'event',
-  }
+  class { 'apache': }
 
   $web_conf_user = $apache::user
 
