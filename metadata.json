@@ -13,10 +13,6 @@
       "version_requirement": ">= 6.6.0 < 10.0.0"
     },
     {
-      "name": "puppet/redis",
-      "version_requirement": ">= 7.0.0 < 10.0.0"
-    },
-    {
       "name": "puppetlabs/apt",
       "version_requirement": ">= 7.7.0 < 10.0.0"
     },
