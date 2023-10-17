@@ -49,8 +49,8 @@ class icinga::db::database (
     include postgresql::server::contrib
 
     postgresql::server::extension { "${db_name}-citext":
-      extension    => 'citext',
-      database     => $db_name,
+      extension => 'citext',
+      database  => $db_name,
     }
   }
 }

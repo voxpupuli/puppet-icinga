@@ -3,11 +3,11 @@
 require 'spec_helper'
 
 describe 'icinga::server' do
-  on_supported_os.each do |os, os_facts|
+  on_supported_os.each do |os, facts|
     context "on #{os}" do
-      let(:facts) { os_facts }
+      let(:facts) { facts }
 
-      case os_facts[:osfamily]
+      case facts[:os]['family']
       when 'Debian'
         let(:icinga2_config_dir) { '/etc/icinga2' }
         let(:icinga2_user) { 'nagios' }
