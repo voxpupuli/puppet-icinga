@@ -13,6 +13,7 @@
 * [`icinga::db::database`](#icinga--db--database): Setup database for IcingaDB.
 * [`icinga::ido`](#icinga--ido): Configure IDO Backend.
 * [`icinga::ido::database`](#icinga--ido--database): Configure IDO backend database.
+* [`icinga::redis`](#icinga--redis): Base class for all redis owned by Icinga.
 * [`icinga::repos`](#icinga--repos): This class manages the stages stable, testing and snapshot of packages.icinga.com repository and depending on the operating system platform s
 * [`icinga::server`](#icinga--server): Setup a Icinga server.
 * [`icinga::web`](#icinga--web): Setup Icinga Web 2 including a database backend for user settings,
@@ -482,6 +483,10 @@ Access only for TLS encrypted connections. Authentication via `password` or `cer
 value `true` means password auth.
 
 Default value: `false`
+
+### <a name="icinga--redis"></a>`icinga::redis`
+
+Base class for all redis owned by Icinga.
 
 ### <a name="icinga--repos"></a>`icinga::repos`
 
