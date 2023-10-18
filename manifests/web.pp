@@ -181,18 +181,34 @@ class icinga::web (
   #
   # Icinga Web 2
   #
-  class { 'icingaweb2':
-    db_type                => $db_type,
-    db_host                => $_db_host,
-    db_port                => $db_port,
-    db_name                => $db_name,
-    db_username            => $db_user,
-    db_password            => $db_pass,
-    default_admin_username => $default_admin_user,
-    default_admin_password => $default_admin_pass,
-    import_schema          => lookup('icingaweb2::import_schema', undef, undef, true),
-    config_backend         => 'db',
-    conf_user              => $web_conf_user,
-    manage_package         => $manage_package,
+  if versioncmp(load_module_metadata('icingaweb2')['version'], '4.0.0') < 0 {
+    class { 'icingaweb2':
+      db_type                => $db_type,
+      db_host                => $_db_host,
+      db_port                => $db_port,
+      db_name                => $db_name,
+      db_username            => $db_user,
+      db_password            => $db_pass,
+      default_admin_username => $default_admin_user,
+      default_admin_password => $default_admin_pass,
+      import_schema          => lookup('icingaweb2::import_schema', undef, undef, true),
+      config_backend         => 'db',
+      conf_user              => $web_conf_user,
+      manage_package         => $manage_package,
+    }
+  } else {
+    class { 'icingaweb2':
+      db_type                => $db_type,
+      db_host                => $_db_host,
+      db_port                => $db_port,
+      db_name                => $db_name,
+      db_username            => $db_user,
+      db_password            => $db_pass,
+      default_admin_username => $default_admin_user,
+      default_admin_password => $default_admin_pass,
+      import_schema          => lookup('icingaweb2::import_schema', undef, undef, true),
+      conf_user              => $web_conf_user,
+      manage_package         => $manage_package,
+    }
   }
 }
