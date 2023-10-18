@@ -84,15 +84,14 @@ git checkout v2.5.0
 
 The class supports:
 
-* [puppet] >= 6.0 < 8.0
+* [puppet] >= 7.0 < 9.0
 
 And requiers:
 
-* [puppetlabs/stdlib] >= 5.1.0
-* [puppetlabs/apt] >= 6.0.0
-* [puppet/zypprepo] >= 2.2.1
-* [puppetlabs/yumrepo_core] >= 1.0.0
-* [puppet/redis] >= 7.0.0
+* [puppetlabs/stdlib] >= 6.6.0 < 10.0.0
+* [puppetlabs/apt] >= 7.7.0 < 10.0.0
+* [puppet/zypprepo] >= 4.0.0 < 6.0.0
+* [puppetlabs/yumrepo_core] >= 1.1.0 < 3.0.0
 
 By default the upstream Icinga repository for stable release are involved.
 ```
@@ -214,11 +213,11 @@ apt::backports::location: 'https://archive.debian.org/debian'
 
 The class supports:
 
-* [puppet] >= 6.0 < 8.0
+* [puppet] >= 7.0 < 9.0
 
 And requiers:
 
-* [icinga/icinga2] >= 2.0.0 < 4.0.0
+* [icinga/icinga2] >= 3.1.0 < 5.0.0
 
 Setting up a Icinga Server with a CA and to store configuration:
 
@@ -276,14 +275,14 @@ NOTICE: To switch off the package installation via chocolatey on windows, `icing
 
 The class supports:
 
-* [puppet] >= 6.0 < 8.0
+* [puppet] >= 7.0 < 9.0
 
 Ands requires:
 
-* [puppetlabs/mysql] >= 6.0.0 =< 13.1.0
-* [puppetlabs/postgresql] >= 7.0.0
-* [icinga/icinga2] >= 2.0.0 < 4.0.0
-* [icinga/icingadb] >= 1.0.0 < 2.0.0
+* [puppetlabs/mysql] >= 10.9.0 =< 16.0.0
+* [puppetlabs/postgresql] >= 7.0.0 < 11.0.0
+* [icinga/icinga2] >= 2.9.0 < 5.0.0
+* [icinga/icingadb] >= 1.0.0 < 3.0.0
 
 To activate and configure the IcingaDB (usally on a server) do:
 
@@ -304,13 +303,13 @@ Setting `manage_database` to `true` also setups a database as specified in `db_t
 
 The class supports:
 
-* [puppet] >= 6.0 < 8.0
+* [puppet] >= 7.0 < 9.0
 
 Ands requires:
 
-* [puppetlabs/mysql] >= 6.0.0 =< 13.1.0
-* [puppetlabs/postgresql] >= 7.0.0
-* [icinga/icinga2] >= 2.0.0 < 4.0.0
+* [puppetlabs/mysql] >= 10.9.0 =< 16.0.0
+* [puppetlabs/postgresql] >= 7.0.0 < 11.0.0
+* [icinga/icinga2] >= 2.9.0 < 5.0.0
 
 To activate and configure the IDO feature (usally on a server) do:
 
@@ -333,12 +332,12 @@ The class supports:
 
 And requires:
 
-* [puppetlabs/mysql] >= 6.0.0 =< 13.1.0
-* [puppetlabs/postgresql] >= 7.0.0
-* [puppetlabs/apache] >= 3.0.0
-* [puppet/php] >= 8.0.0
-* [icinga/icinga2] >= 2.0.0
-* [icinga/icingaweb2] >= 2.0.0
+* [puppetlabs/mysql] >= 10.9.0 =< 16.0.0
+* [puppetlabs/postgresql] >= 7.0.0 < 11.0.0
+* [icinga/icingaweb2] >= 3.6.0 < 5.0.0
+* [icinga/icinga2] >= 2.9.0 < 5.0.0
+* [puppetlabs/apache] >= 5.8.0 < 12.0.0
+* [puppet/php] >= 8.0.0 < 11.0.0
 
 A Icinga Web 2 with an Apache and PHP-FPM can be managed as follows:
 
@@ -409,14 +408,6 @@ In this example the Icinga server is running on the same Host like the web and t
 
 #### icinga::web::vspheredb
 
-The class supports:
-
-* [puppet] >= 6.0 < 8.0
-
-And required in addition to `icinga::web`:
-
-* [icinga/icingaweb2] >= 3.2.0
-
 The following example sets up the `vspheredb` Icinga Web 2 module and the required database. At this time only MySQL/MariaDB is support by the Icinga team, so this class also supports only `mysql`.
 
 ```
@@ -432,11 +423,13 @@ class { 'icinga::web::vspheredb':
 
 The class supports:
 
-* [puppet] >= 6.0 < 8.0
+* [puppet] >= 7.0 < 9.0
 
 And required in addition to `icinga::web::icingadb` or `icinga::web::monitoring`:
 
-* [icinga/icingaweb2] >= 3.7.0
+* [puppetlabs/mysql] >= 10.9.0 =< 16.0.0
+* [puppetlabs/postgresql] >= 7.0.0 < 11.0.0
+* [icinga/icingaweb2] >= 3.7.0 < 5.0.0
 
 An example to setup reporting and the required database:
 
