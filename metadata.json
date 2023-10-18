@@ -10,19 +10,15 @@
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 5.1.0 < 9.0.0"
-    },
-    {
-      "name": "puppet/redis",
-      "version_requirement": ">= 7.0.0 < 9.0.0"
+      "version_requirement": ">= 6.6.0 < 10.0.0"
     },
     {
       "name": "puppetlabs/apt",
-      "version_requirement": ">= 6.0.0 < 9.0.0"
+      "version_requirement": ">= 7.7.0 < 10.0.0"
     },
     {
       "name": "puppet/zypprepo",
-      "version_requirement": ">= 2.2.1 < 5.0.0"
+      "version_requirement": ">= 4.0.0 < 6.0.0"
     }
   ],
   "operatingsystem_support": [
@@ -95,13 +91,13 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 6.0.0 < 8.0.0"
+      "version_requirement": ">= 7.0.0 < 9.0.0"
     }
   ],
   "tags": [
     "monitoring"
   ],
-  "pdk-version": "2.5.0",
-  "template-url": "https://github.com/puppetlabs/pdk-templates#1.18.1",
-  "template-ref": "tags/1.18.1-0-g3d2e75c"
+  "pdk-version": "3.0.0",
+  "template-url": "https://github.com/puppetlabs/pdk-templates#3.0.0",
+  "template-ref": "tags/3.0.0-0-g5bfc1c0"
 }

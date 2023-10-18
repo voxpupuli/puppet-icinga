@@ -171,7 +171,7 @@ class icinga (
         Package['icinga2'] -> Exec['restarting icinga2'] -> Class['icinga2']
 
         exec { 'restarting icinga2':
-          path        => $::facts['path'],
+          path        => $facts['path'],
           command     => "service ${icinga_service} restart",
           onlyif      => "service ${icinga_service} status",
           refreshonly => true,

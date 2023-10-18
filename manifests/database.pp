@@ -30,7 +30,7 @@ define icinga::database (
       }
     }
 
-    if versioncmp($::facts['puppetversion'], '6.0.0') < 0  or ($facts['os']['family'] == 'redhat' and Integer($facts['os']['release']['major']) < 8) {
+    if versioncmp($facts['puppetversion'], '6.0.0') < 0  or ($facts['os']['family'] == 'redhat' and Integer($facts['os']['release']['major']) < 8) {
       $_pass = icinga::unwrap($db_pass)
     } else {
       $_pass = postgresql::postgresql_password($db_user, $db_pass, false, $postgresql::server::password_encryption)
@@ -82,7 +82,7 @@ define icinga::database (
     mysql::db { $db_name:
       host        => $access_instances[0],
       user        => $db_user,
-      tls_options => $_tls_options,
+      tls_options => any2array($_tls_options),
       password    => $db_pass,
       grant       => $mysql_privileges,
       charset     => $encoding,

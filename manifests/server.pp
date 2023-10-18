@@ -84,7 +84,7 @@ class icinga::server (
     ca            => $_ca,
     ca_server     => $ca_server,
     this_zone     => $zone,
-    zones         => merge({ 'ZoneName' => { 'endpoints' => { 'NodeName' => {} } + $colocation_endpoints } }, $_workers),
+    zones         => { 'ZoneName' => { 'endpoints' => { 'NodeName' => {} } + $colocation_endpoints } } + $_workers,
     logging_type  => $logging_type,
     logging_level => $logging_level,
     ticket_salt   => $ticket_salt,
