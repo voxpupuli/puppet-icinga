@@ -43,7 +43,8 @@ class icinga::web::x509 (
     fail('Class icinga::web::icingadb or icinga::web::monitoring has to be declared before!')
   }
 
-  $_db_charset = $db_type ? {
+  $icingaweb2_version = $icinga::web::icingaweb2_version
+  $_db_charset        = $db_type ? {
     'mysql' => 'utf8mb4',
     default => 'UTF8',
   }
@@ -82,9 +83,11 @@ class icinga::web::x509 (
     import_schema  => lookup('icingaweb2::module::x509::import_schema', undef, undef, true),
   }
 
-  service { 'icinga-x509':
-    ensure  => $service_ensure,
-    enable  => $service_enable,
-    require => Class['icingaweb2::module::x509'],
+  if versioncmp($icingaweb2_version, '4.0.0') < 0 {
+    service { 'icinga-x509':
+      ensure  => $service_ensure,
+      enable  => $service_enable,
+      require => Class['icingaweb2::module::x509'],
+    }
   }
 }
