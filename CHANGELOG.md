@@ -6,13 +6,16 @@
 
 **Implemented enhancements:**
 
+- Fix the icingaweb2 modules to run with older puppet-icingaweb2 than 4… [\#95](https://github.com/Icinga/puppet-icinga/pull/95) ([lbetz](https://github.com/lbetz))
 - Add new parameter to mange a additional config dir like conf.d [\#94](https://github.com/Icinga/puppet-icinga/pull/94) ([lbetz](https://github.com/lbetz))
 - Add Puppet 8 Support [\#93](https://github.com/Icinga/puppet-icinga/pull/93) ([lbetz](https://github.com/lbetz))
 - Add x509 module support [\#87](https://github.com/Icinga/puppet-icinga/pull/87) ([lbetz](https://github.com/lbetz))
 
 **Fixed bugs:**
 
+- Add missing grants on mysql Ido database for idoreports  [\#97](https://github.com/Icinga/puppet-icinga/issues/97)
 - mysql:db above 13.1.0 requires an array for the tis\_options [\#91](https://github.com/Icinga/puppet-icinga/issues/91)
+- Fix some issues if tls and noverify for mariadb/mysql [\#96](https://github.com/Icinga/puppet-icinga/pull/96) ([lbetz](https://github.com/lbetz))
 
 **Closed issues:**
 
