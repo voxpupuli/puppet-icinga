@@ -328,7 +328,7 @@ Setting `manage_database` to `true` also setups a database as specified in `db_t
 
 The class supports:
 
-* [puppet] >= 6.0 < 8.0
+* [puppet] >= 7.0 < 9.0
 
 And requires:
 

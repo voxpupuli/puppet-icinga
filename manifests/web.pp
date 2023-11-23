@@ -64,6 +64,9 @@ class icinga::web (
   -> Class['apache']
   -> Class['icingaweb2']
 
+  # version if the used icingaweb2 puppet module
+  $icingaweb2_version = load_module_metadata('icingaweb2')['version']
+
   #
   # Platform
   #
@@ -181,7 +184,7 @@ class icinga::web (
   #
   # Icinga Web 2
   #
-  if versioncmp(load_module_metadata('icingaweb2')['version'], '4.0.0') < 0 {
+  if versioncmp($icingaweb2_version, '4.0.0') < 0 {
     class { 'icingaweb2':
       db_type                => $db_type,
       db_host                => $_db_host,

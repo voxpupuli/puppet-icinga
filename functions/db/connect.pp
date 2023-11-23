@@ -39,20 +39,20 @@ function icinga::db::connect(
       'mariadb': {
         $tls_options = join(any2array(delete_undef_values({
                 '--ssl'        => '',
-                '--ssl-ca'     => $tls['cacert_file'],
+                '--ssl-ca'     => if $tls['noverify'] { undef } else { $tls['cacert_file'] },
                 '--ssl-cert'   => $tls['cert_file'],
                 '--ssl-key'    => $tls['key_file'],
-                '--ssl-capath' => $tls['capath'],
+                '--ssl-capath' => if $tls['noverify'] { undef } else { $tls['capath'] },
                 '--ssl-cipher' => $tls['cipher'],
         })), ' ')
       }
       'mysql': {
         $tls_options = join(any2array(delete_undef_values({
-                '--ssl-mode'   => 'required',
-                '--ssl-ca'     => $tls['cacert_file'],
+                '--ssl-mode'   => if $tls['noverify'] { 'REQUIRED' } else { 'VERIFY_CA' },
+                '--ssl-ca'     => if $tls['noverify'] { undef } else { $tls['cacert_file'] },
                 '--ssl-cert'   => $tls['cert_file'],
                 '--ssl-key'    => $tls['key_file'],
-                '--ssl-capath' => $tls['capath'],
+                '--ssl-capath' => if $tls['noverify'] { undef } else { $tls['capath'] },
                 '--ssl-cipher' => $tls['cipher'],
         })), ' ')
       }
