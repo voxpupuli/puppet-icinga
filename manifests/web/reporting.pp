@@ -49,7 +49,8 @@ class icinga::web::reporting (
 
   icinga::prepare_web('Reporting')
 
-  $_db_charset = $db_type ? {
+  $icingaweb2_version = $icinga::web::icingaweb2_version
+  $_db_charset        = $db_type ? {
     'mysql' => 'utf8mb4',
     default => 'UTF8',
   }
@@ -89,10 +90,12 @@ class icinga::web::reporting (
     mail           => $mail,
   }
 
-  service { 'icinga-reporting':
-    ensure  => $service_ensure,
-    enable  => $service_enable,
-    require => Class['icingaweb2::module::reporting'],
+  if versioncmp($icingaweb2_version, '4.0.0') < 0 {
+    service { 'icinga-reporting':
+      ensure  => $service_ensure,
+      enable  => $service_enable,
+      require => Class['icingaweb2::module::reporting'],
+    }
   }
 
   if defined(Class['icinga::web::monitoring']) {

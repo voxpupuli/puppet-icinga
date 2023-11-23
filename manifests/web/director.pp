@@ -57,6 +57,8 @@ class icinga::web::director (
 ) {
   icinga::prepare_web('Director')
 
+  $icingaweb2_version = $icinga::web::icingaweb2_version
+
   #
   # Database
   #
@@ -110,8 +112,10 @@ class icinga::web::director (
     onlyif      => 'systemctl status icinga-director',
   }
 
-  class { 'icingaweb2::module::director::service':
-    ensure => $service_ensure,
-    enable => $service_enable,
+  if versioncmp($icingaweb2_version, '4.0.0') < 0 {
+    class { 'icingaweb2::module::director::service':
+      ensure => $service_ensure,
+      enable => $service_enable,
+    }
   }
 }
