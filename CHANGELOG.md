@@ -1,6 +1,26 @@
-# Change Log
+# Changelog
+
+## [v4.0.0](https://github.com/icinga/puppet-icinga/tree/v4.0.0) (2023-11-23)
+
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v3.2.1...v4.0.0)
+
+**Implemented enhancements:**
+
+- Add new parameter to mange a additional config dir like conf.d [\#94](https://github.com/Icinga/puppet-icinga/pull/94) ([lbetz](https://github.com/lbetz))
+- Add Puppet 8 Support [\#93](https://github.com/Icinga/puppet-icinga/pull/93) ([lbetz](https://github.com/lbetz))
+- Add x509 module support [\#87](https://github.com/Icinga/puppet-icinga/pull/87) ([lbetz](https://github.com/lbetz))
+
+**Fixed bugs:**
+
+- mysql:db above 13.1.0 requires an array for the tis\_options [\#91](https://github.com/Icinga/puppet-icinga/issues/91)
+
+**Closed issues:**
+
+- Drop Puppet 6 Support [\#90](https://github.com/Icinga/puppet-icinga/issues/90)
+- Add classes to manage pdfexports [\#46](https://github.com/Icinga/puppet-icinga/issues/46)
 
 ## [v3.2.1](https://github.com/icinga/puppet-icinga/tree/v3.2.1) (2023-04-15)
+
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v3.2.0...v3.2.1)
 
 **Fixed bugs:**
@@ -8,6 +28,7 @@
 - Fix db\_charset \(UTF8\) for the web-icingadb resource [\#86](https://github.com/Icinga/puppet-icinga/pull/86) ([lbetz](https://github.com/lbetz))
 
 ## [v3.2.0](https://github.com/icinga/puppet-icinga/tree/v3.2.0) (2023-03-10)
+
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v3.1.1...v3.2.0)
 
 **Implemented enhancements:**
@@ -20,6 +41,7 @@
 - Remove handling of PHP extensions [\#83](https://github.com/Icinga/puppet-icinga/pull/83) ([lbetz](https://github.com/lbetz))
 
 ## [v3.1.1](https://github.com/icinga/puppet-icinga/tree/v3.1.1) (2023-03-05)
+
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v3.1.0...v3.1.1)
 
 **Fixed bugs:**
@@ -27,6 +49,7 @@
 - Install citext extension via contrib class [\#82](https://github.com/Icinga/puppet-icinga/pull/82) ([lbetz](https://github.com/lbetz))
 
 ## [v3.1.0](https://github.com/icinga/puppet-icinga/tree/v3.1.0) (2023-03-05)
+
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v3.0.1...v3.1.0)
 
 **Implemented enhancements:**
@@ -46,6 +69,7 @@
 - Remove setting of default db ports in modules [\#76](https://github.com/Icinga/puppet-icinga/pull/76) ([lbetz](https://github.com/lbetz))
 
 ## [v3.0.1](https://github.com/icinga/puppet-icinga/tree/v3.0.1) (2023-02-02)
+
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v3.0.0...v3.0.1)
 
 **Fixed bugs:**
@@ -53,6 +77,7 @@
 - Fix php extentions mysql and process [\#75](https://github.com/Icinga/puppet-icinga/pull/75) ([lbetz](https://github.com/lbetz))
 
 ## [v3.0.0](https://github.com/icinga/puppet-icinga/tree/v3.0.0) (2023-01-31)
+
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.9.1...v3.0.0)
 
 **Implemented enhancements:**
@@ -67,6 +92,7 @@
 - Add example for using the Icinga Subscription Repo [\#69](https://github.com/Icinga/puppet-icinga/issues/69)
 
 ## [v2.9.1](https://github.com/icinga/puppet-icinga/tree/v2.9.1) (2023-01-02)
+
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.9.0...v2.9.1)
 
 **Fixed bugs:**
@@ -75,6 +101,7 @@
 - error: Could not find template 'icinga/apache\_custom\_default.conf' [\#70](https://github.com/Icinga/puppet-icinga/issues/70)
 
 ## [v2.9.0](https://github.com/icinga/puppet-icinga/tree/v2.9.0) (2022-12-27)
+
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.8.0...v2.9.0)
 
 **Implemented enhancements:**
@@ -84,6 +111,7 @@
 - Add param manage\_crb to class icinga::repos [\#68](https://github.com/Icinga/puppet-icinga/pull/68) ([lbetz](https://github.com/lbetz))
 
 ## [v2.8.0](https://github.com/icinga/puppet-icinga/tree/v2.8.0) (2022-07-26)
+
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.7.1...v2.8.0)
 
 **Implemented enhancements:**
@@ -97,6 +125,7 @@
 - Support Alma and Rocky Linux [\#55](https://github.com/Icinga/puppet-icinga/issues/55)
 
 ## [v2.7.1](https://github.com/icinga/puppet-icinga/tree/v2.7.1) (2022-05-30)
+
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.7.0...v2.7.1)
 
 **Fixed bugs:**
@@ -104,6 +133,7 @@
 - Fix unsupported apache feature CGIPassAuth for older version like on RHEL7 [\#58](https://github.com/Icinga/puppet-icinga/issues/58)
 
 ## [v2.7.0](https://github.com/icinga/puppet-icinga/tree/v2.7.0) (2022-03-08)
+
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.6.1...v2.7.0)
 
 **Implemented enhancements:**
@@ -117,6 +147,7 @@
 - Remove management of Fedora's EPEL from OracleLinux  [\#56](https://github.com/Icinga/puppet-icinga/issues/56)
 
 ## [v2.6.1](https://github.com/icinga/puppet-icinga/tree/v2.6.1) (2022-01-14)
+
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.6.0...v2.6.1)
 
 **Fixed bugs:**
@@ -125,6 +156,7 @@
 - Add missing mime apache module [\#52](https://github.com/Icinga/puppet-icinga/issues/52)
 
 ## [v2.6.0](https://github.com/icinga/puppet-icinga/tree/v2.6.0) (2022-01-05)
+
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.5.0...v2.6.0)
 
 **Implemented enhancements:**
@@ -132,11 +164,8 @@
 - Add management of module fileshipper to director class [\#51](https://github.com/Icinga/puppet-icinga/issues/51)
 - Update to https repos for Debian [\#50](https://github.com/Icinga/puppet-icinga/issues/50)
 
-**Fixed bugs:**
-
-- Update to https repos for Debian [\#50](https://github.com/Icinga/puppet-icinga/issues/50)
-
 ## [v2.5.0](https://github.com/icinga/puppet-icinga/tree/v2.5.0) (2021-12-03)
+
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.4.2...v2.5.0)
 
 **Implemented enhancements:**
@@ -150,6 +179,7 @@
 - Idempotency of icinga::web::director is broken [\#44](https://github.com/Icinga/puppet-icinga/issues/44)
 
 ## [v2.4.2](https://github.com/icinga/puppet-icinga/tree/v2.4.2) (2021-12-01)
+
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.4.1...v2.4.2)
 
 **Fixed bugs:**
@@ -157,6 +187,7 @@
 - set import\_schema in web class to hiera lookup [\#34](https://github.com/Icinga/puppet-icinga/issues/34)
 
 ## [v2.4.1](https://github.com/icinga/puppet-icinga/tree/v2.4.1) (2021-11-05)
+
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.4.0...v2.4.1)
 
 **Fixed bugs:**
@@ -164,6 +195,7 @@
 - Debian Bullseye support is broken [\#43](https://github.com/Icinga/puppet-icinga/issues/43)
 
 ## [v2.4.0](https://github.com/icinga/puppet-icinga/tree/v2.4.0) (2021-11-05)
+
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.3.3...v2.4.0)
 
 **Implemented enhancements:**
@@ -173,6 +205,7 @@
 - Add director support [\#38](https://github.com/Icinga/puppet-icinga/issues/38)
 
 ## [v2.3.3](https://github.com/icinga/puppet-icinga/tree/v2.3.3) (2021-09-03)
+
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.3.2...v2.3.3)
 
 **Fixed bugs:**
@@ -180,6 +213,7 @@
 - Namespace function postgresql::postgresql\_password does not work on Puppet 5 [\#36](https://github.com/Icinga/puppet-icinga/issues/36)
 
 ## [v2.3.2](https://github.com/icinga/puppet-icinga/tree/v2.3.2) (2021-08-17)
+
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.3.1...v2.3.2)
 
 **Fixed bugs:**
@@ -187,6 +221,7 @@
 - using data types of another module breaks puppet 5 compatibility [\#35](https://github.com/Icinga/puppet-icinga/issues/35)
 
 ## [v2.3.1](https://github.com/icinga/puppet-icinga/tree/v2.3.1) (2021-06-21)
+
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.3.0...v2.3.1)
 
 **Fixed bugs:**
@@ -194,6 +229,7 @@
 - NETWAYS repos named the suffix -release by there packages [\#33](https://github.com/Icinga/puppet-icinga/issues/33)
 
 ## [v2.3.0](https://github.com/icinga/puppet-icinga/tree/v2.3.0) (2021-06-05)
+
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.2.0...v2.3.0)
 
 **Implemented enhancements:**
@@ -208,6 +244,7 @@
 - Option to switch off the package management on windows [\#27](https://github.com/Icinga/puppet-icinga/issues/27)
 
 ## [v2.2.0](https://github.com/icinga/puppet-icinga/tree/v2.2.0) (2021-05-19)
+
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.1.4...v2.2.0)
 
 **Implemented enhancements:**
@@ -217,6 +254,7 @@
 - Add management of extra packages [\#17](https://github.com/Icinga/puppet-icinga/issues/17)
 
 ## [v2.1.4](https://github.com/icinga/puppet-icinga/tree/v2.1.4) (2021-05-04)
+
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.1.3...v2.1.4)
 
 **Fixed bugs:**
@@ -224,6 +262,7 @@
 - Broken dependency for yumrepos [\#22](https://github.com/Icinga/puppet-icinga/issues/22)
 
 ## [v2.1.3](https://github.com/icinga/puppet-icinga/tree/v2.1.3) (2021-05-04)
+
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.1.2...v2.1.3)
 
 **Fixed bugs:**
@@ -232,6 +271,7 @@
 - manage\_epel do not work [\#20](https://github.com/Icinga/puppet-icinga/issues/20)
 
 ## [v2.1.2](https://github.com/icinga/puppet-icinga/tree/v2.1.2) (2021-04-26)
+
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.1.1...v2.1.2)
 
 **Fixed bugs:**
@@ -239,6 +279,7 @@
 - Setting config\_server manage a zones directory named zone [\#18](https://github.com/Icinga/puppet-icinga/issues/18)
 
 ## [v2.1.1](https://github.com/icinga/puppet-icinga/tree/v2.1.1) (2021-04-26)
+
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.1.0...v2.1.1)
 
 **Fixed bugs:**
@@ -246,6 +287,7 @@
 - Setting manage for any repo does not work [\#16](https://github.com/Icinga/puppet-icinga/issues/16)
 
 ## [v2.1.0](https://github.com/icinga/puppet-icinga/tree/v2.1.0) (2021-04-24)
+
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v2.0.0...v2.1.0)
 
 **Implemented enhancements:**
@@ -262,6 +304,7 @@
 - Duplicate declaration: Yumrepo\[epel\] is already declared [\#9](https://github.com/Icinga/puppet-icinga/issues/9)
 
 ## [v2.0.0](https://github.com/icinga/puppet-icinga/tree/v2.0.0) (2021-01-11)
+
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v1.0.3...v2.0.0)
 
 **Fixed bugs:**
@@ -273,6 +316,7 @@
 - Add Dependency to puppet-redis [\#8](https://github.com/Icinga/puppet-icinga/issues/8)
 
 ## [v1.0.3](https://github.com/icinga/puppet-icinga/tree/v1.0.3) (2020-10-22)
+
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v1.0.2...v1.0.3)
 
 **Fixed bugs:**
@@ -280,6 +324,7 @@
 - fix gpgkey for epel EL8 [\#5](https://github.com/Icinga/puppet-icinga/pull/5) ([lbetz](https://github.com/lbetz))
 
 ## [v1.0.2](https://github.com/icinga/puppet-icinga/tree/v1.0.2) (2020-10-13)
+
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v0.1.2...v1.0.2)
 
 **Implemented enhancements:**
@@ -292,12 +337,17 @@
 - correct fixtures and metadata [\#4](https://github.com/Icinga/puppet-icinga/issues/4)
 
 ## [v0.1.2](https://github.com/icinga/puppet-icinga/tree/v0.1.2) (2020-04-21)
+
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v0.1.1...v0.1.2)
 
 ## [v0.1.1](https://github.com/icinga/puppet-icinga/tree/v0.1.1) (2020-04-20)
+
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v0.1.0...v0.1.1)
 
 ## [v0.1.0](https://github.com/icinga/puppet-icinga/tree/v0.1.0) (2020-04-20)
 
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/fad739989bd9c9133abffd39e0d7deb75797de06...v0.1.0)
 
-\* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
+
+
+\* *This Changelog was automatically generated by [github_changelog_generator](https://github.com/github-changelog-generator/github-changelog-generator)*
