@@ -1,5 +1,14 @@
 # Changelog
 
+## [v4.1.0](https://github.com/icinga/puppet-icinga/tree/v4.1.0) (2023-11-28)
+
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v4.0.0...v4.1.0)
+
+**Implemented enhancements:**
+
+- Add feature to add additional zones to server and workers e.g. for cascading satellites [\#99](https://github.com/Icinga/puppet-icinga/issues/99)
+- Add order to global zones to have them at the end of the file zones.conf [\#98](https://github.com/Icinga/puppet-icinga/issues/98)
+
 ## [v4.0.0](https://github.com/icinga/puppet-icinga/tree/v4.0.0) (2023-11-23)
 
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v3.2.1...v4.0.0)
@@ -19,8 +28,8 @@
 
 **Closed issues:**
 
-- Drop Puppet 6 Support [\#90](https://github.com/Icinga/puppet-icinga/issues/90)
 - Add classes to manage pdfexports [\#46](https://github.com/Icinga/puppet-icinga/issues/46)
+- Drop Puppet 6 Support [\#90](https://github.com/Icinga/puppet-icinga/issues/90)
 
 ## [v3.2.1](https://github.com/icinga/puppet-icinga/tree/v3.2.1) (2023-04-15)
 
