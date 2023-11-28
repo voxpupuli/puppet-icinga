@@ -597,7 +597,6 @@ The following parameters are available in the `icinga::server` class:
 * [`zone`](#-icinga--server--zone)
 * [`colocation_endpoints`](#-icinga--server--colocation_endpoints)
 * [`workers`](#-icinga--server--workers)
-* [`extra_zones`](#-icinga--server--extra_zones)
 * [`global_zones`](#-icinga--server--global_zones)
 * [`ca_server`](#-icinga--server--ca_server)
 * [`ticket_salt`](#-icinga--server--ticket_salt)
@@ -649,10 +648,6 @@ Data type: `Hash[String,Hash]`
 All worker zones with key 'endpoints' for endpoint objects.
 
 Default value: `{}`
-
-##### <a name="-icinga--server--extra_zones"></a>`extra_zones`
-
-Additonal zones that are not limited to the 'parent_zone' as parent.
 
 ##### <a name="-icinga--server--global_zones"></a>`global_zones`
 

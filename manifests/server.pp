@@ -17,9 +17,6 @@
 # @param workers
 #   All worker zones with key 'endpoints' for endpoint objects.
 #
-# @param extra_zones
-#   Additonal zones that are not limited to the 'parent_zone' as parent.
-#
 # @param global_zones
 #   List of global zones to configure.
 #
@@ -80,7 +77,7 @@ class icinga::server (
   }
 
   # inject parent zone if no parent exists
-  $_workers = $workers.reduce( {} ) |$memo, $worker| { $memo + { $worker[0] => { parent => $zone } + $worker[1] } }
+  $_workers = $workers.reduce({}) |$memo, $worker| { $memo + { $worker[0] => { parent => $zone } + $worker[1] } }
 
   class { 'icinga':
     ca            => $_ca,

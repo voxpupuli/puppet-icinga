@@ -46,7 +46,7 @@ class icinga::worker (
   Boolean                      $run_web              = false,
 ) {
   # inject parent zone if no parent exists
-  $_workers = $workers.reduce( {} ) |$memo, $worker| { $memo + { $worker[0] => { parent => $zone } + $worker[1] } }
+  $_workers = $workers.reduce({}) |$memo, $worker| { $memo + { $worker[0] => { parent => $zone } + $worker[1] } }
 
   class { 'icinga':
     ca              => false,
