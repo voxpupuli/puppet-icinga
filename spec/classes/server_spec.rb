@@ -18,15 +18,15 @@ describe 'icinga::server' do
         let(:icinga2_group) { 'icinga' }
       end
 
-      context 'with defaults' do
+      context "#{os} with defaults" do
         it { is_expected.to compile.and_raise_error(%r{expects a String value if a CA is configured}) }
       end
 
-      context 'with ticket_salt => supersecret, global_zones => [foo], web_api_user => bar, web_api_pass => topsecret' do
+      context "#{os} with ticket_salt 'supersecret', global_zones ['foo','bar'], web_api_user 'bar', web_api_pass 'topsecret'" do
         let(:params) do
           {
             ticket_salt: 'supersecret',
-            global_zones: ['foo'],
+            global_zones: ['foo', 'bar'],
             web_api_user: 'bar',
             web_api_pass: 'topsecret'
           }
@@ -65,7 +65,8 @@ describe 'icinga::server' do
           )
         }
 
-        it { is_expected.to contain_icinga2__object__zone('foo').with('global' => true) }
+        it { is_expected.to contain_icinga2__object__zone('foo').with('global' => true, 'order' => 'zz') }
+        it { is_expected.to contain_icinga2__object__zone('bar').with('global' => true, 'order' => 'zz') }
 
         it {
           is_expected.to contain_file("#{icinga2_config_dir}/zones.d/foo").with(
@@ -81,7 +82,7 @@ describe 'icinga::server' do
         it { is_expected.to contain_icinga2__object__apiuser('bar').with({ 'password' => 'topsecret' }) }
       end
 
-      context 'with ca_server => foo, ticket_salt => supersecret, colocation_endpoints => {bar => {host => 127.0.0.1}}' do
+      context "#{os} with ca_server 'foo', ticket_salt 'supersecret' and a colocation_endpoints" do
         let(:params) do
           {
             ca_server: 'foo',
@@ -113,12 +114,15 @@ describe 'icinga::server' do
         }
       end
 
-      context 'with ticket_salt => supersecret, zone => foo, workers => {bar => {endpoints => {foobar => {host => 127.0.0.1}}}}, logging_type => syslog, logging_level => warning' do
+      context "#{os} with ticket_salt 'supersecret', zone 'foo' and two workers, logging_type 'syslog', logging_level 'warning'" do
         let(:params) do
           {
             ticket_salt: 'supersecret',
             zone: 'foo',
-            workers: { 'bar' => { 'endpoints' => { 'foobar' => { 'host' => '127.0.0.1' } } } },
+            workers: {
+              'bar' => { 'endpoints' => { 'foobar' => { 'host' => '127.0.0.1' } } },
+              'out' => { 'endpoints' => { 'outbar' => {} }, 'parent' => 'bar' },
+            },
             logging_type: 'syslog',
             logging_level: 'warning',
           }
@@ -136,9 +140,13 @@ describe 'icinga::server' do
                   'endpoints' => { 'NodeName' => {} },
                 },
                 'bar' => {
+                  'parent'    => 'foo',
                   'endpoints' => { 'foobar' => { 'host' => '127.0.0.1' } },
-                  'parent' => 'foo',
                 },
+                'out' => {
+                  'parent'    => 'bar',
+                  'endpoints' => { 'outbar' => {} },
+                }
               },
               'logging_type'  => 'syslog',
               'logging_level' => 'warning',

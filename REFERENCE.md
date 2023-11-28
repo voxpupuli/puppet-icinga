@@ -597,6 +597,7 @@ The following parameters are available in the `icinga::server` class:
 * [`zone`](#-icinga--server--zone)
 * [`colocation_endpoints`](#-icinga--server--colocation_endpoints)
 * [`workers`](#-icinga--server--workers)
+* [`extra_zones`](#-icinga--server--extra_zones)
 * [`global_zones`](#-icinga--server--global_zones)
 * [`ca_server`](#-icinga--server--ca_server)
 * [`ticket_salt`](#-icinga--server--ticket_salt)
@@ -645,10 +646,13 @@ Default value: `{}`
 
 Data type: `Hash[String,Hash]`
 
-All worker zones with key 'endpoints' for
-endpoint objects.
+All worker zones with key 'endpoints' for endpoint objects.
 
 Default value: `{}`
+
+##### <a name="-icinga--server--extra_zones"></a>`extra_zones`
+
+Additonal zones that are not limited to the 'parent_zone' as parent.
 
 ##### <a name="-icinga--server--global_zones"></a>`global_zones`
 
@@ -1774,6 +1778,7 @@ The following parameters are available in the `icinga::worker` class:
 * [`parent_zone`](#-icinga--worker--parent_zone)
 * [`parent_endpoints`](#-icinga--worker--parent_endpoints)
 * [`colocation_endpoints`](#-icinga--worker--colocation_endpoints)
+* [`workers`](#-icinga--worker--workers)
 * [`global_zones`](#-icinga--worker--global_zones)
 * [`logging_type`](#-icinga--worker--logging_type)
 * [`logging_level`](#-icinga--worker--logging_level)
@@ -1811,6 +1816,14 @@ Data type: `Hash[String, Hash]`
 
 When the zone includes more than one endpoint, set here the additional endpoint(s).
 Icinga supports two endpoints per zone only.
+
+Default value: `{}`
+
+##### <a name="-icinga--worker--workers"></a>`workers`
+
+Data type: `Hash[String, Hash]`
+
+All cascading worker zones with key 'endpoints' for endpoint objects.
 
 Default value: `{}`
 

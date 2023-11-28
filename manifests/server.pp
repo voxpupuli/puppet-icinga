@@ -15,8 +15,10 @@
 #   Icinga supports two endpoints per zone only.
 #
 # @param workers
-#   All worker zones with key 'endpoints' for 
-#   endpoint objects.
+#   All worker zones with key 'endpoints' for endpoint objects.
+#
+# @param extra_zones
+#   Additonal zones that are not limited to the 'parent_zone' as parent.
 #
 # @param global_zones
 #   List of global zones to configure.
@@ -77,8 +79,8 @@ class icinga::server (
     $_config_server = $config_server
   }
 
-  # inject parent zone
-  $_workers = parseyaml(inline_template('<%= @workers.inject({}) {|h, (x,y)| h[x] = y.merge({"parent" => @zone}); h}.to_yaml %>'))
+  # inject parent zone if no parent exists
+  $_workers = $workers.reduce( {} ) |$memo, $worker| { $memo + { $worker[0] => { parent => $zone } + $worker[1] } }
 
   class { 'icinga':
     ca            => $_ca,
@@ -96,6 +98,7 @@ class icinga::server (
 
   icinga2::object::zone { $global_zones:
     global => true,
+    order  => 'zz',
   }
 
   if $_config_server {

@@ -17,6 +17,9 @@
 #   When the zone includes more than one endpoint, set here the additional endpoint(s).
 #   Icinga supports two endpoints per zone only.
 #
+# @param workers
+#   All cascading worker zones with key 'endpoints' for endpoint objects.   
+#
 # @param global_zones
 #   List of global zones to configure.
 #
@@ -36,11 +39,15 @@ class icinga::worker (
   Hash[String, Hash]           $parent_endpoints,
   String                       $parent_zone          = 'main',
   Hash[String, Hash]           $colocation_endpoints = {},
+  Hash[String, Hash]           $workers              = {},
   Array[String]                $global_zones         = [],
   Enum['file', 'syslog']       $logging_type         = 'file',
   Optional[Icinga::LogLevel]   $logging_level        = undef,
   Boolean                      $run_web              = false,
 ) {
+  # inject parent zone if no parent exists
+  $_workers = $workers.reduce( {} ) |$memo, $worker| { $memo + { $worker[0] => { parent => $zone } + $worker[1] } }
+
   class { 'icinga':
     ca              => false,
     ssh_private_key => undef,
@@ -49,7 +56,7 @@ class icinga::worker (
     zones           => {
       'ZoneName'   => { 'endpoints' => { 'NodeName' => {} } + $colocation_endpoints, 'parent' => $parent_zone, },
       $parent_zone => { 'endpoints' => $parent_endpoints, },
-    },
+    } + $_workers,
     logging_type    => $logging_type,
     logging_level   => $logging_level,
     prepare_web     => $run_web,
@@ -59,5 +66,6 @@ class icinga::worker (
 
   icinga2::object::zone { $global_zones:
     global => true,
+    order  => 'zz',
   }
 }
