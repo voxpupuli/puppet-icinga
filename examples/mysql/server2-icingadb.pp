@@ -1,9 +1,7 @@
-/**
- * Example for Icinga HA for server2.icinga.com as config server
- * and server1.icinga2.com as secondary server.
- * Notice: The example for db.icinga.com in examples/mysql/database.pp is TLS based.
- * For TLS base example use hiera data in examples/mysql/data/.
- */
+# Example for Icinga HA for server2.icinga.com as config server
+# and server1.icinga2.com as secondary server.
+# Notice: The example for db.icinga.com in examples/mysql/database.pp is TLS based.
+# For TLS base example use hiera data in examples/mysql/data/.
 
 host { 'db.icinga.com':
   ip => '192.168.6.10',

@@ -1,8 +1,6 @@
-/**
- * Example for a dedicated Icinga Web instance for the examples in
- * examples/mysql/server1-icingadb.pp and server2-icingadb.pp.
- * For TLS base example use hiera data in examples/mysql/data/web.icinga.com.yaml.
- */
+# Example for a dedicated Icinga Web instance for the examples in
+# examples/mysql/server1-icingadb.pp and server2-icingadb.pp.
+# For TLS base example use hiera data in examples/mysql/data/web.icinga.com.yaml.
 
 host { 'db.icinga.com':
   ip => '192.168.6.10',
