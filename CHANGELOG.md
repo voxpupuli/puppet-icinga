@@ -1,5 +1,17 @@
 # Changelog
 
+## [v4.1.1](https://github.com/icinga/puppet-icinga/tree/v4.1.1) (2023-12-21)
+
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v4.1.0...v4.1.1)
+
+**Fixed bugs:**
+
+- Add PostgreSQL 15 support [\#100](https://github.com/Icinga/puppet-icinga/issues/100)
+
+**Closed issues:**
+
+- Add example for an Icinga HA and TLS based with dedicated MariaDB/MySQL and Icinga Web [\#101](https://github.com/Icinga/puppet-icinga/issues/101)
+
 ## [v4.1.0](https://github.com/icinga/puppet-icinga/tree/v4.1.0) (2023-11-28)
 
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v4.0.0...v4.1.0)
