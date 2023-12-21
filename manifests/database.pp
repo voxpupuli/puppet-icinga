@@ -47,6 +47,7 @@ define icinga::database (
       password => $_pass,
       encoding => $encoding,
       locale   => $collation,
+      owner    => $db_user,
     }
 
     $access_instances.each |$host| {
