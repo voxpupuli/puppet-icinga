@@ -54,49 +54,49 @@ class { 'mysql::server':
 }
 
 class { 'icinga::ido::database':
-  ido_instances => ['192.168.6.11', '192.168.6.12'],
+  ido_instances => ['192.168.6.2', '192.168.6.11', '192.168.6.12'],
   db_type       => 'mysql',
   db_pass       => 'icinga2',
   tls           => 'password',
 }
 
 class { 'icinga::db::database':
-  access_instances => ['192.168.6.11', '192.168.6.12'],
+  access_instances => ['192.168.6.2', '192.168.6.11', '192.168.6.12'],
   db_type          => 'mysql',
   db_pass          => 'icingadb',
   tls              => 'cert',
 }
 
 class { 'icinga::web::database':
-  web_instances => ['192.168.6.11', '192.168.6.12'],
+  web_instances => ['192.168.6.2', '192.168.6.11', '192.168.6.12'],
   db_type       => 'mysql',
   db_pass       => 'icingaweb2',
   tls           => 'cert',
 }
 
 class { 'icinga::web::director::database':
-  web_instances => ['192.168.6.11', '192.168.6.12'],
+  web_instances => ['192.168.6.2'],
   db_type       => 'mysql',
   db_pass       => 'director',
   tls           => 'password',
 }
 
 class { 'icinga::web::reporting::database':
-  web_instances => ['192.168.6.11', '192.168.6.12'],
+  web_instances => ['192.168.6.2'],
   db_type       => 'mysql',
   db_pass       => 'reporting',
   tls           => 'password',
 }
 
 class { 'icinga::web::x509::database':
-  web_instances => ['192.168.6.11', '192.168.6.12'],
+  web_instances => ['192.168.6.2'],
   db_type       => 'mysql',
   db_pass       => 'x509',
   tls           => 'password',
 }
 
 class { 'icinga::web::vspheredb::database':
-  web_instances => ['192.168.6.11', '192.168.6.12'],
+  web_instances => ['192.168.6.2'],
   db_type       => 'mysql',
   db_pass       => 'vspheredb',
   tls           => 'password',
