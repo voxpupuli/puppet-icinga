@@ -29,7 +29,7 @@
 #   to authenticate the certificate request againt the CA on host `ca_server`.
 #
 # @param logging_type
-#   Switch the log target. Only `file` is supported on Windows.
+#   Switch the log target. On Windows `syslog` is ignored, `eventlog` on all other platforms.
 #
 # @param logging_level
 #   Set the log level.
@@ -56,7 +56,7 @@ class icinga (
   Optional[Stdlib::Host]               $ca_server       = undef,
   Optional[Icinga::Secret]             $ticket_salt     = undef,
   Array[String]                        $extra_packages  = [],
-  Enum['file', 'syslog']               $logging_type    = 'file',
+  Enum['file', 'syslog', 'eventlog']   $logging_type    = 'file',
   Optional[Icinga::LogLevel]           $logging_level   = undef,
   String                               $cert_name       = $facts['networking']['fqdn'],
   Boolean                              $prepare_web     = false,
@@ -90,23 +90,37 @@ class icinga (
     features        => [],
   }
 
-  # switch logging between mainlog and syslog
-  # logging on windows only file is supported, warning output see below
-  if $logging_type == 'file' or $facts['kernel'] == 'windows' {
-    $_mainlog = 'present'
-    $_syslog  = 'absent'
+  # switch logging between mainlog, syslog and eventlog
+  if $facts['kernel'] != 'windows' {
+    if $logging_type == 'file' {
+      $_mainlog = 'present'
+      $_syslog  = 'absent'
+    } else {
+      $_mainlog = 'absent'
+      $_syslog  = 'present'
+    }
+
+    class { 'icinga2::feature::syslog':
+      ensure   => $_syslog,
+      severity => $logging_level,
+    }
   } else {
-    $_mainlog = 'absent'
-    $_syslog  = 'present'
+    if $logging_type == 'file' {
+      $_mainlog  = 'present'
+      $_eventlog = 'absent'
+    } else {
+      $_mainlog  = 'absent'
+      $_eventlog = 'present'
+    }
+
+    class { 'icinga2::feature::windowseventlog':
+      ensure   => $_eventlog,
+      severity => $logging_level,
+    }
   }
 
   class { 'icinga2::feature::mainlog':
     ensure   => $_mainlog,
-    severity => $logging_level,
-  }
-
-  class { 'icinga2::feature::syslog':
-    ensure   => $_syslog,
     severity => $logging_level,
   }
 

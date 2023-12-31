@@ -14,7 +14,7 @@
 #   List of global zones to configure.
 #
 # @param logging_type
-#   Switch the log target. Only `file` is supported on Windows.
+#   Switch the log target. On Windows `syslog` is ignored, `eventlog` on all other platforms.
 #
 # @param logging_level
 #   Set the log level.
@@ -27,14 +27,14 @@
 #   and add the Icinga user to this group.
 #
 class icinga::agent (
-  Stdlib::Host                    $ca_server,
-  Hash[String, Hash]              $parent_endpoints,
-  String                          $parent_zone   = 'main',
-  Array[String]                   $global_zones  = [],
-  Enum['file', 'syslog']          $logging_type  = 'file',
-  Optional[Icinga::LogLevel]      $logging_level = undef,
-  String                          $zone          = 'NodeName',
-  Boolean                         $run_web       = false,
+  Stdlib::Host                       $ca_server,
+  Hash[String, Hash]                 $parent_endpoints,
+  String                             $parent_zone   = 'main',
+  Array[String]                      $global_zones  = [],
+  Enum['file', 'syslog', 'eventlog'] $logging_type  = 'file',
+  Optional[Icinga::LogLevel]         $logging_level = undef,
+  String                             $zone          = 'NodeName',
+  Boolean                            $run_web       = false,
 ) {
   class { 'icinga':
     ca              => false,
