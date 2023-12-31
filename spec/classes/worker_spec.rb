@@ -34,7 +34,7 @@ describe 'icinga::worker' do
                   'endpoints' => { 'foobar' => { 'host' => '127.0.0.1' } },
                 },
               },
-              'logging_type' => 'file',
+              'logging_type' => 'syslog',
             },
           )
         }
