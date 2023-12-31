@@ -116,8 +116,6 @@ Data type: `Enum['file', 'syslog', 'eventlog']`
 
 Switch the log target. On Windows `syslog` is ignored, `eventlog` on all other platforms.
 
-Default value: `'file'`
-
 ##### <a name="-icinga--agent--logging_level"></a>`logging_level`
 
 Data type: `Icinga::LogLevel`
@@ -707,8 +705,6 @@ Default value: `undef`
 Data type: `Enum['file', 'syslog', 'eventlog']`
 
 Switch the log target. On Windows `syslog` is ignored, `eventlog` on all other platforms.
-
-Default value: `'file'`
 
 ##### <a name="-icinga--server--logging_level"></a>`logging_level`
 
@@ -1830,8 +1826,6 @@ Default value: `[]`
 Data type: `Enum['file', 'syslog', 'eventlog']`
 
 Switch the log target. On Windows `syslog` is ignored, `eventlog` on all other platforms.
-
-Default value: `'file'`
 
 ##### <a name="-icinga--worker--logging_level"></a>`logging_level`
 

@@ -30,9 +30,9 @@ class icinga::agent (
   Stdlib::Host                       $ca_server,
   Hash[String, Hash]                 $parent_endpoints,
   Icinga::LogLevel                   $logging_level,
+  Enum['file', 'syslog', 'eventlog'] $logging_type,
   String                             $parent_zone   = 'main',
   Array[String]                      $global_zones  = [],
-  Enum['file', 'syslog', 'eventlog'] $logging_type  = 'file',
   String                             $zone          = 'NodeName',
   Boolean                            $run_web       = false,
 ) {

@@ -11,3 +11,7 @@ icinga::redis::globals::user: icinga-redis
 icinga::redis::globals::group: icinga-redis
 
 icinga::web::apache_cgi_pass_auth: true
+
+icinga::server::logging_type: syslog
+icinga::worker::logging_type: syslog
+icinga::agent::logging_type: syslog

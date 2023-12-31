@@ -37,12 +37,12 @@ class icinga::worker (
   Stdlib::Host                       $ca_server,
   String                             $zone,
   Hash[String, Hash]                 $parent_endpoints,
+  Enum['file', 'syslog', 'eventlog'] $logging_type,
   Icinga::LogLevel                   $logging_level,
   String                             $parent_zone          = 'main',
   Hash[String, Hash]                 $colocation_endpoints = {},
   Hash[String, Hash]                 $workers              = {},
   Array[String]                      $global_zones         = [],
-  Enum['file', 'syslog', 'eventlog'] $logging_type         = 'file',
   Boolean                            $run_web              = false,
 ) {
   # inject parent zone if no parent exists
