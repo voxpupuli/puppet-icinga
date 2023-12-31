@@ -31,7 +31,7 @@ define icinga::database (
     }
 
     if versioncmp($facts['puppetversion'], '6.0.0') < 0  or ($facts['os']['family'] == 'redhat' and Integer($facts['os']['release']['major']) < 8) {
-      $_pass = icinga::unwrap($db_pass)
+      $_pass = unwrap($db_pass)
     } else {
       $_pass = postgresql::postgresql_password($db_user, $db_pass, false, $postgresql::server::password_encryption)
     }
