@@ -120,11 +120,9 @@ Default value: `'file'`
 
 ##### <a name="-icinga--agent--logging_level"></a>`logging_level`
 
-Data type: `Optional[Icinga::LogLevel]`
+Data type: `Icinga::LogLevel`
 
 Set the log level.
-
-Default value: `undef`
 
 ##### <a name="-icinga--agent--zone"></a>`zone`
 
@@ -714,11 +712,9 @@ Default value: `'file'`
 
 ##### <a name="-icinga--server--logging_level"></a>`logging_level`
 
-Data type: `Optional[Icinga::LogLevel]`
+Data type: `Icinga::LogLevel`
 
 Set the log level.
-
-Default value: `undef`
 
 ##### <a name="-icinga--server--run_web"></a>`run_web`
 
@@ -1839,11 +1835,9 @@ Default value: `'file'`
 
 ##### <a name="-icinga--worker--logging_level"></a>`logging_level`
 
-Data type: `Optional[Icinga::LogLevel]`
+Data type: `Icinga::LogLevel`
 
 Set the log level.
-
-Default value: `undef`
 
 ##### <a name="-icinga--worker--run_web"></a>`run_web`
 

@@ -49,6 +49,7 @@
 #   and add the Icinga user to this group.
 #
 class icinga::server (
+  Icinga::LogLevel                   $logging_level,
   Boolean                            $ca                   = false,
   Boolean                            $config_server        = false,
   String                             $zone                 = 'main',
@@ -62,7 +63,6 @@ class icinga::server (
   String                             $director_api_user    = 'director',
   Optional[Icinga::Secret]           $director_api_pass    = undef,
   Enum['file', 'syslog', 'eventlog'] $logging_type         = 'file',
-  Optional[Icinga::LogLevel]         $logging_level        = undef,
   Boolean                            $run_web              = false,
 ) {
   if empty($colocation_endpoints) {
