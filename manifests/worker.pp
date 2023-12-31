@@ -24,7 +24,7 @@
 #   List of global zones to configure.
 #
 # @param logging_type
-#   Switch the log target. Only `file` is supported on Windows.
+#   Switch the log target. On Windows `syslog` is ignored, `eventlog` on all other platforms.
 #
 # @param logging_level
 #   Set the log level.
@@ -34,16 +34,16 @@
 #   and add the Icinga user to this group.
 #
 class icinga::worker (
-  Stdlib::Host                 $ca_server,
-  String                       $zone,
-  Hash[String, Hash]           $parent_endpoints,
-  String                       $parent_zone          = 'main',
-  Hash[String, Hash]           $colocation_endpoints = {},
-  Hash[String, Hash]           $workers              = {},
-  Array[String]                $global_zones         = [],
-  Enum['file', 'syslog']       $logging_type         = 'file',
-  Optional[Icinga::LogLevel]   $logging_level        = undef,
-  Boolean                      $run_web              = false,
+  Stdlib::Host                       $ca_server,
+  String                             $zone,
+  Hash[String, Hash]                 $parent_endpoints,
+  String                             $parent_zone          = 'main',
+  Hash[String, Hash]                 $colocation_endpoints = {},
+  Hash[String, Hash]                 $workers              = {},
+  Array[String]                      $global_zones         = [],
+  Enum['file', 'syslog', 'eventlog'] $logging_type         = 'file',
+  Optional[Icinga::LogLevel]         $logging_level        = undef,
+  Boolean                            $run_web              = false,
 ) {
   # inject parent zone if no parent exists
   $_workers = $workers.reduce({}) |$memo, $worker| { $memo + { $worker[0] => { parent => $zone } + $worker[1] } }

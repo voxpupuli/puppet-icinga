@@ -112,9 +112,9 @@ Default value: `[]`
 
 ##### <a name="-icinga--agent--logging_type"></a>`logging_type`
 
-Data type: `Enum['file', 'syslog']`
+Data type: `Enum['file', 'syslog', 'eventlog']`
 
-Switch the log target. Only `file` is supported on Windows.
+Switch the log target. On Windows `syslog` is ignored, `eventlog` on all other platforms.
 
 Default value: `'file'`
 
@@ -706,9 +706,9 @@ Default value: `undef`
 
 ##### <a name="-icinga--server--logging_type"></a>`logging_type`
 
-Data type: `Enum['file', 'syslog']`
+Data type: `Enum['file', 'syslog', 'eventlog']`
 
-Switch the log target. Only `file` is supported on Windows.
+Switch the log target. On Windows `syslog` is ignored, `eventlog` on all other platforms.
 
 Default value: `'file'`
 
@@ -1831,9 +1831,9 @@ Default value: `[]`
 
 ##### <a name="-icinga--worker--logging_type"></a>`logging_type`
 
-Data type: `Enum['file', 'syslog']`
+Data type: `Enum['file', 'syslog', 'eventlog']`
 
-Switch the log target. Only `file` is supported on Windows.
+Switch the log target. On Windows `syslog` is ignored, `eventlog` on all other platforms.
 
 Default value: `'file'`
 

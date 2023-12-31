@@ -39,7 +39,7 @@
 #   Icinga API director user password.
 #
 # @param logging_type
-#   Switch the log target. Only `file` is supported on Windows.
+#   Switch the log target. On Windows `syslog` is ignored, `eventlog` on all other platforms.
 #
 # @param logging_level
 #   Set the log level.
@@ -49,21 +49,21 @@
 #   and add the Icinga user to this group.
 #
 class icinga::server (
-  Boolean                         $ca                   = false,
-  Boolean                         $config_server        = false,
-  String                          $zone                 = 'main',
-  Hash[String,Hash]               $colocation_endpoints = {},
-  Hash[String,Hash]               $workers              = {},
-  Array[String]                   $global_zones         = [],
-  Optional[Stdlib::Host]          $ca_server            = undef,
-  Optional[Icinga::Secret]        $ticket_salt          = undef,
-  String                          $web_api_user         = 'icingaweb2',
-  Optional[Icinga::Secret]        $web_api_pass         = undef,
-  String                          $director_api_user    = 'director',
-  Optional[Icinga::Secret]        $director_api_pass    = undef,
-  Enum['file', 'syslog']          $logging_type         = 'file',
-  Optional[Icinga::LogLevel]      $logging_level        = undef,
-  Boolean                         $run_web              = false,
+  Boolean                            $ca                   = false,
+  Boolean                            $config_server        = false,
+  String                             $zone                 = 'main',
+  Hash[String,Hash]                  $colocation_endpoints = {},
+  Hash[String,Hash]                  $workers              = {},
+  Array[String]                      $global_zones         = [],
+  Optional[Stdlib::Host]             $ca_server            = undef,
+  Optional[Icinga::Secret]           $ticket_salt          = undef,
+  String                             $web_api_user         = 'icingaweb2',
+  Optional[Icinga::Secret]           $web_api_pass         = undef,
+  String                             $director_api_user    = 'director',
+  Optional[Icinga::Secret]           $director_api_pass    = undef,
+  Enum['file', 'syslog', 'eventlog'] $logging_type         = 'file',
+  Optional[Icinga::LogLevel]         $logging_level        = undef,
+  Boolean                            $run_web              = false,
 ) {
   if empty($colocation_endpoints) {
     $_ca            = true
