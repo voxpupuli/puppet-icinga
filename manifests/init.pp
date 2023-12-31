@@ -213,7 +213,7 @@ class icinga (
           "${icinga_home}/.ssh/id_${ssh_key_type}":
             mode      => '0600',
             show_diff => false,
-            content   => icinga::unwrap($ssh_private_key);
+            content   => unwrap($ssh_private_key);
           "${icinga_home}/.ssh/config":
             content => "Host *\n  StrictHostKeyChecking no\n  ControlPath ${icinga_home}/.ssh/controlmasters/%r@%h:%p.socket\n  ControlMaster auto\n  ControlPersist 5m";
         }

@@ -56,7 +56,6 @@ PHP and a Webserver.
 with or without TLS information.
 * [`icinga::newline`](#icinga--newline): Replace newlines for Windows systems.
 * [`icinga::prepare_web`](#icinga--prepare_web): This funktion checks for web preparation and display a warning if fails
-* [`icinga::unwrap`](#icinga--unwrap): This function returns an unwrap string if necessary.
 
 ### Data types
 
@@ -2032,24 +2031,6 @@ Returns: `Any` Nothing, statement function.
 ##### `icingamod`
 
 Data type: `String`
-
-
-
-### <a name="icinga--unwrap"></a>`icinga::unwrap`
-
-Type: Puppet Language
-
-This function returns an unwrap string if necessary.
-
-#### `icinga::unwrap(Optional[Variant[String, Sensitive[String]]] $arg = undef)`
-
-The icinga::unwrap function.
-
-Returns: `Any` The unwraped string.
-
-##### `arg`
-
-Data type: `Optional[Variant[String, Sensitive[String]]]`
 
 
 
