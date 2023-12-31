@@ -49,17 +49,16 @@ class icinga::worker (
   $_workers = $workers.reduce({}) |$memo, $worker| { $memo + { $worker[0] => { parent => $zone } + $worker[1] } }
 
   class { 'icinga':
-    ca              => false,
-    ssh_private_key => undef,
-    ca_server       => $ca_server,
-    this_zone       => $zone,
-    zones           => {
+    ca            => false,
+    ca_server     => $ca_server,
+    this_zone     => $zone,
+    zones         => {
       'ZoneName'   => { 'endpoints' => { 'NodeName' => {} } + $colocation_endpoints, 'parent' => $parent_zone, },
       $parent_zone => { 'endpoints' => $parent_endpoints, },
     } + $_workers,
-    logging_type    => $logging_type,
-    logging_level   => $logging_level,
-    prepare_web     => $run_web,
+    logging_type  => $logging_type,
+    logging_level => $logging_level,
+    prepare_web   => $run_web,
   }
 
   include icinga2::feature::checker

@@ -12,15 +12,6 @@
 # @param zones
 #   All other zones.
 #
-# @param ssh_key_type
-#   SSH key type.
-#
-# @param ssh_private_key
-#   The private key to install.
-#
-# @param ssh_public_key
-#   The public key to install.
-#
 # @param ca_server
 #   The CA to send the certificate request to.
 #
@@ -50,9 +41,6 @@ class icinga (
   Boolean                              $ca,
   String                               $this_zone,
   Hash[String, Hash]                   $zones,
-  Enum['dsa','ecdsa','ed25519','rsa']  $ssh_key_type    = 'rsa',
-  Optional[Icinga::Secret]             $ssh_private_key = undef,
-  Optional[String]                     $ssh_public_key  = undef,
   Optional[Stdlib::Host]               $ca_server       = undef,
   Optional[Icinga::Secret]             $ticket_salt     = undef,
   Array[String]                        $extra_packages  = [],
@@ -127,54 +115,29 @@ class icinga (
   case $facts['kernel'] {
     'linux': {
       $icinga_user    = $icinga2::globals::user
-      $icinga_group   = $icinga2::globals::group
       $icinga_package = $icinga2::globals::package_name
-      $icinga_home    = $icinga2::globals::spool_dir
       $icinga_service = $icinga2::globals::service_name
-
-      if $ssh_public_key {
-        $icinga_shell = '/bin/bash'
-      } else {
-        $icinga_shell = '/bin/false'
-      }
 
       case $facts['os']['family'] {
         'redhat': {
           package { ['nagios-common', $icinga_package] + $extra_packages:
             ensure => installed,
-            before => User[$icinga_user],
           }
 
-          $icinga_user_groups = if $prepare_web {
-            ['nagios', 'icingaweb2']
-          } else {
-            ['nagios']
+          -> group { 'nagios':
+            members => [$icinga_user],
           }
         }
 
         'debian': {
           package { [$icinga_package] + $extra_packages:
             ensure => installed,
-            before => User['nagios'],
-          }
-
-          $icinga_user_groups = if $prepare_web {
-            ['icingaweb2']
-          } else {
-            undef
           }
         }
 
         'suse': {
           package { [$icinga_package] + $extra_packages:
             ensure => installed,
-            before => User['icinga'],
-          }
-
-          $icinga_user_groups = if $prepare_web {
-            ['icingaweb2']
-          } else {
-            undef
           }
         }
 
@@ -184,54 +147,20 @@ class icinga (
       }
 
       if $prepare_web {
-        group { 'icingaweb2':
-          system => true,
-        }
-
         Package['icinga2'] -> Exec['restarting icinga2'] -> Class['icinga2']
 
-        exec { 'restarting icinga2':
+        group { 'icingaweb2':
+          system  => true,
+          members => $icinga_user,
+        }
+
+        ~> exec { 'restarting icinga2':
           path        => $facts['path'],
           command     => "service ${icinga_service} restart",
           onlyif      => "service ${icinga_service} status",
           refreshonly => true,
-          subscribe   => User[$icinga_user],
         }
       }
-
-      user { $icinga_user:
-        ensure => present,
-        shell  => $icinga_shell,
-        groups => $icinga_user_groups,
-        before => Class['icinga2'],
-      }
-
-      if $ssh_public_key {
-        ssh_authorized_key { "${icinga_user}@${$facts['networking']['fqdn']}":
-          ensure => present,
-          user   => $icinga_user,
-          key    => $ssh_public_key,
-          type   => $ssh_key_type,
-        }
-      } # pubkey
-
-      if $ssh_private_key {
-        file {
-          default:
-            ensure => file,
-            owner  => $icinga_user,
-            group  => $icinga_group;
-          ["${icinga_home}/.ssh", "${icinga_home}/.ssh/controlmasters"]:
-            ensure => directory,
-            mode   => '0700';
-          "${icinga_home}/.ssh/id_${ssh_key_type}":
-            mode      => '0600',
-            show_diff => false,
-            content   => unwrap($ssh_private_key);
-          "${icinga_home}/.ssh/config":
-            content => "Host *\n  StrictHostKeyChecking no\n  ControlPath ${icinga_home}/.ssh/controlmasters/%r@%h:%p.socket\n  ControlMaster auto\n  ControlPersist 5m";
-        }
-      } # privkey
     } # Linux
 
     'windows': {
@@ -243,7 +172,7 @@ class icinga (
     }
 
     default: {
-      fail("'Your operatingssystem ${::facts[os][name]} is not supported'")
+      fail("'Your operatingssystem ${facts[os][name]} is not supported'")
     }
   } # kernel
 

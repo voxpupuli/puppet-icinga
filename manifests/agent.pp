@@ -38,7 +38,6 @@ class icinga::agent (
 ) {
   class { 'icinga':
     ca              => false,
-    ssh_private_key => undef,
     ca_server       => $ca_server,
     this_zone       => $zone,
     zones           => {
