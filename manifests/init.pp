@@ -41,6 +41,11 @@
 #   Prepare to run Icinga Web 2 on the same machine. Manage a group `icingaweb2`
 #   and add the Icinga user to this group.
 #
+# @param confd
+#   `conf.d` is the directory where Icinga 2 stores its object configuration by default. To enable it,
+#   set this parameter to `true`. It's also possible to assign your own directory. This directory must be
+#   managed outside of this module as file resource with tag icinga2::config::file.
+#
 class icinga (
   Boolean                              $ca,
   String                               $this_zone,
@@ -55,6 +60,7 @@ class icinga (
   Optional[Icinga::LogLevel]           $logging_level   = undef,
   String                               $cert_name       = $facts['networking']['fqdn'],
   Boolean                              $prepare_web     = false,
+  Variant[Boolean, String]             $confd           = false,
 ) {
   assert_private()
 
@@ -78,7 +84,7 @@ class icinga (
   }
 
   class { 'icinga2':
-    confd           => false,
+    confd           => $confd,
     manage_packages => $manage_packages,
     constants       => lookup('icinga2::constants', undef, undef, {}) + $_constants,
     features        => [],
@@ -171,7 +177,7 @@ class icinga (
         Package['icinga2'] -> Exec['restarting icinga2'] -> Class['icinga2']
 
         exec { 'restarting icinga2':
-          path        => $::facts['path'],
+          path        => $facts['path'],
           command     => "service ${icinga_service} restart",
           onlyif      => "service ${icinga_service} status",
           refreshonly => true,

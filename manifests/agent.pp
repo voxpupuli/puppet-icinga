@@ -52,5 +52,6 @@ class icinga::agent (
 
   icinga2::object::zone { $global_zones:
     global => true,
+    order  => 'zz',
   }
 }

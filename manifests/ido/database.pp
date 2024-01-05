@@ -36,8 +36,7 @@ class icinga::ido::database (
     db_user          => $db_user,
     db_pass          => $db_pass,
     access_instances => $ido_instances,
-    mysql_privileges => ['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'DROP', 'CREATE VIEW', 'CREATE', 'ALTER', 'INDEX', 'EXECUTE'],
-#    mysql_privileges => ['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'DROP', 'CREATE VIEW', 'CREATE', 'ALTER', 'INDEX', 'CREATE ROUTINE', 'ALTER ROUTINE', 'EXECUTE'],
+    mysql_privileges => ['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'DROP', 'CREATE VIEW', 'CREATE', 'ALTER', 'INDEX', 'CREATE ROUTINE', 'ALTER ROUTINE', 'EXECUTE'],
     tls              => $tls,
   }
 }

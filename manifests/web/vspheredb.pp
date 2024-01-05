@@ -41,7 +41,8 @@ class icinga::web::vspheredb (
 ) {
   icinga::prepare_web('VSphereDB')
 
-  $_db_charset = $db_type ? {
+  $icingaweb2_version = $icinga::web::icingaweb2_version
+  $_db_charset        = $db_type ? {
     'mysql' => 'utf8mb4',
     default => 'UTF8',
   }
@@ -80,9 +81,11 @@ class icinga::web::vspheredb (
     import_schema  => lookup('icingaweb2::module::vspheredb::import_schema', undef, undef, true),
   }
 
-  service { 'icinga-vspheredb':
-    ensure  => $service_ensure,
-    enable  => $service_enable,
-    require => Class['icingaweb2::module::vspheredb'],
+  if versioncmp($icingaweb2_version, '4.0.0') < 0 {
+    service { 'icinga-vspheredb':
+      ensure  => $service_ensure,
+      enable  => $service_enable,
+      require => Class['icingaweb2::module::vspheredb'],
+    }
   }
 }

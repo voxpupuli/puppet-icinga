@@ -23,6 +23,14 @@ describe 'icinga::db::connect' do
     ).and_return("-h db.example.org -u bar -p'supersecret' -D foo --ssl  --ssl-ca /cacert.file")
   end
 
+  it "with MariaDB TLS and noverify 'true' on db.example.org and password" do
+    is_expected.to run.with_params(
+      { 'type' => 'mariadb', 'host' => 'db.example.org', 'database' => 'foo', 'username' => 'bar', 'password' => 'supersecret' },
+      { 'noverify' => true, 'cacert_file' => '/cacert.file' },
+      true,
+    ).and_return("-h db.example.org -u bar -p'supersecret' -D foo --ssl")
+  end
+
   it 'with MariaDB client TLS cert on db.example.org' do
     is_expected.to run.with_params(
       { 'type' => 'mariadb', 'host' => 'db.example.org', 'database' => 'foo', 'username' => 'bar' },
@@ -36,15 +44,15 @@ describe 'icinga::db::connect' do
       { 'type' => 'mysql', 'host' => 'db.example.org', 'database' => 'foo', 'username' => 'bar' },
       { 'key_file' => '/key.file', 'cert_file' => '/cert.file', 'cacert_file' => '/cacert.file' },
       true,
-    ).and_return('-h db.example.org -u bar -D foo --ssl-mode required --ssl-ca /cacert.file --ssl-cert /cert.file --ssl-key /key.file')
+    ).and_return('-h db.example.org -u bar -D foo --ssl-mode VERIFY_CA --ssl-ca /cacert.file --ssl-cert /cert.file --ssl-key /key.file')
   end
 
-  it 'with MySQL TLS on db.example.org and password' do
+  it "with MySQL TLS and noverify 'true' on db.example.org and password" do
     is_expected.to run.with_params(
       { 'type' => 'mysql', 'host' => 'db.example.org', 'database' => 'foo', 'username' => 'bar', 'password' => 'supersecret' },
-      { 'cacert_file' => '/cacert.file' },
+      { 'noverify' => true, 'cacert_file' => '/cacert.file' },
       true,
-    ).and_return("-h db.example.org -u bar -p'supersecret' -D foo --ssl-mode required --ssl-ca /cacert.file")
+    ).and_return("-h db.example.org -u bar -p'supersecret' -D foo --ssl-mode REQUIRED")
   end
 
   it 'with PostgreSQL' do
