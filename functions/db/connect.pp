@@ -5,6 +5,18 @@
 # @return
 #   Connection string to connect database.
 #
+# @param db
+#    Data hash with database information.
+#
+# @param tls
+#   Data hash with TLS connection information.
+#
+# @param use_tls
+#   Wether or not to use TLS encryption.
+#
+# @param ssl_mode
+#   Enable SSL connection mode.
+#
 function icinga::db::connect(
   Struct[{
       type     => Enum['pgsql','mysql','mariadb'],
@@ -16,21 +28,14 @@ function icinga::db::connect(
   }]                   $db,
   Hash[String, Any]    $tls,
   Optional[Boolean]    $use_tls = undef,
+  Optional[Enum['verify-full', 'verify-ca']] $ssl_mode = undef,
 ) >> String {
-  # @param db
-  #    Data hash with database information.
-  #
-  # @param tls
-  #   Data hash with TLS connection information.
-  #
-  # @param use_tls
-  #   Wether or not to use TLS encryption.
-  #
   if $use_tls {
     case $db['type'] {
       'pgsql': {
+        $real_ssl_mode = if $ssl_mode { $ssl_mode } else { 'verify-full' }
         $tls_options = regsubst(join(any2array(delete_undef_values({
-                  'sslmode='     => if $tls['noverify'] { 'require' } else { 'verify-full' },
+                  'sslmode='     => if $tls['noverify'] { 'require' } else { $real_ssl_mode },
                   'sslcert='     => $tls['cert_file'],
                   'sslkey='      => $tls['key_file'],
                   'sslrootcert=' => $tls['cacert_file'],
@@ -72,7 +77,7 @@ function icinga::db::connect(
               'dbname='      => $db['database'],
     })), ' '), '= ', '=', 'G')
   } else {
-    $_password = icinga::unwrap($db['password'])
+    $_password = icinga2::unwrap($db['password'])
     $options = join(any2array(delete_undef_values({
             '-h'               => $db['host'] ? {
               /localhost/  => undef,

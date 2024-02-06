@@ -75,6 +75,15 @@ describe 'icinga::db::connect' do
     ).and_return('host=db.example.org user=bar dbname=foo sslmode=verify-full sslrootcert=/cacert.file')
   end
 
+  it 'with PostgreSQL TLS on 192.168.0.1 and password' do
+    is_expected.to run.with_params(
+      { 'type' => 'pgsql', 'host' => '192.168.0.1', 'database' => 'foo', 'username' => 'bar', 'password' => 'supersecret' },
+      { 'cacert_file' => '/etc/pki/ca-trust/source/anchors/mycacert.crt' },
+      true,
+      'verify-ca',
+    ).and_return('host=192.168.0.1 user=bar dbname=foo sslmode=verify-ca sslrootcert=/etc/pki/ca-trust/source/anchors/mycacert.crt')
+  end
+
   it 'with PostgreSQL TLS (insecure) on db.example.org and password' do
     is_expected.to run.with_params(
       { 'type' => 'pgsql', 'host' => 'db.example.org', 'database' => 'foo', 'username' => 'bar', 'password' => 'supersecret' },

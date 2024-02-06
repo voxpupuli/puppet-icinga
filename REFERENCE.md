@@ -1964,7 +1964,7 @@ with or without TLS information.
       database => String,
       username => String,
       password => Optional[Variant[String, Sensitive[String]]],
-  }] $db, Hash[String, Any] $tls, Optional[Boolean] $use_tls = undef)`
+  }] $db, Hash[String, Any] $tls, Optional[Boolean] $use_tls = undef, Optional[Enum['verify-full', 'verify-ca']] $ssl_mode = undef)`
 
 The icinga::db::connect function.
 
@@ -1985,19 +1985,25 @@ Struct[{
   }]
 ```
 
-
+Data hash with database information.
 
 ##### `tls`
 
 Data type: `Hash[String, Any]`
 
-
+Data hash with TLS connection information.
 
 ##### `use_tls`
 
 Data type: `Optional[Boolean]`
 
+Wether or not to use TLS encryption.
 
+##### `ssl_mode`
+
+Data type: `Optional[Enum['verify-full', 'verify-ca']]`
+
+Enable SSL connection mode.
 
 ### <a name="icinga--newline"></a>`icinga::newline`
 
