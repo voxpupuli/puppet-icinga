@@ -1,5 +1,17 @@
 # Changelog
 
+## [v4.2.0](https://github.com/icinga/puppet-icinga/tree/v4.2.0) (2024-02-07)
+
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v4.1.1...v4.2.0)
+
+**Implemented enhancements:**
+
+- Extend connection functionn to use ssl\_mode [\#110](https://github.com/Icinga/puppet-icinga/pull/110) ([SimonHoenscheid](https://github.com/SimonHoenscheid))
+
+**Closed issues:**
+
+- Support SUSE based distros [\#59](https://github.com/Icinga/puppet-icinga/issues/59)
+
 ## [v4.1.1](https://github.com/icinga/puppet-icinga/tree/v4.1.1) (2023-12-21)
 
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v4.1.0...v4.1.1)
