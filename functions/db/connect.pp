@@ -77,7 +77,7 @@ function icinga::db::connect(
               'dbname='      => $db['database'],
     })), ' '), '= ', '=', 'G')
   } else {
-    $_password = icinga2::unwrap($db['password'])
+    $_password = icinga::unwrap($db['password'])
     $options = join(any2array(delete_undef_values({
             '-h'               => $db['host'] ? {
               /localhost/  => undef,
