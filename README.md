@@ -23,16 +23,20 @@ This module provides several non private helper classes for the other official I
 * [icinga/icingaweb2]
 * [icinga/icingadb]
 
-### What's new in v3.0.0
+### How to use the classes for Icinga Web an databases with MariaDB on Debian bookwork
 
-Support for the IcingaDB. For this purpose, the management of monitoring, previously exclusively the monitoring module, has been separated from the web class.
+To get Icinga Web 2 running on Debian bookworm use puppet-php >=8.1.0 and set:
+```
+php::globals::php_version: '8.2'
+```
 
-From now on, the IDO based monitoring must be done by the additional declaration of the class `icinga::web::monitoring`. Likewise, the IcingaDB is configured with `icinga::web::icingadb`. Thus, the use of both in parallel is also possible.
-
-### Changes in v2.9.0
-
-* Class icinga::repos got a new parameter 'manage_crb' to manage the CRB repository on CentOS Stream 9, Rocky 9 and AlmaLinux 9.
-* Add functions and a base class 'redis' to support the new IcingaDB from module [icingadb](https://github.com/Icinga/puppet-icingadb).
+The current MariaDB logs to syslog by default so set:
+```
+mysql::server::override_options:
+  mysqld:
+    log-error: ~
+```
+This disables the logging to file and the requirement and management of an existing directory /var/log/mysql.
 
 ## Setup
 
