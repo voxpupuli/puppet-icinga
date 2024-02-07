@@ -1,5 +1,13 @@
 # Changelog
 
+## [v4.2.1](https://github.com/icinga/puppet-icinga/tree/v4.2.1) (2024-02-07)
+
+[Full Changelog](https://github.com/icinga/puppet-icinga/compare/v4.2.0...v4.2.1)
+
+**Fixed bugs:**
+
+- Fix call of wrong function icinga2::unwrap [\#112](https://github.com/Icinga/puppet-icinga/pull/112) ([lbetz](https://github.com/lbetz))
+
 ## [v4.2.0](https://github.com/icinga/puppet-icinga/tree/v4.2.0) (2024-02-07)
 
 [Full Changelog](https://github.com/icinga/puppet-icinga/compare/v4.1.1...v4.2.0)
