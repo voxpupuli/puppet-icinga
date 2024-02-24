@@ -15,5 +15,3 @@ icinga::repos:
   'netways-extras-release':
     key:
       id: 0DEE49417F457646CC0C29AD03E3F1C5E8B2FC5E
-
-icinga::repos::configure_backports: true

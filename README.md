@@ -89,7 +89,7 @@ The class supports:
 And requiers:
 
 * [puppetlabs/stdlib] >= 6.6.0 < 10.0.0
-* [puppetlabs/apt] >= 7.7.0 < 10.0.0
+* [puppetlabs/apt] >= 9.2.0 < 10.0.0
 * [puppet/zypprepo] >= 4.0.0 < 6.0.0
 * [puppetlabs/yumrepo_core] >= 1.1.0 < 3.0.0
 
