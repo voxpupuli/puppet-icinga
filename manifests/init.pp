@@ -19,11 +19,20 @@
 #   Set the constants `TicketSalt` if `ca` is set to `true`. Otherwise the set value is used
 #   to authenticate the certificate request againt the CA on host `ca_server`.
 #
+# @param extra_packages
+#   Install extra packages such as plugins.
+#
 # @param logging_type
 #   Switch the log target. On Windows `syslog` is ignored, `eventlog` on all other platforms.
 #
 # @param logging_level
 #   Set the log level.
+#
+# @param ssh_private_key
+#   The private key to install.
+#
+# @param ssh_key_type
+#   SSH key type.
 #
 # @param cert_name
 #   The certificate name to set as constant NodeName.
@@ -38,17 +47,19 @@
 #   managed outside of this module as file resource with tag icinga2::config::file.
 #
 class icinga (
-  Boolean                              $ca,
-  String                               $this_zone,
-  Hash[String, Hash]                   $zones,
-  Optional[Stdlib::Host]               $ca_server       = undef,
-  Optional[Icinga::Secret]             $ticket_salt     = undef,
-  Array[String]                        $extra_packages  = [],
-  Enum['file', 'syslog', 'eventlog']   $logging_type    = 'file',
-  Optional[Icinga::LogLevel]           $logging_level   = undef,
-  String                               $cert_name       = $facts['networking']['fqdn'],
-  Boolean                              $prepare_web     = false,
-  Variant[Boolean, String]             $confd           = false,
+  Boolean                                 $ca,
+  String                                  $this_zone,
+  Hash[String, Hash]                      $zones,
+  Optional[Stdlib::Host]                  $ca_server       = undef,
+  Optional[Icinga::Secret]                $ticket_salt     = undef,
+  Array[String]                           $extra_packages  = [],
+  Enum['file', 'syslog', 'eventlog']      $logging_type    = 'file',
+  Optional[Icinga::LogLevel]              $logging_level   = undef,
+  Optional[Icinga::Secret]                $ssh_private_key = undef,
+  Optional[Enum['ecdsa','ed25519','rsa']] $ssh_key_type    = undef,
+  String                                  $cert_name       = $facts['networking']['fqdn'],
+  Boolean                                 $prepare_web     = false,
+  Variant[Boolean, String]                $confd           = false,
 ) {
   assert_private()
 
@@ -115,13 +126,17 @@ class icinga (
   case $facts['kernel'] {
     'linux': {
       $icinga_user    = $icinga2::globals::user
+      $icinga_group   = $icinga2::globals::group
       $icinga_package = $icinga2::globals::package_name
       $icinga_service = $icinga2::globals::service_name
 
       case $facts['os']['family'] {
         'redhat': {
+          $icinga_user_homedir = $icinga2::globals::spool_dir
+
           package { ['nagios-common', $icinga_package] + $extra_packages:
             ensure => installed,
+            before => Class['icinga2'],
           }
 
           -> group { 'nagios':
@@ -130,21 +145,27 @@ class icinga (
         }
 
         'debian': {
+          $icinga_user_homedir = '/var/lib/nagios'
+
           package { [$icinga_package] + $extra_packages:
             ensure => installed,
+            before => Class['icinga2'],
           }
         }
 
         'suse': {
+          $icinga_user_homedir = $icinga2::globals::spool_dir
+
           package { [$icinga_package] + $extra_packages:
             ensure => installed,
+            before => Class['icinga2'],
           }
         }
 
         default: {
           fail("'Your operatingssystem ${::facts['os']['name']} is not supported'")
         }
-      }
+      } # osfamily
 
       if $prepare_web {
         Package['icinga2'] -> Exec['restarting icinga2'] -> Class['icinga2']
@@ -160,7 +181,28 @@ class icinga (
           onlyif      => "service ${icinga_service} status",
           refreshonly => true,
         }
-      }
+      } # prepare_web
+
+      if $ssh_private_key {
+        unless $ssh_key_type { fail('parameter ssh_key_typ must set') }
+
+        file {
+          default:
+            ensure  => file,
+            owner   => $icinga_user,
+            group   => $icinga_group,
+            require => Package[$icinga_package];
+          ["${icinga_user_homedir}/.ssh", "${icinga_user_homedir}/.ssh/controlmasters"]:
+            ensure => directory,
+            mode   => '0700';
+          "${icinga_user_homedir}/.ssh/id_${ssh_key_type}":
+            mode      => '0600',
+            show_diff => false,
+            content   => unwrap($ssh_private_key);
+          "${icinga_user_homedir}/.ssh/config":
+            content => "Host *\n  StrictHostKeyChecking no\n  ControlPath ~${icinga_user}/.ssh/controlmasters/%r@%h:%p.socket\n  ControlMaster auto\n  ControlPersist 5m";
+        }
+      } # privkey
     } # Linux
 
     'windows': {

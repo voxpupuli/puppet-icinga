@@ -1,5 +1,5 @@
 # @summary
-#   Setup a Icinga agent.
+#   Setup an Icinga agent.
 #
 # @param ca_server
 #   The CA to send the certificate request to.

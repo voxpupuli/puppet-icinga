@@ -18,3 +18,7 @@ icinga::worker::logging_level: warning
 
 icinga::agent::logging_type: file
 icinga::agent::logging_level: warning
+
+icinga::agentless::user: icinga
+icinga::agentless::manage_user: true
+icinga::agentless::ssh_key_type: rsa
