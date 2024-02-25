@@ -33,6 +33,12 @@
 #   Prepare to run Icinga Web 2 on the same machine. Manage a group `icingaweb2`
 #   and add the Icinga user to this group.
 #
+# @param ssh_private_key
+#   The private key to install.
+#
+# @param ssh_key_type
+#   SSH key type.
+#
 class icinga::worker (
   Stdlib::Host                       $ca_server,
   String                             $zone,
@@ -44,21 +50,25 @@ class icinga::worker (
   Hash[String, Hash]                 $workers              = {},
   Array[String]                      $global_zones         = [],
   Boolean                            $run_web              = false,
+  Optional[Icinga::Secret]           $ssh_private_key      = undef,
+  Enum['ecdsa','ed25519','rsa']      $ssh_key_type         = rsa,
 ) {
   # inject parent zone if no parent exists
   $_workers = $workers.reduce({}) |$memo, $worker| { $memo + { $worker[0] => { parent => $zone } + $worker[1] } }
 
   class { 'icinga':
-    ca            => false,
-    ca_server     => $ca_server,
-    this_zone     => $zone,
-    zones         => {
+    ca              => false,
+    ca_server       => $ca_server,
+    this_zone       => $zone,
+    zones           => {
       'ZoneName'   => { 'endpoints' => { 'NodeName' => {} } + $colocation_endpoints, 'parent' => $parent_zone, },
       $parent_zone => { 'endpoints' => $parent_endpoints, },
     } + $_workers,
-    logging_type  => $logging_type,
-    logging_level => $logging_level,
-    prepare_web   => $run_web,
+    logging_type    => $logging_type,
+    logging_level   => $logging_level,
+    ssh_key_type    => $ssh_key_type,
+    ssh_private_key => $ssh_private_key,
+    prepare_web     => $run_web,
   }
 
   include icinga2::feature::checker

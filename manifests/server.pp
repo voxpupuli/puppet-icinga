@@ -48,6 +48,12 @@
 #   Prepare to run Icinga Web 2 on the same machine. Manage a group `icingaweb2`
 #   and add the Icinga user to this group.
 #
+# @param ssh_private_key
+#   The private key to install.
+#
+# @param ssh_key_type
+#   SSH key type.
+#
 class icinga::server (
   Enum['file', 'syslog', 'eventlog'] $logging_type,
   Icinga::LogLevel                   $logging_level,
@@ -64,6 +70,8 @@ class icinga::server (
   String                             $director_api_user    = 'director',
   Optional[Icinga::Secret]           $director_api_pass    = undef,
   Boolean                            $run_web              = false,
+  Enum['ecdsa','ed25519','rsa']      $ssh_key_type         = rsa,
+  Optional[Icinga::Secret]           $ssh_private_key      = undef,
 ) {
   if empty($colocation_endpoints) {
     $_ca            = true
@@ -80,14 +88,16 @@ class icinga::server (
   $_workers = $workers.reduce({}) |$memo, $worker| { $memo + { $worker[0] => { parent => $zone } + $worker[1] } }
 
   class { 'icinga':
-    ca            => $_ca,
-    ca_server     => $ca_server,
-    this_zone     => $zone,
-    zones         => { 'ZoneName' => { 'endpoints' => { 'NodeName' => {} } + $colocation_endpoints } } + $_workers,
-    logging_type  => $logging_type,
-    logging_level => $logging_level,
-    ticket_salt   => $ticket_salt,
-    prepare_web   => $run_web,
+    ca              => $_ca,
+    ca_server       => $ca_server,
+    this_zone       => $zone,
+    zones           => { 'ZoneName' => { 'endpoints' => { 'NodeName' => {} } + $colocation_endpoints } } + $_workers,
+    ssh_private_key => $ssh_private_key,
+    ssh_key_type    => $ssh_key_type,
+    logging_type    => $logging_type,
+    logging_level   => $logging_level,
+    ticket_salt     => $ticket_salt,
+    prepare_web     => $run_web,
   }
 
   include icinga2::feature::checker
