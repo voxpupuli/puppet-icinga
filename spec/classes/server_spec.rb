@@ -26,7 +26,7 @@ describe 'icinga::server' do
         let(:params) do
           {
             ticket_salt: 'supersecret',
-            global_zones: ['foo', 'bar'],
+            global_zones: %w[foo bar],
             web_api_user: 'bar',
             web_api_pass: 'topsecret'
           }
@@ -37,16 +37,16 @@ describe 'icinga::server' do
         it {
           is_expected.to contain_class('icinga').with(
             {
-              'ca'           => true,
-              'this_zone'    => 'main',
-              'zones'        => {
+              'ca' => true,
+              'this_zone' => 'main',
+              'zones' => {
                 'ZoneName' => {
                   'endpoints' => { 'NodeName' => {}, },
                 },
               },
               'logging_type' => 'syslog',
-              'ticket_salt'  => 'supersecret',
-            },
+              'ticket_salt' => 'supersecret',
+            }
           )
         }
 
@@ -58,10 +58,10 @@ describe 'icinga::server' do
           is_expected.to contain_file("#{icinga2_config_dir}/zones.d/main").with(
             {
               'ensure' => 'directory',
-              'owner'  => icinga2_user,
-              'group'  => icinga2_group,
-              'mode'   => '0750',
-            },
+              'owner' => icinga2_user,
+              'group' => icinga2_group,
+              'mode' => '0750',
+            }
           )
         }
 
@@ -72,10 +72,10 @@ describe 'icinga::server' do
           is_expected.to contain_file("#{icinga2_config_dir}/zones.d/foo").with(
             {
               'ensure' => 'directory',
-              'owner'  => icinga2_user,
-              'group'  => icinga2_group,
-              'mode'   => '0750',
-            },
+              'owner' => icinga2_user,
+              'group' => icinga2_group,
+              'mode' => '0750',
+            }
           )
         }
 
@@ -96,20 +96,20 @@ describe 'icinga::server' do
         it {
           is_expected.to contain_class('icinga').with(
             {
-              'ca'           => false,
-              'ca_server'    => 'foo',
-              'this_zone'    => 'main',
-              'zones'        => {
+              'ca' => false,
+              'ca_server' => 'foo',
+              'this_zone' => 'main',
+              'zones' => {
                 'ZoneName' => {
                   'endpoints' => {
                     'NodeName' => {},
-                    'bar'      => { 'host' => '127.0.0.1' },
+                    'bar' => { 'host' => '127.0.0.1' },
                   },
                 },
               },
               'logging_type' => 'syslog',
-              'ticket_salt'  => 'supersecret',
-            },
+              'ticket_salt' => 'supersecret',
+            }
           )
         }
       end
@@ -151,7 +151,7 @@ describe 'icinga::server' do
               'logging_type'  => 'syslog',
               'logging_level' => 'warning',
               'ticket_salt'   => 'supersecret',
-            },
+            }
           )
         }
       end

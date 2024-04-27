@@ -21,10 +21,10 @@ describe 'icinga::agent' do
         it {
           is_expected.to contain_class('icinga').with(
             {
-              'ca'           => false,
-              'ca_server'    => 'foo',
-              'this_zone'    => 'NodeName',
-              'zones'        => {
+              'ca' => false,
+              'ca_server' => 'foo',
+              'this_zone' => 'NodeName',
+              'zones' => {
                 'ZoneName' => {
                   'endpoints' => { 'NodeName' => {} },
                   'parent' => 'main',
@@ -34,7 +34,7 @@ describe 'icinga::agent' do
                 },
               },
               'logging_type' => 'syslog',
-            },
+            }
           )
         }
 

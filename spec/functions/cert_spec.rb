@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'icinga::cert::files' do
-  it { is_expected.not_to eq(nil) }
+  it { is_expected.not_to be_nil }
 
   it 'without any cert info' do
     is_expected.to run.with_params(
       'foo',
-      '/foobar',
+      '/foobar'
     ).and_return({ 'key' => nil, 'key_file' => nil, 'cert' => nil, 'cert_file' => nil, 'cacert' => nil, 'cacert_file' => nil })
   end
 
@@ -19,7 +21,7 @@ describe 'icinga::cert::files' do
       nil,
       'key',
       'cert',
-      'cacert',
+      'cacert'
     ).and_return({ 'key' => sensitive('key'), 'key_file' => '/foobar/foo.key',
                    'cert' => 'cert', 'cert_file' => '/foobar/foo.crt',
                    'cacert' => 'cacert', 'cacert_file' => '/foobar/foo_ca.crt' })
@@ -34,7 +36,7 @@ describe 'icinga::cert::files' do
       '/ca.crt',
       nil,
       nil,
-      nil,
+      nil
     ).and_return({ 'key' => nil, 'key_file' => '/foo.key', 'cert' => nil, 'cert_file' => '/foo.crt', 'cacert' => nil, 'cacert_file' => '/ca.crt' })
   end
 
@@ -47,7 +49,7 @@ describe 'icinga::cert::files' do
       '/ca.crt',
       'key',
       'cert',
-      'cacert',
+      'cacert'
     ).and_return({ 'key' => sensitive('key'), 'key_file' => '/foo.key', 'cert' => 'cert', 'cert_file' => '/foo.crt', 'cacert' => 'cacert', 'cacert_file' => '/ca.crt' })
   end
 end

@@ -3,9 +3,8 @@
 require 'spec_helper'
 
 describe 'icinga' do
-  before(:each) do
-    # Fake assert_private function from stdlib to not fail within this test
-    Puppet::Parser::Functions.newfunction(:assert_private, type: :rvalue) { |args| }
+  before do
+    Puppet::Parser::Functions.newfunction(:assert_private, type: :rvalue) { |args| } # Fake assert_private to not fail
   end
 
   on_supported_os.each do |os, facts|
@@ -42,10 +41,10 @@ describe 'icinga' do
           it {
             is_expected.to contain_class('icinga2').with(
               {
-                'confd': false,
-                'manage_packages': false,
-                'features': [],
-              },
+                confd: false,
+                manage_packages: false,
+                features: [],
+              }
             )
           }
 
@@ -56,13 +55,13 @@ describe 'icinga' do
           it {
             is_expected.to contain_class('icinga2::feature::api').with(
               {
-                'pki': 'none',
-                'accept_config': true,
-                'accept_commands': true,
-                'ticket_salt': 'TicketSalt',
-                'zones': {},
-                'endpoints': {},
-              },
+                pki: 'none',
+                accept_config: true,
+                accept_commands: true,
+                ticket_salt: 'TicketSalt',
+                zones: {},
+                endpoints: {},
+              }
             )
           }
         end
@@ -73,7 +72,7 @@ describe 'icinga' do
               ca: false,
               ca_server: 'foo',
               this_zone: 'foo',
-              zones: { 'bar': { 'endpoints': { 'foobar': { 'host': '127.0.0.1' } }, 'parent': 'foo' } },
+              zones: { bar: { endpoints: { foobar: { host: '127.0.0.1' } }, parent: 'foo' } },
               ticket_salt: 'supersecret',
             }
           end
@@ -83,23 +82,23 @@ describe 'icinga' do
           it {
             is_expected.to contain_class('icinga2::feature::api').with(
               {
-                'pki': 'icinga2',
-                'accept_config': true,
-                'accept_commands': true,
-                'ticket_salt': 'supersecret',
-                'ca_host': 'foo',
-                'zones': {},
-                'endpoints': {},
-              },
+                pki: 'icinga2',
+                accept_config: true,
+                accept_commands: true,
+                ticket_salt: 'supersecret',
+                ca_host: 'foo',
+                zones: {},
+                endpoints: {},
+              }
             )
           }
 
           it {
             is_expected.to contain_icinga2__object__zone('bar').with(
               {
-                'endpoints': [ 'foobar' ],
-                'parent': 'foo',
-              },
+                endpoints: ['foobar'],
+                parent: 'foo',
+              }
             )
           }
 
@@ -124,10 +123,10 @@ describe 'icinga' do
           it {
             is_expected.to contain_class('icinga2').with(
               {
-                'confd': false,
-                'manage_packages': true,
-                'features': [],
-              },
+                confd: false,
+                manage_packages: true,
+                features: [],
+              }
             )
           }
 
@@ -138,13 +137,13 @@ describe 'icinga' do
           it {
             is_expected.to contain_class('icinga2::feature::api').with(
               {
-                'pki': 'icinga2',
-                'accept_config': true,
-                'accept_commands': true,
-                'ticket_salt': 'supersecret',
-                'zones': {},
-                'endpoints': {},
-              },
+                pki: 'icinga2',
+                accept_config: true,
+                accept_commands: true,
+                ticket_salt: 'supersecret',
+                zones: {},
+                endpoints: {},
+              }
             )
           }
         end

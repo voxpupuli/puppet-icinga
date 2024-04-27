@@ -23,23 +23,27 @@ This module provides several non private helper classes for the other official I
 * [icinga/icingaweb2]
 * [icinga/icingadb]
 
-### What's new in v3.0.0
+### How to use the classes for Icinga Web an databases with MariaDB on Debian bookwork
 
-Support for the IcingaDB. For this purpose, the management of monitoring, previously exclusively the monitoring module, has been separated from the web class.
+To get Icinga Web 2 running on Debian bookworm use puppet-php >=8.1.0 and set:
+```
+php::globals::php_version: '8.2'
+```
 
-From now on, the IDO based monitoring must be done by the additional declaration of the class `icinga::web::monitoring`. Likewise, the IcingaDB is configured with `icinga::web::icingadb`. Thus, the use of both in parallel is also possible.
-
-### Changes in v2.9.0
-
-* Class icinga::repos got a new parameter 'manage_crb' to manage the CRB repository on CentOS Stream 9, Rocky 9 and AlmaLinux 9.
-* Add functions and a base class 'redis' to support the new IcingaDB from module [icingadb](https://github.com/Icinga/puppet-icingadb).
+The current MariaDB logs to syslog by default so set:
+```
+mysql::server::override_options:
+  mysqld:
+    log-error: ~
+```
+This disables the logging to file and the requirement and management of an existing directory /var/log/mysql.
 
 ## Setup
 
 ### What the Icinga Puppet module supports
 
 * [icinga::repos] involves the needed repositories to install icinga2, icingadb and icingaweb2:
-    * The Icinga Project repository for the stages: stable, testing or nightly builds 
+    * The Icinga Project repository for the stages: stable, testing or nightly builds
     * EPEL repository for RHEL simular platforms
     * Backports repository for Debian and Ubuntu
     * NETWAYS extras repository for Icinga Web 2
@@ -120,7 +124,7 @@ class { 'icinga::repos':
 }
 ```
 The prefix `configure` means that the repository is not manageable by the module. But backports can be configured by the class apt::backports, that is used by this module.
-  
+
 
 #### Enable and Disable Repositories
 
@@ -135,7 +139,7 @@ When manage is set to `true` for a repository the ressource is managed and the r
 * netways-plugins
 * netways-extras
 
-An example for Yum or Zypper based platforms to change from stable to testing repo: 
+An example for Yum or Zypper based platforms to change from stable to testing repo:
 ```
 ---
 icinga::repos::manage_testing: true
@@ -254,7 +258,7 @@ Both, server and workers, can operated with a parnter in the same zone to share 
 
 ```
 colocation_endpoints => { 'server2.example.org' => { 'host' => '172.16.1.12', } },
-``` 
+```
 
 Of course, the second endpoint must also be specified in the respective `parent_endpoints` of the worker or agent.
 

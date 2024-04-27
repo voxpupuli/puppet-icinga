@@ -17,7 +17,7 @@ pdk bundle update
 Update the [AUTHORS] and [.mailmap] file
 
 ``` bash
-git checkout master
+git checkout main
 git log --use-mailmap | grep ^Author: | cut -f2- -d' ' | sort | uniq > AUTHORS
 git commit -am "Update AUTHORS"
 ```
@@ -33,7 +33,7 @@ puppet strings generate --format markdown --out ./REFERENCE.md
 ```
 
 ## 4. Version
-Version numbers are incremented regarding the [SemVer 1.0.0] specification. 
+Version numbers are incremented regarding the [SemVer 1.0.0] specification.
 Update the version number in `metadata.json`.
 
 ## 5. Changelog
@@ -48,7 +48,7 @@ github_changelog_generator -t <github-access-token> --future-release=v1.0.0 -u i
 ```
 
 ## 6. Git Tag
-Commit all changes to the `master` branch
+Commit all changes to the `main` branch
 
 ``` bash
 git commit -v -a -m "Release version <VERSION>"
