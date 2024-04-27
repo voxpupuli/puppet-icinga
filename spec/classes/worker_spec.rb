@@ -35,7 +35,7 @@ describe 'icinga::worker' do
                 },
               },
               'logging_type' => 'file',
-            },
+            }
           )
         }
 
@@ -62,29 +62,29 @@ describe 'icinga::worker' do
         it {
           is_expected.to contain_class('icinga').with(
             {
-              'ca'           => false,
-              'ca_server'    => 'foo',
-              'this_zone'    => 'foo',
-              'zones'        => {
+              'ca' => false,
+              'ca_server' => 'foo',
+              'this_zone' => 'foo',
+              'zones' => {
                 'ZoneName' => {
-                  'parent'    => 'main',
+                  'parent' => 'main',
                   'endpoints' => { 'NodeName' => {} },
                 },
                 'main' => {
                   'endpoints' => { 'foobar' => { 'host' => '127.0.0.1' } },
                 },
                 'baz' => {
-                  'parent'    => 'foo',
+                  'parent' => 'foo',
                   'endpoints' => { 'foobaz' => { 'host' => '127.0.0.1' } },
                 },
                 'out' => {
-                  'parent'    => 'baz',
+                  'parent' => 'baz',
                   'endpoints' => { 'outbar' => {} },
                 }
               },
-              'logging_type'  => 'syslog',
+              'logging_type' => 'syslog',
               'logging_level' => 'warning',
-            },
+            }
           )
         }
       end

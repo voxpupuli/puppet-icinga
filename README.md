@@ -43,7 +43,7 @@ This disables the logging to file and the requirement and management of an exist
 ### What the Icinga Puppet module supports
 
 * [icinga::repos] involves the needed repositories to install icinga2, icingadb and icingaweb2:
-    * The Icinga Project repository for the stages: stable, testing or nightly builds 
+    * The Icinga Project repository for the stages: stable, testing or nightly builds
     * EPEL repository for RHEL simular platforms
     * Backports repository for Debian and Ubuntu
     * NETWAYS extras repository for Icinga Web 2
@@ -124,7 +124,7 @@ class { 'icinga::repos':
 }
 ```
 The prefix `configure` means that the repository is not manageable by the module. But backports can be configured by the class apt::backports, that is used by this module.
-  
+
 
 #### Enable and Disable Repositories
 
@@ -139,7 +139,7 @@ When manage is set to `true` for a repository the ressource is managed and the r
 * netways-plugins
 * netways-extras
 
-An example for Yum or Zypper based platforms to change from stable to testing repo: 
+An example for Yum or Zypper based platforms to change from stable to testing repo:
 ```
 ---
 icinga::repos::manage_testing: true
@@ -258,7 +258,7 @@ Both, server and workers, can operated with a parnter in the same zone to share 
 
 ```
 colocation_endpoints => { 'server2.example.org' => { 'host' => '172.16.1.12', } },
-``` 
+```
 
 Of course, the second endpoint must also be specified in the respective `parent_endpoints` of the worker or agent.
 

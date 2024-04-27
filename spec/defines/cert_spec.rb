@@ -1,11 +1,12 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe('icinga::cert', type: :define) do
   let(:title) { 'foobar' }
 
-  before(:each) do
-    # Fake assert_private function from stdlib to not fail within this test
-    Puppet::Parser::Functions.newfunction(:assert_private, type: :rvalue) { |args| }
+  before do
+    Puppet::Parser::Functions.newfunction(:assert_private, type: :rvalue) { |args| } # Fake assert_private to not fail
   end
 
   on_supported_os.each do |os, facts|
@@ -43,25 +44,27 @@ describe('icinga::cert', type: :define) do
               'owner' => 'foo',
               'group' => 'bar',
               'mode'  => '0400',
-            },
+            }
           ).with_content('key')
         }
+
         it {
           is_expected.to contain_file('/cert.file').with(
             {
               'owner' => 'foo',
               'group' => 'bar',
               'mode'  => '0640',
-            },
+            }
           ).with_content('cert')
         }
+
         it {
           is_expected.to contain_file('/cacert.file').with(
             {
               'owner' => 'foo',
               'group' => 'bar',
               'mode'  => '0640',
-            },
+            }
           ).with_content('cacert')
         }
       end
