@@ -34,7 +34,7 @@ describe 'icinga::agent' do
                 },
               },
               'logging_type' => 'file',
-            },
+            }
           )
         }
 
