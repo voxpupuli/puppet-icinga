@@ -1,5 +1,5 @@
 {
-  "name": "icinga-icinga",
+  "name": "puppet-icinga",
   "version": "4.2.1",
   "author": "Vox Pupuli",
   "summary": "Puppet Module to manage the Icinga Software Stack",
@@ -100,8 +100,5 @@
     "icinga-worker",
     "icinga-agent",
     "monitoring"
-  ],
-  "pdk-version": "3.0.0",
-  "template-url": "https://github.com/puppetlabs/pdk-templates#3.0.0",
-  "template-ref": "tags/3.0.0-0-g5bfc1c0"
+  ]
 }
