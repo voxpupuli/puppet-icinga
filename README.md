@@ -1,5 +1,16 @@
 # icinga
 
+[![Build Status](https://github.com/voxpupuli/puppet-icinga/workflows/CI/badge.svg)](https://github.com/voxpupuli/puppet-icinga/actions?query=workflow%3ACI)
+[![Release](https://github.com/voxpupuli/puppet-icinga/actions/workflows/release.yml/badge.svg)](https://github.com/voxpupuli/puppet-icinga/actions/workflows/release.yml)
+[![Puppet Forge](https://img.shields.io/puppetforge/v/puppet/icinga.svg)](https://forge.puppetlabs.com/puppet/icinga)
+[![Puppet Forge - downloads](https://img.shields.io/puppetforge/dt/puppet/icinga.svg)](https://forge.puppetlabs.com/puppet/icinga)
+[![Puppet Forge - endorsement](https://img.shields.io/puppetforge/e/puppet/icinga.svg)](https://forge.puppetlabs.com/puppet/icinga)
+[![Puppet Forge - scores](https://img.shields.io/puppetforge/f/puppet/icinga.svg)](https://forge.puppetlabs.com/puppet/icinga)
+[![puppetmodule.info docs](http://www.puppetmodule.info/images/badge.png)](http://www.puppetmodule.info/m/puppet-icinga)
+[![Apache-2.0 License](https://img.shields.io/github/license/voxpupuli/puppet-icinga.svg)](LICENSE)
+[![Donated by Camptocamp](https://img.shields.io/badge/donated%20by-camptocamp-fb7047.svg)](#transfer-notice)
+[![Sponsored by Netways GmbH](https://img.shields.io/badge/Sponsored%20by-Netways%20GmbH-blue.svg)](https://www.netways.de)
+
 ![Icinga Logo](https://www.icinga.com/wp-content/uploads/2014/06/icinga_logo.png)
 
 #### Table of Contents
@@ -456,3 +467,11 @@ See [REFERENCE.md](https://github.com/Icinga/puppet-icinga/blob/master/REFERENCE
 ## Release Notes
 
 This code is a very early release and may still be subject to significant changes.
+
+## Transfer Notice
+
+This plugin was originally authored by [Netways](http://www.camptocamp.com).
+The maintainer preferred that Vox Pupuli take ownership of the module for future improvement and maintenance.
+Existing pull requests and issues were transferred over, please fork and continue to contribute here instead of Camptocamp.
+
+Previously: https://github.com/icinga/puppet-icinga
