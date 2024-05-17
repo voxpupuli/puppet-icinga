@@ -44,7 +44,7 @@ describe 'icinga::server' do
                   'endpoints' => { 'NodeName' => {}, },
                 },
               },
-              'logging_type' => 'file',
+              'logging_type' => 'syslog',
               'ticket_salt' => 'supersecret',
             }
           )
@@ -107,7 +107,7 @@ describe 'icinga::server' do
                   },
                 },
               },
-              'logging_type' => 'file',
+              'logging_type' => 'syslog',
               'ticket_salt' => 'supersecret',
             }
           )

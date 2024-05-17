@@ -30,7 +30,7 @@ define icinga::cert (
   if $args[key] {
     file { $args['key_file']:
       ensure    => file,
-      content   => icinga::newline(icinga::unwrap($args['key'])),
+      content   => icinga::newline(unwrap($args['key'])),
       mode      => $key_mode,
       show_diff => false,
     }

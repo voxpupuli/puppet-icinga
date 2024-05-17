@@ -24,7 +24,7 @@
 #   List of global zones to configure.
 #
 # @param logging_type
-#   Switch the log target. Only `file` is supported on Windows.
+#   Switch the log target. On Windows `syslog` is ignored, `eventlog` on all other platforms.
 #
 # @param logging_level
 #   Set the log level.
@@ -33,24 +33,31 @@
 #   Prepare to run Icinga Web 2 on the same machine. Manage a group `icingaweb2`
 #   and add the Icinga user to this group.
 #
+# @param ssh_private_key
+#   The private key to install.
+#
+# @param ssh_key_type
+#   SSH key type.
+#
 class icinga::worker (
-  Stdlib::Host                 $ca_server,
-  String                       $zone,
-  Hash[String, Hash]           $parent_endpoints,
-  String                       $parent_zone          = 'main',
-  Hash[String, Hash]           $colocation_endpoints = {},
-  Hash[String, Hash]           $workers              = {},
-  Array[String]                $global_zones         = [],
-  Enum['file', 'syslog']       $logging_type         = 'file',
-  Optional[Icinga::LogLevel]   $logging_level        = undef,
-  Boolean                      $run_web              = false,
+  Stdlib::Host                       $ca_server,
+  String                             $zone,
+  Hash[String, Hash]                 $parent_endpoints,
+  Enum['file', 'syslog', 'eventlog'] $logging_type,
+  Icinga::LogLevel                   $logging_level,
+  String                             $parent_zone          = 'main',
+  Hash[String, Hash]                 $colocation_endpoints = {},
+  Hash[String, Hash]                 $workers              = {},
+  Array[String]                      $global_zones         = [],
+  Boolean                            $run_web              = false,
+  Optional[Icinga::Secret]           $ssh_private_key      = undef,
+  Enum['ecdsa','ed25519','rsa']      $ssh_key_type         = rsa,
 ) {
   # inject parent zone if no parent exists
   $_workers = $workers.reduce({}) |$memo, $worker| { $memo + { $worker[0] => { parent => $zone } + $worker[1] } }
 
   class { 'icinga':
     ca              => false,
-    ssh_private_key => undef,
     ca_server       => $ca_server,
     this_zone       => $zone,
     zones           => {
@@ -59,6 +66,8 @@ class icinga::worker (
     } + $_workers,
     logging_type    => $logging_type,
     logging_level   => $logging_level,
+    ssh_key_type    => $ssh_key_type,
+    ssh_private_key => $ssh_private_key,
     prepare_web     => $run_web,
   }
 

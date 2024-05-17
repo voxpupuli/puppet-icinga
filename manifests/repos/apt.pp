@@ -18,17 +18,18 @@ class icinga::repos::apt {
     Apt::Source['backports'] -> Package <| title != 'apt-transport-https' |>
   }
 
-  # fix issue 21, 33
-  file { ['/etc/apt/sources.list.d/netways-plugins.list', '/etc/apt/sources.list.d/netways-extras.list']:
-    ensure => 'absent',
-  }
-
   $repos.each |String $repo_name, Hash $repo_config| {
     if $managed[$repo_name] {
+      if $repo_config['key'] and !$repo_config['key']['id'] {
+        ensure_resource('apt::keyring', $repo_config['key']['name'], $repo_config['key'])
+        $_repo_config = $repo_config - 'key' + { 'keyring' => "/etc/apt/keyrings/${repo_config['key']['name']}" }
+      } else {
+        $_repo_config = $repo_config
+      }
+
       Apt::Source[$repo_name] -> Package <| title != 'apt-transport-https' |>
       apt::source { $repo_name:
-        *       => { ensure => present } + $repo_config,
-        require => File['/etc/apt/sources.list.d/netways-plugins.list', '/etc/apt/sources.list.d/netways-extras.list'],
+        * => { ensure => present } + $_repo_config,
       }
     }
   }

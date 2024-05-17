@@ -8,7 +8,8 @@
 
 #### Public Classes
 
-* [`icinga::agent`](#icinga--agent): Setup a Icinga agent.
+* [`icinga::agent`](#icinga--agent): Setup an Icinga agent.
+* [`icinga::agentless`](#icinga--agentless): Setup an agentless monitoring via SSH.
 * [`icinga::db`](#icinga--db)
 * [`icinga::db::database`](#icinga--db--database): Setup database for IcingaDB.
 * [`icinga::ido`](#icinga--ido): Configure IDO Backend.
@@ -56,7 +57,6 @@ PHP and a Webserver.
 with or without TLS information.
 * [`icinga::newline`](#icinga--newline): Replace newlines for Windows systems.
 * [`icinga::prepare_web`](#icinga--prepare_web): This funktion checks for web preparation and display a warning if fails
-* [`icinga::unwrap`](#icinga--unwrap): This function returns an unwrap string if necessary.
 
 ### Data types
 
@@ -68,7 +68,7 @@ with or without TLS information.
 
 ### <a name="icinga--agent"></a>`icinga::agent`
 
-Setup a Icinga agent.
+Setup an Icinga agent.
 
 #### Parameters
 
@@ -113,19 +113,15 @@ Default value: `[]`
 
 ##### <a name="-icinga--agent--logging_type"></a>`logging_type`
 
-Data type: `Enum['file', 'syslog']`
+Data type: `Enum['file', 'syslog', 'eventlog']`
 
-Switch the log target. Only `file` is supported on Windows.
-
-Default value: `'file'`
+Switch the log target. On Windows `syslog` is ignored, `eventlog` on all other platforms.
 
 ##### <a name="-icinga--agent--logging_level"></a>`logging_level`
 
-Data type: `Optional[Icinga::LogLevel]`
+Data type: `Icinga::LogLevel`
 
 Set the log level.
-
-Default value: `undef`
 
 ##### <a name="-icinga--agent--zone"></a>`zone`
 
@@ -143,6 +139,52 @@ Prepare to run Icinga Web 2 on the same machine. Manage a group `icingaweb2`
 and add the Icinga user to this group.
 
 Default value: `false`
+
+### <a name="icinga--agentless"></a>`icinga::agentless`
+
+Setup an agentless monitoring via SSH.
+
+#### Parameters
+
+The following parameters are available in the `icinga::agentless` class:
+
+* [`user`](#-icinga--agentless--user)
+* [`manage_user`](#-icinga--agentless--manage_user)
+* [`ssh_key_type`](#-icinga--agentless--ssh_key_type)
+* [`ssh_public_key`](#-icinga--agentless--ssh_public_key)
+* [`extra_packages`](#-icinga--agentless--extra_packages)
+
+##### <a name="-icinga--agentless--user"></a>`user`
+
+Data type: `String`
+
+User name to login.
+
+##### <a name="-icinga--agentless--manage_user"></a>`manage_user`
+
+Data type: `Boolean`
+
+Wether or not to manage user.
+
+##### <a name="-icinga--agentless--ssh_key_type"></a>`ssh_key_type`
+
+Data type: `Enum['ecdsa','ed25519','rsa']`
+
+SSH key type.
+
+##### <a name="-icinga--agentless--ssh_public_key"></a>`ssh_public_key`
+
+Data type: `String`
+
+Public SSH key of ´ssh_key_type´ for ´user´.
+
+##### <a name="-icinga--agentless--extra_packages"></a>`extra_packages`
+
+Data type: `Array[String]`
+
+Install extra packages such as plugins.
+
+Default value: `[]`
 
 ### <a name="icinga--db"></a>`icinga::db`
 
@@ -607,6 +649,8 @@ The following parameters are available in the `icinga::server` class:
 * [`logging_type`](#-icinga--server--logging_type)
 * [`logging_level`](#-icinga--server--logging_level)
 * [`run_web`](#-icinga--server--run_web)
+* [`ssh_private_key`](#-icinga--server--ssh_private_key)
+* [`ssh_key_type`](#-icinga--server--ssh_key_type)
 
 ##### <a name="-icinga--server--ca"></a>`ca`
 
@@ -707,19 +751,15 @@ Default value: `undef`
 
 ##### <a name="-icinga--server--logging_type"></a>`logging_type`
 
-Data type: `Enum['file', 'syslog']`
+Data type: `Enum['file', 'syslog', 'eventlog']`
 
-Switch the log target. Only `file` is supported on Windows.
-
-Default value: `'file'`
+Switch the log target. On Windows `syslog` is ignored, `eventlog` on all other platforms.
 
 ##### <a name="-icinga--server--logging_level"></a>`logging_level`
 
-Data type: `Optional[Icinga::LogLevel]`
+Data type: `Icinga::LogLevel`
 
 Set the log level.
-
-Default value: `undef`
 
 ##### <a name="-icinga--server--run_web"></a>`run_web`
 
@@ -729,6 +769,22 @@ Prepare to run Icinga Web 2 on the same machine. Manage a group `icingaweb2`
 and add the Icinga user to this group.
 
 Default value: `false`
+
+##### <a name="-icinga--server--ssh_private_key"></a>`ssh_private_key`
+
+Data type: `Optional[Icinga::Secret]`
+
+The private key to install.
+
+Default value: `undef`
+
+##### <a name="-icinga--server--ssh_key_type"></a>`ssh_key_type`
+
+Data type: `Enum['ecdsa','ed25519','rsa']`
+
+SSH key type.
+
+Default value: `rsa`
 
 ### <a name="icinga--web"></a>`icinga::web`
 
@@ -1778,6 +1834,8 @@ The following parameters are available in the `icinga::worker` class:
 * [`logging_type`](#-icinga--worker--logging_type)
 * [`logging_level`](#-icinga--worker--logging_level)
 * [`run_web`](#-icinga--worker--run_web)
+* [`ssh_private_key`](#-icinga--worker--ssh_private_key)
+* [`ssh_key_type`](#-icinga--worker--ssh_key_type)
 
 ##### <a name="-icinga--worker--ca_server"></a>`ca_server`
 
@@ -1832,19 +1890,15 @@ Default value: `[]`
 
 ##### <a name="-icinga--worker--logging_type"></a>`logging_type`
 
-Data type: `Enum['file', 'syslog']`
+Data type: `Enum['file', 'syslog', 'eventlog']`
 
-Switch the log target. Only `file` is supported on Windows.
-
-Default value: `'file'`
+Switch the log target. On Windows `syslog` is ignored, `eventlog` on all other platforms.
 
 ##### <a name="-icinga--worker--logging_level"></a>`logging_level`
 
-Data type: `Optional[Icinga::LogLevel]`
+Data type: `Icinga::LogLevel`
 
 Set the log level.
-
-Default value: `undef`
 
 ##### <a name="-icinga--worker--run_web"></a>`run_web`
 
@@ -1854,6 +1908,22 @@ Prepare to run Icinga Web 2 on the same machine. Manage a group `icingaweb2`
 and add the Icinga user to this group.
 
 Default value: `false`
+
+##### <a name="-icinga--worker--ssh_private_key"></a>`ssh_private_key`
+
+Data type: `Optional[Icinga::Secret]`
+
+The private key to install.
+
+Default value: `undef`
+
+##### <a name="-icinga--worker--ssh_key_type"></a>`ssh_key_type`
+
+Data type: `Enum['ecdsa','ed25519','rsa']`
+
+SSH key type.
+
+Default value: `rsa`
 
 ## Defined types
 
@@ -2038,24 +2108,6 @@ Returns: `Any` Nothing, statement function.
 ##### `icingamod`
 
 Data type: `String`
-
-
-
-### <a name="icinga--unwrap"></a>`icinga::unwrap`
-
-Type: Puppet Language
-
-This function returns an unwrap string if necessary.
-
-#### `icinga::unwrap(Optional[Variant[String, Sensitive[String]]] $arg = undef)`
-
-The icinga::unwrap function.
-
-Returns: `Any` The unwraped string.
-
-##### `arg`
-
-Data type: `Optional[Variant[String, Sensitive[String]]]`
 
 
 

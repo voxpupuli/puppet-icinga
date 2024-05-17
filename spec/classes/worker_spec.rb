@@ -22,10 +22,10 @@ describe 'icinga::worker' do
         it {
           is_expected.to contain_class('icinga').with(
             {
-              'ca'           => false,
-              'ca_server'    => 'foo',
-              'this_zone'    => 'bar',
-              'zones'        => {
+              'ca' => false,
+              'ca_server' => 'foo',
+              'this_zone' => 'bar',
+              'zones' => {
                 'ZoneName' => {
                   'endpoints' => { 'NodeName' => {} },
                   'parent' => 'main',
@@ -34,7 +34,7 @@ describe 'icinga::worker' do
                   'endpoints' => { 'foobar' => { 'host' => '127.0.0.1' } },
                 },
               },
-              'logging_type' => 'file',
+              'logging_type' => 'syslog',
             }
           )
         }
