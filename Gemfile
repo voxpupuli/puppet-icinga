@@ -7,13 +7,12 @@ group :test do
   gem 'voxpupuli-test', '~> 7.0',   :require => false
   gem 'coveralls',                  :require => false
   gem 'simplecov-console',          :require => false
-  gem 'puppet_metadata', '~> 3.5',  :require => false
+  gem 'puppet_metadata', '~> 4.0',  :require => false
 end
 
 group :development do
-  gem 'guard-rake',                  :require => false
-  gem 'overcommit', '>= 0.39.1',     :require => false
-  gem 'concurrent-ruby', '< 1.2.0',  :require => false
+  gem 'guard-rake',               :require => false
+  gem 'overcommit', '>= 0.39.1',  :require => false
 end
 
 group :system_tests do
