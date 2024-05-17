@@ -12,6 +12,3 @@ fixtures:
     redis: https://github.com/voxpupuli/puppet-redis
     augeas: https://github.com/puppetlabs/puppetlabs-augeas_core
     icinga2: https://github.com/voxpupuli/puppet-icinga2
-    facts: https://github.com/puppetlabs/puppetlabs-facts
-    puppet_agent: https://github.com/puppetlabs/puppetlabs-puppet_agent
-    provision: https://github.com/puppetlabs/provision
