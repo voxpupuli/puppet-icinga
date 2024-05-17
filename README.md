@@ -2,16 +2,13 @@
 
 [![Build Status](https://github.com/voxpupuli/puppet-icinga/workflows/CI/badge.svg)](https://github.com/voxpupuli/puppet-icinga/actions?query=workflow%3ACI)
 [![Release](https://github.com/voxpupuli/puppet-icinga/actions/workflows/release.yml/badge.svg)](https://github.com/voxpupuli/puppet-icinga/actions/workflows/release.yml)
-[![Puppet Forge](https://img.shields.io/puppetforge/v/puppet/icinga.svg)](https://forge.puppetlabs.com/puppet/icinga)
-[![Puppet Forge - downloads](https://img.shields.io/puppetforge/dt/puppet/icinga.svg)](https://forge.puppetlabs.com/puppet/icinga)
-[![Puppet Forge - endorsement](https://img.shields.io/puppetforge/e/puppet/icinga.svg)](https://forge.puppetlabs.com/puppet/icinga)
-[![Puppet Forge - scores](https://img.shields.io/puppetforge/f/puppet/icinga.svg)](https://forge.puppetlabs.com/puppet/icinga)
-[![puppetmodule.info docs](http://www.puppetmodule.info/images/badge.png)](http://www.puppetmodule.info/m/puppet-icinga)
+[![Puppet Forge](https://img.shields.io/puppetforge/v/puppet/icinga.svg)](https://forge.puppet.com/modules/icinga/icinga)
+[![puppet integration](http://www.puppetmodule.info/images/badge.png)](https://icinga.com/products/integrations/puppet)
 [![Apache-2.0 License](https://img.shields.io/github/license/voxpupuli/puppet-icinga.svg)](LICENSE)
-[![Donated by Camptocamp](https://img.shields.io/badge/donated%20by-camptocamp-fb7047.svg)](#transfer-notice)
-[![Sponsored by Netways GmbH](https://img.shields.io/badge/Sponsored%20by-Netways%20GmbH-blue.svg)](https://www.netways.de)
+[![Donated by Icinga](https://img.shields.io/badge/donated%20by-Icinga-fb7047.svg)](#transfer-notice)
+[![Sponsored by NETWAYS](https://img.shields.io/badge/Sponsored%20by-NETWAYS%20GmbH-blue.svg)](https://www.netways.de)
 
-![Icinga Logo](https://www.icinga.com/wp-content/uploads/2014/06/icinga_logo.png)
+[Icinga Logo](https://www.icinga.com/wp-content/uploads/2014/06/icinga_logo.png)
 
 #### Table of Contents
 
@@ -23,16 +20,15 @@
     * [Enable and disable repositories](#enable-and-disable-repositories)
     * [Installing from non upstream repositories](#Installing from Non-Upstream Repositories)
 4. [Reference](#reference)
-5. [Release notes](#release-notes)
 
 
 ## Description
 
 This module provides several non private helper classes for the other official Icinga modules:
 
-* [icinga/icinga2]
-* [icinga/icingaweb2]
-* [icinga/icingadb]
+* [icinga2](https://github.com/voxpupuli/puppet-icinga2)
+* [icingadb](https://github.com/voxpupuli/puppet-icingadb)
+* [icingaweb2](https://github.com/voxpupuli/puppet-icingaweb2)
 
 ### How to use the classes for Icinga Web an databases with MariaDB on Debian bookwork
 
@@ -107,7 +103,7 @@ git checkout v2.5.0
 
 The class supports:
 
-* [puppet] >= 7.0 < 9.0
+* [puppet] >= 7.9.0 < 9.0.0
 
 And requiers:
 
@@ -480,16 +476,12 @@ If icinga::web::monitoring is declared before, the required module idoreports fo
 
 ## Reference
 
-See [REFERENCE.md](https://github.com/Icinga/puppet-icinga/blob/master/REFERENCE.md)
-
-## Release Notes
-
-This code is a very early release and may still be subject to significant changes.
+See [REFERENCE.md](https://github.com/voxpupuli/puppet-icinga/blob/main/REFERENCE.md)
 
 ## Transfer Notice
 
-This plugin was originally authored by [Netways](http://www.camptocamp.com).
+This plugin was originally authored by [Icinga](http://www.icinga.com).
 The maintainer preferred that Vox Pupuli take ownership of the module for future improvement and maintenance.
-Existing pull requests and issues were transferred over, please fork and continue to contribute here instead of Camptocamp.
+Existing pull requests and issues were transferred over, please fork and continue to contribute here instead of Icinga.
 
 Previously: https://github.com/icinga/puppet-icinga
