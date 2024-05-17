@@ -26,16 +26,19 @@ This module provides several non private helper classes for the other official I
 ### How to use the classes for Icinga Web an databases with MariaDB on Debian bookwork
 
 To get Icinga Web 2 running on Debian bookworm use puppet-php >=8.1.0 and set:
-```
+
+```yaml
 php::globals::php_version: '8.2'
 ```
 
 The current MariaDB logs to syslog by default so set:
-```
+
+```yaml
 mysql::server::override_options:
   mysqld:
     log-error: ~
 ```
+
 This disables the logging to file and the requirement and management of an existing directory /var/log/mysql.
 
 ## Setup
@@ -61,26 +64,31 @@ The requirements depend on the class to be used.
 ### Beginning with icinga
 
 Add this declaration to your Puppetfile:
+
 ```
 mod 'icinga',
   :git => 'https://github.com/icinga/puppet-icinga.git',
   :tag => 'v2.5.0'
 ```
+
 Then run:
+
 ```
 bolt puppetfile install
 ```
 
 Or do a `git clone` by hand into your modules directory:
+
 ```
 git clone https://github.com/icinga/puppet-icinga.git icinga
 ```
+
 Change to `icinga` directory and check out your desired version:
+
 ```
 cd icinga
 git checkout v2.5.0
 ```
-
 
 ## Usage
 
@@ -98,18 +106,23 @@ And requiers:
 * [puppetlabs/yumrepo_core] >= 1.1.0 < 3.0.0
 
 By default the upstream Icinga repository for stable release are involved.
-```
+
+```puppet
 include icinga::repos
 ```
+
 To setup the testing repository for release candidates use instead:
-```
+
+```puppet
 class { 'icinga::repos':
   manage_stable  => false,
   manage_testing => true,
 }
 ```
+
 Or the nightly builds:
-```
+
+```puppet
 class { 'icinga::repos':
   manage_stable  => false,
   manage_nightly => true,
@@ -117,14 +130,15 @@ class { 'icinga::repos':
 ```
 
 Other possible needed repositories like EPEL on RHEL or the Backports on Debian can also be involved:
-```
+
+```puppet
 class { 'icinga::repos':
   manage_epel         => true,
   configure_backports => true,
 }
 ```
-The prefix `configure` means that the repository is not manageable by the module. But backports can be configured by the class apt::backports, that is used by this module.
 
+The prefix `configure` means that the repository is not manageable by the module. But backports can be configured by the class apt::backports, that is used by this module.
 
 #### Enable and Disable Repositories
 
@@ -140,7 +154,8 @@ When manage is set to `true` for a repository the ressource is managed and the r
 * netways-extras
 
 An example for Yum or Zypper based platforms to change from stable to testing repo:
-```
+
+```yaml
 ---
 icinga::repos::manage_testing: true
 icinga::repos:
@@ -149,7 +164,8 @@ icinga::repos:
 ```
 
 Or on Apt based platforms:
-```
+
+```yaml
 ---
 icinga::repos::manage_testing: true
 icinga::repos:
@@ -163,7 +179,7 @@ For some time now, access to current RPM packages on Icinga has required a paid 
 
 A subscription is required, it is configured as follows, e.g. in hiera:
 
-```bash
+```yaml
 ---
 icinga::repos:
   icinga-stable-release:
@@ -186,13 +202,15 @@ To change to a non upstream repository, e.g. a local mirror, the repos can be cu
 * netways-extras
 
 An example to configure a local mirror of the stable release:
-```
+
+```yaml
 ---
 icinga::repos:
   icinga-stable-release:
     baseurl: 'https://repo.example.com/icinga/epel/$releasever/release/'
     gpgkey: https://repo.example.com/icinga/icinga.key
 ```
+
 IMPORTANT: The configuration hash depends on the platform an requires one of the following resources:
 
 * apt::source (Debian family, https://forge.puppet.com/puppetlabs/apt)
@@ -203,7 +221,7 @@ Also the Backports repo on Debian can be configured like the apt class of course
 
 As an example, how you configure backports on a debian squeeze. For squeeze the repository is already moved to the unsupported archive:
 
-```
+```yaml
 ---
 apt::confs:
   no-check-valid-until:
@@ -256,7 +274,7 @@ If `icinga::ticket_salt` is also set in Hiera for the worker, he's automatically
 
 Both, server and workers, can operated with a parnter in the same zone to share load. The endpoint of the respective partner is specified as an Icinga object in `colocation_endpoints`.
 
-```
+```puppet
 colocation_endpoints => { 'server2.example.org' => { 'host' => '172.16.1.12', } },
 ```
 
@@ -264,7 +282,7 @@ Of course, the second endpoint must also be specified in the respective `parent_
 
 An agent is very similar to a worker, only it has no parameter `colocation_endpoints`:
 
-```
+```puppet
 class { 'icinga::agent':
   ca_server        => '172.16.1.11',
   parent_endpoints => { 'worker.example.org' => { 'host' => '172.16.2.11', }, } },
@@ -290,7 +308,7 @@ Ands requires:
 
 To activate and configure the IcingaDB (usally on a server) do:
 
-```
+```puppet
 class { 'icinga::db':
   db_type         => 'pgsql',
   db_host         => 'localhost',
@@ -317,7 +335,7 @@ Ands requires:
 
 To activate and configure the IDO feature (usally on a server) do:
 
-```
+```puppet
 class { 'icinga::ido':
   db_type         => 'pgsql',
   db_host         => 'localhost',
@@ -345,7 +363,7 @@ And requires:
 
 A Icinga Web 2 with an Apache and PHP-FPM can be managed as follows:
 
-```
+```puppet
 class { 'icinga::web':
   db_type         => 'pgsql',
   db_host         => 'localhost',
@@ -363,7 +381,7 @@ IMPORTANT: If you plan tu use icingacli as plugin, e.g. director health checks, 
 
 If the Icinga Web 2 is operated on the same host as the IcingaDB, the required user credentials can be accessed, otherwise they must be specified explicitly.
 
-```
+```puppet
 class { 'icinga::web::icingadb':
   db_type => $icinga::db::db_type,
   db_host => $icinga::db::db_host,
@@ -379,7 +397,7 @@ IMPORTANT: Must be declared on the same host as `icinga::web`.
 
 If the Icinga Web 2 is operated on the same host as the IDO, the required user credentials can be accessed, otherwise they must be specified explicitly.
 
-```
+```puppet
 class { 'icinga::web::monitoring':
   db_type => $icinga::ido::db_type,
   db_host => $icinga::ido::db_host,
@@ -395,7 +413,7 @@ Install and manage the famous Icinga Director and the required database. A graph
 
 Here an example with an PostgreSQL database on the same host:
 
-```
+```puppet
 class { 'icinga::web::director':
   db_type         => 'pgsql',
   db_host         => 'localhost',
@@ -414,7 +432,7 @@ In this example the Icinga server is running on the same Host like the web and t
 
 The following example sets up the `vspheredb` Icinga Web 2 module and the required database. At this time only MySQL/MariaDB is support by the Icinga team, so this class also supports only `mysql`.
 
-```
+```puppet
 class { 'icinga::web::vspheredb':
   db_type         => 'mysql',
   db_host         => 'localhost',
@@ -437,7 +455,7 @@ And required in addition to `icinga::web::icingadb` or `icinga::web::monitoring`
 
 An example to setup reporting and the required database:
 
-```
+```puppet
 class { 'icinga::web::reporting':
   db_type         => 'pqsql',
   db_host         => 'localhost',
