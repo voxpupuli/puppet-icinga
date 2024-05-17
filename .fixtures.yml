@@ -2,28 +2,16 @@
 # See https://github.com/puppetlabs/puppetlabs_spec_helper#using-fixtures for details
 ---
 fixtures:
-  forge_modules:
-    stdlib:
-      repo: puppetlabs/stdlib
-    concat:
-      repo: puppetlabs/concat
-    apt:
-      repo: puppetlabs/apt
-    zypprepo:
-      repo: puppet/zypprepo
-    yumrepo_core:
-      repo: puppetlabs-yumrepo_core
-      puppet_version: ">= 6.0.0"
-    chocolatey:
-      repo: puppetlabs/chocolatey
-    redis:
-      repo: puppet/redis
-    augeas:
-      repo: puppetlabs/augeas_core
-      puppet_version: ">= 6.0.0"
-    icinga2:
-      repo: icinga/icinga2
   repositories:
-    facts: 'https://github.com/puppetlabs/puppetlabs-facts.git'
-    puppet_agent: 'https://github.com/puppetlabs/puppetlabs-puppet_agent.git'
-    provision: 'https://github.com/puppetlabs/provision.git'
+    stdlib: https://github.com/puppetlabs/puppetlabs-stdlib
+    concat: https://github.com/puppetlabs/puppetlabs-concat
+    apt: https://github.com/puppetlabs/puppetlabs-apt
+    zypprepo: https://github.com/voxpupuli/puppet-zypprepo
+    yumrepo_core: https://github.com/puppetlabs/puppetlabs-yumrepo_core
+    chocolatey: https://github.com/puppetlabs/puppetlabs-chocolatey
+    redis: https://github.com/voxpupuli/puppet-redis
+    augeas: https://github.com/puppetlabs/puppetlabs-augeas_core
+    icinga2: https://github.com/voxpupuli/puppet-icinga2
+    facts: https://github.com/puppetlabs/puppetlabs-facts
+    puppet_agent: https://github.com/puppetlabs/puppetlabs-puppet_agent
+    provision: https://github.com/puppetlabs/provision
