@@ -208,8 +208,8 @@ class icinga (
     'windows': {
       $manage_repo = false
 
-      if $logging_type != 'file' {
-        fail('Only file is supported as logging_type on Windows')
+      if $logging_type == 'syslog' {
+        fail('Only eventlog and file is supported as logging_type on Windows')
       }
     }
 
