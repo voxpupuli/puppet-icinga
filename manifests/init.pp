@@ -50,6 +50,7 @@ class icinga (
   Boolean                                 $ca,
   String                                  $this_zone,
   Hash[String, Hash]                      $zones,
+  String                                  $cert_name,
   Optional[Stdlib::Host]                  $ca_server       = undef,
   Optional[Icinga::Secret]                $ticket_salt     = undef,
   Array[String]                           $extra_packages  = [],
@@ -57,7 +58,6 @@ class icinga (
   Optional[Icinga::LogLevel]              $logging_level   = undef,
   Optional[Icinga::Secret]                $ssh_private_key = undef,
   Optional[Enum['ecdsa','ed25519','rsa']] $ssh_key_type    = undef,
-  String                                  $cert_name       = $facts['networking']['fqdn'],
   Boolean                                 $prepare_web     = false,
   Variant[Boolean, String]                $confd           = false,
 ) {

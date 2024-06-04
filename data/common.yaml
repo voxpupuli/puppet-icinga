@@ -22,3 +22,5 @@ icinga::agent::logging_level: warning
 icinga::agentless::user: icinga
 icinga::agentless::manage_user: true
 icinga::agentless::ssh_key_type: rsa
+
+icinga::cert_name: "%{facts.networking.fqdn}"
