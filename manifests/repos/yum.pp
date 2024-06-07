@@ -26,7 +26,7 @@ class icinga::repos::yum {
 
   $repos.each |String $repo_name, Hash $repo_config| {
     if $repo_name in keys($managed) and $managed[$repo_name] {
-      Yumrepo[$repo_name] -> Package <| |>
+      Yumrepo[$repo_name] -> Package <| tag == 'icinga' or tag == 'icinga2' or tag == 'icingadb' or tag == 'icingaweb2' |>
       yumrepo { $repo_name:
         * => $repo_config,
       }
