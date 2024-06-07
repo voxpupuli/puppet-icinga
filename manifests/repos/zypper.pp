@@ -32,7 +32,7 @@ class icinga::repos::zypper {
         path => "/etc/zypp/repos.d/${repo_name}.repo",
         line => "proxy=${repo_config['proxy']}",
       }
-      -> Package <| |>
+      -> Package <| tag == 'icinga' or tag == 'icinga2' or tag == 'icingadb' or tag == 'icingaweb2' |>
     }
   }
 }
