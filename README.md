@@ -2,7 +2,7 @@
 
 [![Build Status](https://github.com/voxpupuli/puppet-icinga/workflows/CI/badge.svg)](https://github.com/voxpupuli/puppet-icinga/actions?query=workflow%3ACI)
 [![Release](https://github.com/voxpupuli/puppet-icinga/actions/workflows/release.yml/badge.svg)](https://github.com/voxpupuli/puppet-icinga/actions/workflows/release.yml)
-[![Puppet Forge](https://img.shields.io/puppetforge/v/puppet/icinga.svg)](https://forge.puppet.com/modules/icinga/icinga)
+[![Puppet Forge](https://img.shields.io/puppetforge/v/puppet/icinga.svg)](https://forge.puppet.com/modules/puppet/icinga)
 [![puppet integration](http://www.puppetmodule.info/images/badge.png)](https://icinga.com/products/integrations/puppet)
 [![Apache-2.0 License](https://img.shields.io/github/license/voxpupuli/puppet-icinga.svg)](LICENSE)
 [![Donated by Icinga](https://img.shields.io/badge/donated%20by-Icinga-fb7047.svg)](#transfer-notice)
@@ -32,7 +32,7 @@ This module provides several non private helper classes for the other official I
 
 ### How to use the classes for Icinga Web an databases with MariaDB on Debian bookwork
 
-To get Icinga Web 2 running on Debian bookworm use puppet-php >=8.1.0 and set:
+To get Icinga Web 2 running on Debian bookworm use puppet-php >=8.1.0 (no longer necessary if puppet-php >= 10.2.0 is used) and set:
 
 ```yaml
 php::globals::php_version: '8.2'
@@ -246,7 +246,7 @@ The class supports:
 
 And requiers:
 
-* [icinga/icinga2] >= 3.1.0 < 5.0.0
+* [icinga/icinga2] >= 3.1.0 < 6.0.0
 
 Setting up a Icinga Server with a CA and to store configuration:
 
@@ -308,9 +308,9 @@ The class supports:
 
 Ands requires:
 
-* [puppetlabs/mysql] >= 10.9.0 =< 16.0.0
+* [puppetlabs/mysql] >= 10.9.0 < 16.0.0
 * [puppetlabs/postgresql] >= 7.0.0 < 11.0.0
-* [icinga/icinga2] >= 2.9.0 < 5.0.0
+* [icinga/icinga2] >= 2.9.0 < 6.0.0
 * [icinga/icingadb] >= 1.0.0 < 3.0.0
 
 To activate and configure the IcingaDB (usally on a server) do:
@@ -336,9 +336,9 @@ The class supports:
 
 Ands requires:
 
-* [puppetlabs/mysql] >= 10.9.0 =< 16.0.0
+* [puppetlabs/mysql] >= 10.9.0 < 16.0.0
 * [puppetlabs/postgresql] >= 7.0.0 < 11.0.0
-* [icinga/icinga2] >= 2.9.0 < 5.0.0
+* [icinga/icinga2] >= 2.9.0 < 6.0.0
 
 To activate and configure the IDO feature (usally on a server) do:
 
@@ -361,10 +361,10 @@ The class supports:
 
 And requires:
 
-* [puppetlabs/mysql] >= 10.9.0 =< 16.0.0
+* [puppetlabs/mysql] >= 10.9.0 < 16.0.0
 * [puppetlabs/postgresql] >= 7.0.0 < 11.0.0
 * [icinga/icingaweb2] >= 3.6.0 < 5.0.0
-* [icinga/icinga2] >= 2.9.0 < 5.0.0
+* [icinga/icinga2] >= 2.9.0 < 6.0.0
 * [puppetlabs/apache] >= 5.8.0 < 12.0.0
 * [puppet/php] >= 8.0.0 < 11.0.0
 
@@ -456,7 +456,7 @@ The class supports:
 
 And required in addition to `icinga::web::icingadb` or `icinga::web::monitoring`:
 
-* [puppetlabs/mysql] >= 10.9.0 =< 16.0.0
+* [puppetlabs/mysql] >= 10.9.0 < 16.0.0
 * [puppetlabs/postgresql] >= 7.0.0 < 11.0.0
 * [icinga/icingaweb2] >= 3.7.0 < 5.0.0
 
