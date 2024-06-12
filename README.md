@@ -105,7 +105,7 @@ The class supports:
 
 * [puppet] >= 7.9.0 < 9.0.0
 
-And requiers:
+And requires:
 
 * [puppetlabs/stdlib] >= 6.6.0 < 10.0.0
 * [puppetlabs/apt] >= 9.2.0 < 10.0.0
@@ -244,7 +244,7 @@ The class supports:
 
 * [puppet] >= 7.0 < 9.0
 
-And requiers:
+And requires:
 
 * [icinga/icinga2] >= 3.1.0 < 5.0.0
 
