@@ -24,7 +24,7 @@ define icinga::cert (
       group => $group,
       mode  => '0640',
     }
-    $key_mode = '0400'
+    $key_mode = '0440'
   }
 
   if $args[key] {

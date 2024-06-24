@@ -43,7 +43,7 @@ describe('icinga::cert', type: :define) do
             {
               'owner' => 'foo',
               'group' => 'bar',
-              'mode'  => '0400',
+              'mode'  => '0440',
             }
           ).with_content('key')
         }
