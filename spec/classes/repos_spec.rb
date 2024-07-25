@@ -78,7 +78,7 @@ describe 'icinga::repos' do
         end
       end
 
-      case facts[:osfamily]
+      case facts[:os]['family']
       when 'RedHat'
         context 'with manage_epel => false, manage_powertools => false' do
           let(:params) do

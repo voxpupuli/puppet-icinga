@@ -22,7 +22,7 @@ describe 'icinga' do
 
       it { is_expected.to compile }
 
-      case facts[:osfamily]
+      case facts[:os]['family']
       when 'RedHat', 'Debian', 'Suse'
 
         context 'ca => true, this_zone => foo, zones => {}' do
