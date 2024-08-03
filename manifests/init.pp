@@ -89,6 +89,13 @@ class icinga (
     features        => [],
   }
 
+  # check selinux
+  $_selinux = if fact('os.selinux.enabled') and $facts['os']['selinux']['enabled'] and $icinga2::globals::selinux_package_name {
+    $icinga2::manage_selinux
+  } else {
+    false
+  }
+
   # switch logging between mainlog, syslog and eventlog
   if $facts['kernel'] != 'windows' {
     if $logging_type == 'file' {
@@ -125,16 +132,20 @@ class icinga (
 
   case $facts['kernel'] {
     'linux': {
-      $icinga_user    = $icinga2::globals::user
-      $icinga_group   = $icinga2::globals::group
-      $icinga_package = $icinga2::globals::package_name
-      $icinga_service = $icinga2::globals::service_name
+      $icinga_user     = $icinga2::globals::user
+      $icinga_group    = $icinga2::globals::group
+      $icinga_service  = $icinga2::globals::service_name
+      $icinga_packages = if $_selinux {
+        [$icinga2::globals::package_name, $icinga2::globals::selinux_package_name] + $extra_packages
+      } else {
+        [$icinga2::globals::package_name] + $extra_packages
+      }
 
       case $facts['os']['family'] {
         'redhat': {
           $icinga_user_homedir = $icinga2::globals::spool_dir
 
-          package { ['nagios-common', $icinga_package] + $extra_packages:
+          package { ['nagios-common'] + $icinga_packages:
             ensure => installed,
             before => Class['icinga2'],
           }
@@ -147,7 +158,7 @@ class icinga (
         'debian': {
           $icinga_user_homedir = '/var/lib/nagios'
 
-          package { [$icinga_package] + $extra_packages:
+          package { $icinga_packages:
             ensure => installed,
             before => Class['icinga2'],
           }
@@ -156,7 +167,7 @@ class icinga (
         'suse': {
           $icinga_user_homedir = $icinga2::globals::spool_dir
 
-          package { [$icinga_package] + $extra_packages:
+          package { $icinga_packages:
             ensure => installed,
             before => Class['icinga2'],
           }
@@ -191,7 +202,8 @@ class icinga (
             ensure  => file,
             owner   => $icinga_user,
             group   => $icinga_group,
-            require => Package[$icinga_package];
+            seltype => 'icinga2_spool_t',
+            require => Package[$icinga_packages];
           ["${icinga_user_homedir}/.ssh", "${icinga_user_homedir}/.ssh/controlmasters"]:
             ensure => directory,
             mode   => '0700';
