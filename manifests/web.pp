@@ -15,6 +15,9 @@
 #   Either turn on or off the apache cgi pass thru auth.
 #   An option available since Apache v2.4.15 and required for authenticated access to the Icinga Web Api.
 #
+# @param apache_extra_mods
+#   List of addational Apache modules to load.
+#
 # @param apache_config
 #   Wether or not install an default Apache config for Icinga Web 2. If set to `true` Icinga is
 #   reachable via `/icingaweb2`.
@@ -60,6 +63,7 @@ class icinga::web (
   Boolean                                     $manage_database    = false,
   Variant[Stdlib::Host, Array[Stdlib::Host]]  $api_host           = 'localhost',
   String                                      $api_user           = 'icingaweb2',
+  Array[String[1]]                            $apache_extra_mods  = [],
   Boolean                                     $apache_config      = true,
 ) {
   # install all required php extentions
@@ -156,6 +160,9 @@ class icinga::web (
   include apache::mod::proxy_fcgi
   include apache::mod::proxy_http
   include apache::mod::ssl
+
+  # Load additional modules
+  include prefix($apache_extra_mods, 'apache::mod::')
 
   if $apache_config {
     apache::custom_config { 'icingaweb2':
