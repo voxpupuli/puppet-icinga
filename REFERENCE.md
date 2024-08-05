@@ -800,6 +800,7 @@ The following parameters are available in the `icinga::web` class:
 * [`db_pass`](#-icinga--web--db_pass)
 * [`apache_cgi_pass_auth`](#-icinga--web--apache_cgi_pass_auth)
 * [`apache_extra_mods`](#-icinga--web--apache_extra_mods)
+* [`apache_config`](#-icinga--web--apache_config)
 * [`db_type`](#-icinga--web--db_type)
 * [`db_host`](#-icinga--web--db_host)
 * [`db_port`](#-icinga--web--db_port)
@@ -841,11 +842,20 @@ An option available since Apache v2.4.15 and required for authenticated access t
 
 ##### <a name="-icinga--web--apache_extra_mods"></a>`apache_extra_mods`
 
-Data type: `Array[String]`
+Data type: `Array[String[1]]`
 
 List of addational Apache modules to load.
 
 Default value: `[]`
+
+##### <a name="-icinga--web--apache_config"></a>`apache_config`
+
+Data type: `Boolean`
+
+Wether or not install an default Apache config for Icinga Web 2. If set to `true` Icinga is
+reachable via `/icingaweb2`.
+
+Default value: `true`
 
 ##### <a name="-icinga--web--db_type"></a>`db_type`
 

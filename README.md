@@ -30,9 +30,34 @@ This module provides several non private helper classes for the other official I
 * [icingadb](https://github.com/voxpupuli/puppet-icingadb)
 * [icingaweb2](https://github.com/voxpupuli/puppet-icingaweb2)
 
-### How to use the classes for Icinga Web an databases with MariaDB on Debian bookwork
+### How to use the classes for Icinga Web or any database use on Ubuntu Noble
 
-To get Icinga Web 2 running on Debian bookworm use puppet-php >=8.1.0 (no longer necessary if puppet-php >= 10.2.0 is used) and set:
+To get Icinga Web 2 running on Ubutunt Noble use puppet-php >=8.3.0 and set:
+
+```yaml
+php::globals::php_version: '8.3'
+```
+
+The current MariaDB logs to syslog by default so set:
+
+```yaml
+mysql::server::override_options:
+  mysqld:
+    log-error: ~
+```
+
+This disables the logging to file and the requirement and management of an existing directory /var/log/mysql.
+
+If using PostgreSQL you have to set the version to '16':
+
+```yaml
+---
+postgresql::globals::version: '16'
+```
+
+### How to use the classes for Icinga Web or databases with MariaDB on Debian Bookwork
+
+To get Icinga Web 2 running on Debian Bookworm use puppet-php >=8.2.0 (no longer necessary if puppet-php >= 10.2.0 is used) and set:
 
 ```yaml
 php::globals::php_version: '8.2'
