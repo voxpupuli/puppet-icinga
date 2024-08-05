@@ -59,7 +59,7 @@ class icinga::web (
   Boolean                                     $manage_database    = false,
   Variant[Stdlib::Host, Array[Stdlib::Host]]  $api_host           = 'localhost',
   String                                      $api_user           = 'icingaweb2',
-  Array[String]                               $apache_extra_mods  = [],
+  Array[String[1]]                            $apache_extra_mods  = [],
 ) {
   # install all required php extentions
   # by icingaweb (done by package dependencies) before PHP
