@@ -799,6 +799,7 @@ The following parameters are available in the `icinga::web` class:
 * [`default_admin_pass`](#-icinga--web--default_admin_pass)
 * [`db_pass`](#-icinga--web--db_pass)
 * [`apache_cgi_pass_auth`](#-icinga--web--apache_cgi_pass_auth)
+* [`apache_config`](#-icinga--web--apache_config)
 * [`db_type`](#-icinga--web--db_type)
 * [`db_host`](#-icinga--web--db_host)
 * [`db_port`](#-icinga--web--db_port)
@@ -837,6 +838,15 @@ Data type: `Boolean`
 
 Either turn on or off the apache cgi pass thru auth.
 An option available since Apache v2.4.15 and required for authenticated access to the Icinga Web Api.
+
+##### <a name="-icinga--web--apache_config"></a>`apache_config`
+
+Data type: `Boolean`
+
+Wether or not install an default Apache config for Icinga Web 2. If set to `true` Icinga is
+reachable via `/icingaweb2`.
+
+Default value: `true`
 
 ##### <a name="-icinga--web--db_type"></a>`db_type`
 
