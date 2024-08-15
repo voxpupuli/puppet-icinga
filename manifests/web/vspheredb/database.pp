@@ -24,8 +24,8 @@ class icinga::web::vspheredb::database (
   Enum['mysql']              $db_type,
   Array[Stdlib::Host]        $web_instances,
   Icinga::Secret             $db_pass,
-  String                     $db_name = 'vspheredb',
-  String                     $db_user = 'vspheredb',
+  String[1]                  $db_name = 'vspheredb',
+  String[1]                  $db_user = 'vspheredb',
   Variant[Boolean,
   Enum['password','cert']]   $tls      = false,
 ) {

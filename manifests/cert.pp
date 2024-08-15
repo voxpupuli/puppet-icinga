@@ -13,8 +13,8 @@
 #
 define icinga::cert (
   Icinga::Certificate $args,
-  String              $owner,
-  String              $group,
+  String[1]           $owner,
+  String[1]           $group,
 ) {
   if $facts['os']['family'] == 'windows' {
     $key_mode = undef

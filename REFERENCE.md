@@ -91,7 +91,7 @@ The CA to send the certificate request to.
 
 ##### <a name="-icinga--agent--parent_zone"></a>`parent_zone`
 
-Data type: `String`
+Data type: `String[1]`
 
 Name of the parent Icinga zone.
 
@@ -99,13 +99,13 @@ Default value: `'main'`
 
 ##### <a name="-icinga--agent--parent_endpoints"></a>`parent_endpoints`
 
-Data type: `Hash[String, Hash]`
+Data type: `Hash[String[1], Hash]`
 
 Configures these endpoints of the parent zone.
 
 ##### <a name="-icinga--agent--global_zones"></a>`global_zones`
 
-Data type: `Array[String]`
+Data type: `Array[String[1]]`
 
 List of global zones to configure.
 
@@ -125,7 +125,7 @@ Set the log level.
 
 ##### <a name="-icinga--agent--zone"></a>`zone`
 
-Data type: `String`
+Data type: `String[1]`
 
 Set a dedicated zone name.
 
@@ -156,7 +156,7 @@ The following parameters are available in the `icinga::agentless` class:
 
 ##### <a name="-icinga--agentless--user"></a>`user`
 
-Data type: `String`
+Data type: `String[1]`
 
 User name to login.
 
@@ -174,13 +174,13 @@ SSH key type.
 
 ##### <a name="-icinga--agentless--ssh_public_key"></a>`ssh_public_key`
 
-Data type: `String`
+Data type: `String[1]`
 
 Public SSH key of ´ssh_key_type´ for ´user´.
 
 ##### <a name="-icinga--agentless--extra_packages"></a>`extra_packages`
 
-Data type: `Array[String]`
+Data type: `Array[String[1]]`
 
 Install extra packages such as plugins.
 
@@ -225,7 +225,7 @@ Default value: `'localhost'`
 
 ##### <a name="-icinga--db--db_port"></a>`db_port`
 
-Data type: `Optional[Stdlib::Port::Unprivileged]`
+Data type: `Optional[Stdlib::Port]`
 
 Port to connect the database.
 
@@ -233,7 +233,7 @@ Default value: `undef`
 
 ##### <a name="-icinga--db--db_name"></a>`db_name`
 
-Data type: `String`
+Data type: `String[1]`
 
 The IcingaDB database.
 
@@ -241,7 +241,7 @@ Default value: `'icingadb'`
 
 ##### <a name="-icinga--db--db_user"></a>`db_user`
 
-Data type: `String`
+Data type: `String[1]`
 
 User to connect the database.
 
@@ -355,7 +355,7 @@ Password to connect the database.
 
 ##### <a name="-icinga--db--database--db_name"></a>`db_name`
 
-Data type: `String`
+Data type: `String[1]`
 
 Name of the database.
 
@@ -363,7 +363,7 @@ Default value: `'icingadb'`
 
 ##### <a name="-icinga--db--database--db_user"></a>`db_user`
 
-Data type: `String`
+Data type: `String[1]`
 
 Database user name.
 
@@ -432,7 +432,7 @@ Default value: `undef`
 
 ##### <a name="-icinga--ido--db_name"></a>`db_name`
 
-Data type: `String`
+Data type: `String[1]`
 
 Name of the database.
 
@@ -440,7 +440,7 @@ Default value: `'icinga2'`
 
 ##### <a name="-icinga--ido--db_user"></a>`db_user`
 
-Data type: `String`
+Data type: `String[1]`
 
 Database user name.
 
@@ -498,7 +498,7 @@ Password to connect the database.
 
 ##### <a name="-icinga--ido--database--db_name"></a>`db_name`
 
-Data type: `String`
+Data type: `String[1]`
 
 Name of the database.
 
@@ -506,7 +506,7 @@ Default value: `'icinga2'`
 
 ##### <a name="-icinga--ido--database--db_user"></a>`db_user`
 
-Data type: `String`
+Data type: `String[1]`
 
 Database user name.
 
@@ -670,7 +670,7 @@ Default value: `false`
 
 ##### <a name="-icinga--server--zone"></a>`zone`
 
-Data type: `String`
+Data type: `String[1]`
 
 Name of the Icinga zone.
 
@@ -678,7 +678,7 @@ Default value: `'main'`
 
 ##### <a name="-icinga--server--colocation_endpoints"></a>`colocation_endpoints`
 
-Data type: `Hash[String,Hash]`
+Data type: `Hash[String[1], Hash]`
 
 When the zone includes more than one endpoint, set here the additional endpoint(s).
 Icinga supports two endpoints per zone only.
@@ -687,7 +687,7 @@ Default value: `{}`
 
 ##### <a name="-icinga--server--workers"></a>`workers`
 
-Data type: `Hash[String,Hash]`
+Data type: `Hash[String[1], Hash]`
 
 All worker zones with key 'endpoints' for endpoint objects.
 
@@ -695,7 +695,7 @@ Default value: `{}`
 
 ##### <a name="-icinga--server--global_zones"></a>`global_zones`
 
-Data type: `Array[String]`
+Data type: `Array[String[1]]`
 
 List of global zones to configure.
 
@@ -719,7 +719,7 @@ Default value: `undef`
 
 ##### <a name="-icinga--server--web_api_user"></a>`web_api_user`
 
-Data type: `String`
+Data type: `String[1]`
 
 Icinga API user to connect Icinga 2. Notice: user is only created if a password is set.
 
@@ -735,7 +735,7 @@ Default value: `undef`
 
 ##### <a name="-icinga--server--director_api_user"></a>`director_api_user`
 
-Data type: `String`
+Data type: `String[1]`
 
 Icinga API director user to connect Icinga 2. Notice: user is only created if a password is set.
 
@@ -813,7 +813,7 @@ The following parameters are available in the `icinga::web` class:
 
 ##### <a name="-icinga--web--default_admin_user"></a>`default_admin_user`
 
-Data type: `String`
+Data type: `String[1]`
 
 Set the initial name of the admin user.
 
@@ -883,7 +883,7 @@ Default value: `undef`
 
 ##### <a name="-icinga--web--db_name"></a>`db_name`
 
-Data type: `String`
+Data type: `String[1]`
 
 Name of the database.
 
@@ -891,7 +891,7 @@ Default value: `'icingaweb2'`
 
 ##### <a name="-icinga--web--db_user"></a>`db_user`
 
-Data type: `String`
+Data type: `String[1]`
 
 Database user name.
 
@@ -915,7 +915,7 @@ Default value: `'localhost'`
 
 ##### <a name="-icinga--web--api_user"></a>`api_user`
 
-Data type: `String`
+Data type: `String[1]`
 
 Icinga 2 API user.
 
@@ -962,7 +962,7 @@ Password to connect the database.
 
 ##### <a name="-icinga--web--database--db_name"></a>`db_name`
 
-Data type: `String`
+Data type: `String[1]`
 
 Name of the database.
 
@@ -970,7 +970,7 @@ Default value: `'icingaweb2'`
 
 ##### <a name="-icinga--web--database--db_user"></a>`db_user`
 
-Data type: `String`
+Data type: `String[1]`
 
 Database user name.
 
@@ -1054,7 +1054,7 @@ Default value: `undef`
 
 ##### <a name="-icinga--web--director--db_name"></a>`db_name`
 
-Data type: `String`
+Data type: `String[1]`
 
 Name of the database.
 
@@ -1062,7 +1062,7 @@ Default value: `'director'`
 
 ##### <a name="-icinga--web--director--db_user"></a>`db_user`
 
-Data type: `String`
+Data type: `String[1]`
 
 Username for DB connection.
 
@@ -1076,7 +1076,7 @@ Password for DB connection.
 
 ##### <a name="-icinga--web--director--endpoint"></a>`endpoint`
 
-Data type: `String`
+Data type: `String[1]`
 
 Endpoint object name of Icinga 2 API.
 
@@ -1098,7 +1098,7 @@ Default value: `'localhost'`
 
 ##### <a name="-icinga--web--director--api_user"></a>`api_user`
 
-Data type: `String`
+Data type: `String[1]`
 
 Icinga 2 API username.
 
@@ -1146,7 +1146,7 @@ Password to connect the database.
 
 ##### <a name="-icinga--web--director--database--db_name"></a>`db_name`
 
-Data type: `String`
+Data type: `String[1]`
 
 Name of the database.
 
@@ -1154,7 +1154,7 @@ Default value: `'director'`
 
 ##### <a name="-icinga--web--director--database--db_user"></a>`db_user`
 
-Data type: `String`
+Data type: `String[1]`
 
 Database user name.
 
@@ -1214,7 +1214,7 @@ Default value: `'localhost'`
 
 ##### <a name="-icinga--web--icingadb--db_port"></a>`db_port`
 
-Data type: `Optional[Stdlib::Port::Unprivileged]`
+Data type: `Optional[Stdlib::Port]`
 
 Port to connect the backend.
 
@@ -1222,7 +1222,7 @@ Default value: `undef`
 
 ##### <a name="-icinga--web--icingadb--db_name"></a>`db_name`
 
-Data type: `String`
+Data type: `String[1]`
 
 Name of the database backend.
 
@@ -1230,7 +1230,7 @@ Default value: `'icingadb'`
 
 ##### <a name="-icinga--web--icingadb--db_user"></a>`db_user`
 
-Data type: `String`
+Data type: `String[1]`
 
 Database backend user name.
 
@@ -1355,7 +1355,7 @@ Default value: `undef`
 
 ##### <a name="-icinga--web--monitoring--db_name"></a>`db_name`
 
-Data type: `String`
+Data type: `String[1]`
 
 Name of the IDO database backend.
 
@@ -1363,7 +1363,7 @@ Default value: `'icinga2'`
 
 ##### <a name="-icinga--web--monitoring--db_user"></a>`db_user`
 
-Data type: `String`
+Data type: `String[1]`
 
 IDO database backend user name.
 
@@ -1434,7 +1434,7 @@ Default value: `undef`
 
 ##### <a name="-icinga--web--reporting--db_name"></a>`db_name`
 
-Data type: `String`
+Data type: `String[1]`
 
 Name of the database.
 
@@ -1442,7 +1442,7 @@ Default value: `'reporting'`
 
 ##### <a name="-icinga--web--reporting--db_user"></a>`db_user`
 
-Data type: `String`
+Data type: `String[1]`
 
 Username for DB connection.
 
@@ -1464,7 +1464,7 @@ Default value: `false`
 
 ##### <a name="-icinga--web--reporting--mail"></a>`mail`
 
-Data type: `Optional[String]`
+Data type: `Optional[String[1]]`
 
 Mails are sent with this sender address.
 
@@ -1506,7 +1506,7 @@ Password to connect the database.
 
 ##### <a name="-icinga--web--reporting--database--db_name"></a>`db_name`
 
-Data type: `String`
+Data type: `String[1]`
 
 Name of the database.
 
@@ -1514,7 +1514,7 @@ Default value: `'reporting'`
 
 ##### <a name="-icinga--web--reporting--database--db_user"></a>`db_user`
 
-Data type: `String`
+Data type: `String[1]`
 
 Database user name.
 
@@ -1594,7 +1594,7 @@ Default value: `undef`
 
 ##### <a name="-icinga--web--vspheredb--db_name"></a>`db_name`
 
-Data type: `String`
+Data type: `String[1]`
 
 Name of the database.
 
@@ -1602,7 +1602,7 @@ Default value: `'vspheredb'`
 
 ##### <a name="-icinga--web--vspheredb--db_user"></a>`db_user`
 
-Data type: `String`
+Data type: `String[1]`
 
 Username for DB connection.
 
@@ -1657,7 +1657,7 @@ Password to connect the database.
 
 ##### <a name="-icinga--web--vspheredb--database--db_name"></a>`db_name`
 
-Data type: `String`
+Data type: `String[1]`
 
 Name of the database.
 
@@ -1665,7 +1665,7 @@ Default value: `'vspheredb'`
 
 ##### <a name="-icinga--web--vspheredb--database--db_user"></a>`db_user`
 
-Data type: `String`
+Data type: `String[1]`
 
 Database user name.
 
@@ -1743,7 +1743,7 @@ Default value: `undef`
 
 ##### <a name="-icinga--web--x509--db_name"></a>`db_name`
 
-Data type: `String`
+Data type: `String[1]`
 
 Name of the database.
 
@@ -1751,7 +1751,7 @@ Default value: `'x509'`
 
 ##### <a name="-icinga--web--x509--db_user"></a>`db_user`
 
-Data type: `String`
+Data type: `String[1]`
 
 Username for DB connection.
 
@@ -1807,7 +1807,7 @@ Password to connect the database.
 
 ##### <a name="-icinga--web--x509--database--db_name"></a>`db_name`
 
-Data type: `String`
+Data type: `String[1]`
 
 Name of the database.
 
@@ -1815,7 +1815,7 @@ Default value: `'x509'`
 
 ##### <a name="-icinga--web--x509--database--db_user"></a>`db_user`
 
-Data type: `String`
+Data type: `String[1]`
 
 Database user name.
 
@@ -1864,13 +1864,13 @@ The CA to send the certificate request to.
 
 ##### <a name="-icinga--worker--zone"></a>`zone`
 
-Data type: `String`
+Data type: `String[1]`
 
 Name of the Icinga zone.
 
 ##### <a name="-icinga--worker--parent_zone"></a>`parent_zone`
 
-Data type: `String`
+Data type: `String[1]`
 
 Name of the parent Icinga zone.
 
@@ -1878,13 +1878,13 @@ Default value: `'main'`
 
 ##### <a name="-icinga--worker--parent_endpoints"></a>`parent_endpoints`
 
-Data type: `Hash[String, Hash]`
+Data type: `Hash[String[1], Hash]`
 
 Configures these endpoints of the parent zone.
 
 ##### <a name="-icinga--worker--colocation_endpoints"></a>`colocation_endpoints`
 
-Data type: `Hash[String, Hash]`
+Data type: `Hash[String[1], Hash]`
 
 When the zone includes more than one endpoint, set here the additional endpoint(s).
 Icinga supports two endpoints per zone only.
@@ -1893,7 +1893,7 @@ Default value: `{}`
 
 ##### <a name="-icinga--worker--workers"></a>`workers`
 
-Data type: `Hash[String, Hash]`
+Data type: `Hash[String[1], Hash]`
 
 All cascading worker zones with key 'endpoints' for endpoint objects.
 
@@ -1901,7 +1901,7 @@ Default value: `{}`
 
 ##### <a name="-icinga--worker--global_zones"></a>`global_zones`
 
-Data type: `Array[String]`
+Data type: `Array[String[1]]`
 
 List of global zones to configure.
 
@@ -1967,13 +1967,13 @@ key_file, cert_file, cacert_file, key, cert and cacert
 
 ##### <a name="-icinga--cert--owner"></a>`owner`
 
-Data type: `String`
+Data type: `String[1]`
 
 Owner of the files.
 
 ##### <a name="-icinga--cert--group"></a>`group`
 
-Data type: `String`
+Data type: `String[1]`
 
 Group membership of all files.
 
@@ -1985,7 +1985,7 @@ Type: Puppet Language
 
 Choose the path of tls key, cert and ca file.
 
-#### `icinga::cert::files(String $name, Optional[Stdlib::Absolutepath] $default_dir, Optional[Stdlib::Absolutepath] $key_file = undef, Optional[Stdlib::Absolutepath] $cert_file = undef, Optional[Stdlib::Absolutepath] $cacert_file = undef, Optional[Variant[String, Sensitive]] $key = undef, Optional[String] $cert = undef, Optional[String] $cacert = undef)`
+#### `icinga::cert::files(String[1] $name, Optional[Stdlib::Absolutepath] $default_dir, Optional[Stdlib::Absolutepath] $key_file = undef, Optional[Stdlib::Absolutepath] $cert_file = undef, Optional[Stdlib::Absolutepath] $cacert_file = undef, Optional[Icinga::Secret] $key = undef, Optional[String[1]] $cert = undef, Optional[String[1]] $cacert = undef)`
 
 The icinga::cert::files function.
 
@@ -1993,7 +1993,7 @@ Returns: `Hash` Returned hash includes all paths and the key, cert and cacert.
 
 ##### `name`
 
-Data type: `String`
+Data type: `String[1]`
 
 
 
@@ -2023,19 +2023,19 @@ Data type: `Optional[Stdlib::Absolutepath]`
 
 ##### `key`
 
-Data type: `Optional[Variant[String, Sensitive]]`
+Data type: `Optional[Icinga::Secret]`
 
 
 
 ##### `cert`
 
-Data type: `Optional[String]`
+Data type: `Optional[String[1]]`
 
 
 
 ##### `cacert`
 
-Data type: `Optional[String]`
+Data type: `Optional[String[1]]`
 
 
 
@@ -2050,10 +2050,10 @@ with or without TLS information.
       type     => Enum['pgsql','mysql','mariadb'],
       host     => Stdlib::Host,
       port     => Optional[Stdlib::Port],
-      database => String,
-      username => String,
-      password => Optional[Variant[String, Sensitive[String]]],
-  }] $db, Hash[String, Any] $tls, Optional[Boolean] $use_tls = undef, Optional[Enum['verify-full', 'verify-ca']] $ssl_mode = undef)`
+      database => String[1],
+      username => String[1],
+      password => Optional[Icinga::Secret],
+  }] $db, Hash[String[1], Any] $tls, Optional[Boolean] $use_tls = undef, Optional[Enum['verify-full', 'verify-ca']] $ssl_mode = undef)`
 
 The icinga::db::connect function.
 
@@ -2068,9 +2068,9 @@ Struct[{
       type     => Enum['pgsql','mysql','mariadb'],
       host     => Stdlib::Host,
       port     => Optional[Stdlib::Port],
-      database => String,
-      username => String,
-      password => Optional[Variant[String, Sensitive[String]]],
+      database => String[1],
+      username => String[1],
+      password => Optional[Icinga::Secret],
   }]
 ```
 
@@ -2078,7 +2078,7 @@ Data hash with database information.
 
 ##### `tls`
 
-Data type: `Hash[String, Any]`
+Data type: `Hash[String[1], Any]`
 
 Data hash with TLS connection information.
 
@@ -2118,7 +2118,7 @@ Type: Puppet Language
 
 This funktion checks for web preparation and display a warning if fails
 
-#### `icinga::prepare_web(String $icingamod)`
+#### `icinga::prepare_web(String[1] $icingamod)`
 
 The icinga::prepare_web function.
 
@@ -2126,7 +2126,7 @@ Returns: `Any` Nothing, statement function.
 
 ##### `icingamod`
 
-Data type: `String`
+Data type: `String[1]`
 
 
 
@@ -2140,9 +2140,9 @@ Alias of
 
 ```puppet
 Struct[{
-    cert        => Optional[String],
-    key         => Optional[Variant[String, Sensitive[String]]],
-    cacert      => Optional[String],
+    cert        => Optional[String[1]],
+    key         => Optional[Icinga::Secret],
+    cacert      => Optional[String[1]],
     insecure    => Optional[Boolean],
     cert_file   => Optional[Stdlib::Absolutepath],
     key_file    => Optional[Stdlib::Absolutepath],
@@ -2160,5 +2160,5 @@ Alias of `Enum['debug', 'information', 'notice', 'warning', 'critical']`
 
 A strict type for the secrets like passwords or keys
 
-Alias of `Variant[String, Sensitive[String]]`
+Alias of `Variant[String[1], Sensitive[String[1]]]`
 

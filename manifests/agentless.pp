@@ -17,11 +17,11 @@
 #   Install extra packages such as plugins.
 #
 class icinga::agentless (
-  String                        $user,
+  String[1]                     $user,
   Boolean                       $manage_user,
   Enum['ecdsa','ed25519','rsa'] $ssh_key_type,
-  String                        $ssh_public_key,
-  Array[String]                 $extra_packages = [],
+  String[1]                     $ssh_public_key,
+  Array[String[1]]              $extra_packages = [],
 ) {
   if defined(Class['icinga']) {
     if $user != $icinga2::globals::user {

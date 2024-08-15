@@ -25,8 +25,8 @@ class icinga::web::director::database (
   Enum['mysql','pgsql']      $db_type,
   Array[Stdlib::Host]        $web_instances,
   Icinga::Secret             $db_pass,
-  String                     $db_user = 'director',
-  String                     $db_name = 'director',
+  String[1]                  $db_user = 'director',
+  String[1]                  $db_name = 'director',
   Variant[Boolean,
   Enum['password','cert']]   $tls      = false,
 ) {
