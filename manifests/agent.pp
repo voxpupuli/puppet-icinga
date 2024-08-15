@@ -28,12 +28,12 @@
 #
 class icinga::agent (
   Stdlib::Host                       $ca_server,
-  Hash[String, Hash]                 $parent_endpoints,
+  Hash[String[1], Hash]              $parent_endpoints,
   Icinga::LogLevel                   $logging_level,
   Enum['file', 'syslog', 'eventlog'] $logging_type,
-  String                             $parent_zone   = 'main',
-  Array[String]                      $global_zones  = [],
-  String                             $zone          = 'NodeName',
+  String[1]                          $parent_zone   = 'main',
+  Array[String[1]]                   $global_zones  = [],
+  String[1]                          $zone          = 'NodeName',
   Boolean                            $run_web       = false,
 ) {
   class { 'icinga':

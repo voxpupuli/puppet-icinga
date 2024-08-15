@@ -35,8 +35,8 @@ class icinga::web::vspheredb (
   Enum['mysql']             $db_type         = 'mysql',
   Stdlib::Host              $db_host         = 'localhost',
   Optional[Stdlib::Port]    $db_port         = undef,
-  String                    $db_name         = 'vspheredb',
-  String                    $db_user         = 'vspheredb',
+  String[1]                 $db_name         = 'vspheredb',
+  String[1]                 $db_user         = 'vspheredb',
   Boolean                   $manage_database = false,
 ) {
   icinga::prepare_web('VSphereDB')

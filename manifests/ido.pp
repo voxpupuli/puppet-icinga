@@ -30,8 +30,8 @@ class icinga::ido (
   Enum['mysql','pgsql']                  $db_type         = 'mysql',
   Stdlib::Host                           $db_host         = 'localhost',
   Optional[Stdlib::Port]                 $db_port         = undef,
-  String                                 $db_name         = 'icinga2',
-  String                                 $db_user         = 'icinga2',
+  String[1]                              $db_name         = 'icinga2',
+  String[1]                              $db_user         = 'icinga2',
   Boolean                                $manage_database = false,
   Boolean                                $enable_ha       = false,
 ) {

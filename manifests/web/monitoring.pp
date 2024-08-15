@@ -24,8 +24,8 @@ class icinga::web::monitoring (
   Enum['mysql', 'pgsql']               $db_type    = 'mysql',
   Stdlib::Host                         $db_host    = 'localhost',
   Optional[Stdlib::Port::Unprivileged] $db_port    = undef,
-  String                               $db_name    = 'icinga2',
-  String                               $db_user    = 'icinga2',
+  String[1]                            $db_name    = 'icinga2',
+  String[1]                            $db_user    = 'icinga2',
 ) {
   require icinga::web
 

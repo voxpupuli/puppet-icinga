@@ -43,17 +43,17 @@
 class icinga::web::director (
   Icinga::Secret           $db_pass,
   Icinga::Secret           $api_pass,
-  String                   $endpoint,
+  String[1]                $endpoint,
   Stdlib::Ensure::Service  $service_ensure  = 'running',
   Boolean                  $service_enable  = true,
   Enum['mysql', 'pgsql']   $db_type         = 'mysql',
   Stdlib::Host             $db_host         = 'localhost',
   Optional[Stdlib::Port]   $db_port         = undef,
-  String                   $db_name         = 'director',
-  String                   $db_user         = 'director',
+  String[1]                $db_name         = 'director',
+  String[1]                $db_user         = 'director',
   Boolean                  $manage_database = false,
   Stdlib::Host             $api_host        = 'localhost',
-  String                   $api_user        = 'director',
+  String[1]                $api_user        = 'director',
 ) {
   icinga::prepare_web('Director')
 

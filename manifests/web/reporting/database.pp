@@ -25,8 +25,8 @@ class icinga::web::reporting::database (
   Enum['mysql','pgsql']      $db_type,
   Array[Stdlib::Host]        $web_instances,
   Icinga::Secret             $db_pass,
-  String                     $db_user = 'reporting',
-  String                     $db_name = 'reporting',
+  String[1]                  $db_user = 'reporting',
+  String[1]                  $db_name = 'reporting',
   Variant[Boolean,
   Enum['password','cert']]   $tls      = false,
 ) {

@@ -5,14 +5,14 @@
 #    Returned hash includes all paths and the key, cert and cacert.
 #
 function icinga::cert::files(
-  String                                $name,
-  Optional[Stdlib::Absolutepath]        $default_dir,
-  Optional[Stdlib::Absolutepath]        $key_file    = undef,
-  Optional[Stdlib::Absolutepath]        $cert_file   = undef,
-  Optional[Stdlib::Absolutepath]        $cacert_file = undef,
-  Optional[Variant[String, Sensitive]]  $key         = undef,
-  Optional[String]                      $cert        = undef,
-  Optional[String]                      $cacert      = undef,
+  String[1]                       $name,
+  Optional[Stdlib::Absolutepath]  $default_dir,
+  Optional[Stdlib::Absolutepath]  $key_file    = undef,
+  Optional[Stdlib::Absolutepath]  $cert_file   = undef,
+  Optional[Stdlib::Absolutepath]  $cacert_file = undef,
+  Optional[Icinga::Secret]        $key         = undef,
+  Optional[String[1]]             $cert        = undef,
+  Optional[String[1]]             $cacert      = undef,
 ) >> Hash {
   # @param name
   #   The base name of certicate, key and ca file,

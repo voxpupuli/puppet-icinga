@@ -38,10 +38,10 @@ class icinga::web::reporting (
   Boolean                   $service_enable  = true,
   Stdlib::Host              $db_host         = 'localhost',
   Optional[Stdlib::Port]    $db_port         = undef,
-  String                    $db_name         = 'reporting',
-  String                    $db_user         = 'reporting',
+  String[1]                 $db_name         = 'reporting',
+  String[1]                 $db_user         = 'reporting',
   Boolean                   $manage_database = false,
-  Optional[String]          $mail            = undef,
+  Optional[String[1]]       $mail            = undef,
 ) {
   unless defined(Class['icinga::web::icingadb']) or defined(Class['icinga::web::monitoring']) {
     fail('Class icinga::web::icingadb or icinga::web::monitoring has to be declared before!')

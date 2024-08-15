@@ -35,8 +35,8 @@ class icinga::web::x509 (
   Boolean                   $service_enable  = true,
   Stdlib::Host              $db_host         = 'localhost',
   Optional[Stdlib::Port]    $db_port         = undef,
-  String                    $db_name         = 'x509',
-  String                    $db_user         = 'x509',
+  String[1]                 $db_name         = 'x509',
+  String[1]                 $db_user         = 'x509',
   Boolean                   $manage_database = false,
 ) {
   unless defined(Class['icinga::web::icingadb']) or defined(Class['icinga::web::monitoring']) {

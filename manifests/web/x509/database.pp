@@ -25,8 +25,8 @@ class icinga::web::x509::database (
   Enum['mysql','pgsql']      $db_type,
   Array[Stdlib::Host]        $web_instances,
   Icinga::Secret             $db_pass,
-  String                     $db_user = 'x509',
-  String                     $db_name = 'x509',
+  String[1]                  $db_user = 'x509',
+  String[1]                  $db_name = 'x509',
   Variant[Boolean,
   Enum['password','cert']]   $tls      = false,
 ) {
