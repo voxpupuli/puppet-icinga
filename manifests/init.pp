@@ -48,18 +48,18 @@
 #
 class icinga (
   Boolean                                 $ca,
-  String                                  $this_zone,
-  Hash[String, Hash]                      $zones,
-  String                                  $cert_name,
+  String[1]                               $this_zone,
+  Hash[String[1], Hash]                   $zones,
+  String[1]                               $cert_name,
   Optional[Stdlib::Host]                  $ca_server       = undef,
   Optional[Icinga::Secret]                $ticket_salt     = undef,
-  Array[String]                           $extra_packages  = [],
+  Array[String[1]]                        $extra_packages  = [],
   Enum['file', 'syslog', 'eventlog']      $logging_type    = 'file',
   Optional[Icinga::LogLevel]              $logging_level   = undef,
   Optional[Icinga::Secret]                $ssh_private_key = undef,
   Optional[Enum['ecdsa','ed25519','rsa']] $ssh_key_type    = undef,
   Boolean                                 $prepare_web     = false,
-  Variant[Boolean, String]                $confd           = false,
+  Variant[Boolean, String[1]]             $confd           = false,
 ) {
   assert_private()
 

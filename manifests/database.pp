@@ -7,13 +7,13 @@ define icinga::database (
   Enum['mysql','pgsql']      $db_type,
   Array[Stdlib::Host]        $access_instances,
   Icinga::Secret             $db_pass,
-  String                     $db_name,
-  String                     $db_user,
-  Array[String]              $mysql_privileges,
+  String[1]                  $db_name,
+  String[1]                  $db_user,
+  Array[String[1]]           $mysql_privileges,
   Variant[Boolean,
   Enum['password','cert']]   $tls       = false,
-  Optional[String]           $encoding  = undef,
-  Optional[String]           $collation = undef,
+  Optional[String[1]]        $encoding  = undef,
+  Optional[String[1]]        $collation = undef,
 ) {
   assert_private()
 
