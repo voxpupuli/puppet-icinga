@@ -267,11 +267,11 @@ apt::backports::location: 'https://archive.debian.org/debian'
 
 The class supports:
 
-* [puppet] >= 7.0 < 9.0
+* [puppet] >= 7.9.0 < 9.0
 
 And requires:
 
-* [icinga/icinga2] >= 3.1.0 < 6.0.0
+* [icinga/icinga2] >= 3.1.0 < 7.0.0
 
 Setting up a Icinga Server with a CA and to store configuration:
 
@@ -329,14 +329,14 @@ NOTICE: To switch off the package installation via chocolatey on windows, `icing
 
 The class supports:
 
-* [puppet] >= 7.0 < 9.0
+* [puppet] >= 7.9.0 < 9.0
 
 Ands requires:
 
 * [puppetlabs/mysql] >= 10.9.0 < 16.0.0
 * [puppetlabs/postgresql] >= 7.0.0 < 11.0.0
-* [icinga/icinga2] >= 2.9.0 < 6.0.0
-* [icinga/icingadb] >= 1.0.0 < 3.0.0
+* [icinga/icinga2] >= 3.1.0 < 7.0.0
+* [icinga/icingadb] >= 2.1.0 < 4.0.0
 
 To activate and configure the IcingaDB (usally on a server) do:
 
@@ -357,13 +357,13 @@ Setting `manage_database` to `true` also setups a database as specified in `db_t
 
 The class supports:
 
-* [puppet] >= 7.0 < 9.0
+* [puppet] >= 7.9.0 < 9.0
 
 Ands requires:
 
-* [puppetlabs/mysql] >= 10.9.0 < 16.0.0
+* [puppetlabs/mysql] >= 10.9.0 < 17.0.0
 * [puppetlabs/postgresql] >= 7.0.0 < 11.0.0
-* [icinga/icinga2] >= 2.9.0 < 6.0.0
+* [icinga/icinga2] >= 3.1.0 < 7.0.0
 
 To activate and configure the IDO feature (usally on a server) do:
 
@@ -382,15 +382,15 @@ Setting `manage_database` to `true` also setups a database as specified in `db_t
 
 The class supports:
 
-* [puppet] >= 7.0 < 9.0
+* [puppet] >= 7.9.0 < 9.0
 
 And requires:
 
-* [puppetlabs/mysql] >= 10.9.0 < 16.0.0
+* [puppetlabs/mysql] >= 10.9.0 < 17.0.0
 * [puppetlabs/postgresql] >= 7.0.0 < 11.0.0
-* [icinga/icingaweb2] >= 3.6.0 < 5.0.0
-* [icinga/icinga2] >= 2.9.0 < 6.0.0
-* [puppetlabs/apache] >= 5.8.0 < 12.0.0
+* [icinga/icingaweb2] >= 3.7.0 < 6.0.0
+* [icinga/icinga2] >= 3.1.0 < 7.0.0
+* [puppetlabs/apache] >= 5.8.0 < 13.0.0
 * [puppet/php] >= 8.0.0 < 11.0.0
 
 A Icinga Web 2 with an Apache and PHP-FPM can be managed as follows:
@@ -477,13 +477,13 @@ class { 'icinga::web::vspheredb':
 
 The class supports:
 
-* [puppet] >= 7.0 < 9.0
+* [puppet] >= 7.9.0 < 9.0
 
 And required in addition to `icinga::web::icingadb` or `icinga::web::monitoring`:
 
-* [puppetlabs/mysql] >= 10.9.0 < 16.0.0
+* [puppetlabs/mysql] >= 10.9.0 < 17.0.0
 * [puppetlabs/postgresql] >= 7.0.0 < 11.0.0
-* [icinga/icingaweb2] >= 3.7.0 < 5.0.0
+* [icinga/icingaweb2] >= 3.7.0 < 6.0.0
 
 An example to setup reporting and the required database:
 
