@@ -4,6 +4,41 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v6.0.0](https://github.com/voxpupuli/puppet-icinga/tree/v6.0.0) (2024-08-19)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-icinga/compare/v5.0.0...v6.0.0)
+
+**Breaking changes:**
+
+- Drop EOL CentOS 8 support [\#144](https://github.com/voxpupuli/puppet-icinga/pull/144) ([lbetz](https://github.com/lbetz))
+- Remove EL7 support [\#139](https://github.com/voxpupuli/puppet-icinga/pull/139) ([lbetz](https://github.com/lbetz))
+- Drop Debian Buster support [\#131](https://github.com/voxpupuli/puppet-icinga/pull/131) ([lbetz](https://github.com/lbetz))
+
+**Implemented enhancements:**
+
+- Restrict parameters to non-empty strings [\#145](https://github.com/voxpupuli/puppet-icinga/pull/145) ([lbetz](https://github.com/lbetz))
+- Add new param to load additonal Apache modules [\#143](https://github.com/voxpupuli/puppet-icinga/pull/143) ([lbetz](https://github.com/lbetz))
+- Add new parameter to disable the default apache config for Icinga [\#142](https://github.com/voxpupuli/puppet-icinga/pull/142) ([lbetz](https://github.com/lbetz))
+- Add SELinux support for the Icinga 2 core [\#141](https://github.com/voxpupuli/puppet-icinga/pull/141) ([lbetz](https://github.com/lbetz))
+- Add Fedora 40 support [\#140](https://github.com/voxpupuli/puppet-icinga/pull/140) ([lbetz](https://github.com/lbetz))
+- Add Ubuntu \(24.04\) Noble support [\#138](https://github.com/voxpupuli/puppet-icinga/pull/138) ([lbetz](https://github.com/lbetz))
+- Switch to keyring for all supported Ubuntu and Debian repos [\#132](https://github.com/voxpupuli/puppet-icinga/pull/132) ([lbetz](https://github.com/lbetz))
+- Add Debian bookworm support [\#130](https://github.com/voxpupuli/puppet-icinga/pull/130) ([lbetz](https://github.com/lbetz))
+- Move cert\_name parameter default to module data [\#126](https://github.com/voxpupuli/puppet-icinga/pull/126) ([lbetz](https://github.com/lbetz))
+
+**Fixed bugs:**
+
+- Fix private key permissions [\#135](https://github.com/voxpupuli/puppet-icinga/pull/135) ([lbetz](https://github.com/lbetz))
+- Limit package dependency to icinga modules [\#128](https://github.com/voxpupuli/puppet-icinga/pull/128) ([lbetz](https://github.com/lbetz))
+- Fix eventlog as logging\_type on Windows [\#124](https://github.com/voxpupuli/puppet-icinga/pull/124) ([lbetz](https://github.com/lbetz))
+
+**Merged pull requests:**
+
+- Update soft dependencies in README.md [\#146](https://github.com/voxpupuli/puppet-icinga/pull/146) ([lbetz](https://github.com/lbetz))
+- .fixtures.yml: Fix augeas module name [\#134](https://github.com/voxpupuli/puppet-icinga/pull/134) ([bastelfreak](https://github.com/bastelfreak))
+- Fix typo in requires [\#133](https://github.com/voxpupuli/puppet-icinga/pull/133) ([viscountstyx](https://github.com/viscountstyx))
+- Add use of puppet-php \>= 10.2.0 to docs [\#129](https://github.com/voxpupuli/puppet-icinga/pull/129) ([lbetz](https://github.com/lbetz))
+
 ## [v5.0.0](https://github.com/voxpupuli/puppet-icinga/tree/v5.0.0) (2024-05-17)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-icinga/compare/v4.2.1...v5.0.0)
