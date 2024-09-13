@@ -3,3 +3,8 @@
   enabled_lint_checks:
     - parameter_documentation
     - parameter_types
+
+.github/workflows/ci.yml:
+  with:
+    timeout_minutes: 75
+    unit_runs_on: 'cern-self-hosted'
