@@ -21,4 +21,5 @@ jobs:
     name: Puppet
     uses: voxpupuli/gha-puppet/.github/workflows/basic.yml@v3
     with:
+      timeout_minutes: 75
       unit_runs_on: 'cern-self-hosted'
