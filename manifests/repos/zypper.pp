@@ -25,7 +25,7 @@ class icinga::repos::zypper {
       }
 
       -> zypprepo { $repo_name:
-        *       => delete($repo_config, 'proxy'),
+        * => delete($repo_config, 'proxy'),
       }
 
       -> file_line { "add proxy settings to ${repo_name}":

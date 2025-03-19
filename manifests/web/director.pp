@@ -99,7 +99,7 @@ class icinga::web::director (
   }
 
   class { 'icingaweb2::module::fileshipper':
-    install_method   => 'package',
+    install_method => 'package',
   }
 
   # dirty hack around deamon restart
