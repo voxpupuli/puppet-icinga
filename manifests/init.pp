@@ -188,8 +188,8 @@ class icinga (
 
         ~> exec { 'restarting icinga2':
           path        => $facts['path'],
-          command     => "service ${icinga_service} restart",
-          onlyif      => "service ${icinga_service} status",
+          command     => "systemctl restart ${icinga_service}",
+          onlyif      => "systemctl status ${icinga_service}",
           refreshonly => true,
         }
       } # prepare_web
