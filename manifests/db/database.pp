@@ -29,9 +29,12 @@ class icinga::db::database (
   Variant[Boolean,
   Enum['password','cert']]   $tls       = false,
 ) {
-  $_encoding = $db_type ? {
-    'mysql' => 'utf8',
-    default => 'UTF8',
+  if $db_type == 'mysql' {
+    $_encoding  = 'utf8mb4'
+    $_collation = 'utf8mb4_bin'
+  } else {
+    $_encoding  = 'UTF8'
+    $_collation = undef
   }
 
   icinga::database { "${db_type}-${db_name}":
@@ -39,10 +42,11 @@ class icinga::db::database (
     db_name          => $db_name,
     db_user          => $db_user,
     db_pass          => $db_pass,
+    encoding         => $_encoding,
+    collation        => $_collation,
     access_instances => $access_instances,
     tls              => $tls,
     mysql_privileges => ['ALL'],
-    encoding         => $_encoding,
   }
 
   if $db_type == 'pgsql' {

@@ -30,9 +30,12 @@ class icinga::web::director::database (
   Variant[Boolean,
   Enum['password','cert']]   $tls      = false,
 ) {
-  $_encoding = $db_type ? {
-    'mysql' => 'utf8',
-    default => 'UTF8',
+  if $db_type == 'mysql' {
+    $_encoding  = 'utf8mb4'
+    $_collation = 'utf8mb4_bin'
+  } else {
+    $_encoding  = 'UTF8'
+    $_collation = undef
   }
 
   icinga::database { "${db_type}-${db_name}":
@@ -43,6 +46,7 @@ class icinga::web::director::database (
     access_instances => $web_instances,
     mysql_privileges => ['ALL'],
     encoding         => $_encoding,
+    collation        => $_collation,
     tls              => $tls,
   }
 
