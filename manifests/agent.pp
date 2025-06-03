@@ -76,7 +76,7 @@ class icinga::agent (
       },
     }
 
-    icinga::objects { 'Worker Objects':
+    icinga::helper::objects { 'Worker Objects':
       export  => $export,
       objects => deep_merge($_objects, $icinga::objects),
       target  => "/etc/icinga2/zones.d/${parent_zone}/auto.conf",

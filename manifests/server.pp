@@ -150,28 +150,32 @@ class icinga::server (
   #
   if $icinga::config_server {
     class { 'icinga2::query_objects':
-      destination  => $icinga::cert_name,
+      destination => $icinga::cert_name,
     }
 
-    # Collect all worker zones and endpoints and realize them once
-    # order by is importent to realize always the same object first
-    # if many objects are collected from more then on source 
-    puppetdb_query("resources[title,parameters] { ${icinga2::query_objects::_environments} type = 'Icinga2::Config::Fragment' and exported = true and tag = 'icinga2::instance::${zone}' and nodes { deactivated is null and expired is null } order by certname, title }").each |$item| {
-      if !defined(Icinga2::Config::Fragment[$item['title']]) {
-        icinga2::config::fragment { $item['title']:
-          * => $item['parameters'],
-        }
+    puppetdb_query("resources[title] { ${icinga2::query_objects::_environments} type = 'Icinga::Helper::Zone' and exported = true and parameters.parent = '${zone}' and nodes { deactivated is null and expired is null } group by title }").each |$item| {
+      $_zone     = $item['title']
+      $_endpoints = puppetdb_query("resources[title,parameters] { ${icinga2::query_objects::_environments} type = 'Icinga::Helper::Endpoint' and exported = true and parameters.zone = '${_zone}' and nodes { deactivated is null and expired is null } order by title }")
+
+      $content   = [epp('icinga2/object.conf.epp', {
+            'object_name' => $_zone,
+            'object_type' => 'Zone',
+            'attrs'       => {
+              'endpoints' => $_endpoints.map |$obj| { $obj['title'] },
+              'parent'    => $zone,
+            },
+            'attrs_list'  => ['endpoints', 'parent'],
+      })] + $_endpoints.map |$obj| { $obj['parameters']['content'] }
+
+      icinga2::config::fragment { "collected-worker-${_zone}":
+        content => $content.join(''),
+        target  => '/etc/icinga2/zones.conf',
+        order   => '50',
       }
     }
 
-    # Realize the zone directories 
-    puppetdb_query("resources[title,parameters] { ${icinga2::query_objects::_environments} type = 'File' and exported = true and tag = 'icinga2::instance::${icinga2::query_objects::destination}' and nodes { deactivated is null and expired is null }}").each |$file| {
-      ensure_resource('file', $file['title'], $file['parameters'] + { owner => $icinga2::globals::user, group => $icinga2::globals::group, tag => 'icinga2::config::file' })
-    }
-
-    icinga::objects { 'Server Objects':
-      # if this is the config server, don't export objects
-      export  => if $_config_server { [] } else { $icinga::config_server },
+    icinga::helper::objects { 'Server Objects':
+      export  => if $_config_server {[] } else { $icinga::config_server },
       objects => $icinga::objects,
       target  => "/etc/icinga2/zones.d/${zone}/auto.conf",
     }
