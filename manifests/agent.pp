@@ -53,4 +53,33 @@ class icinga::agent (
     global => true,
     order  => 'zz',
   }
+
+  #
+  # autodiscover monitoring
+  #
+  $export    = $icinga::config_server
+
+  if $export {
+    $cert_name = $icinga::cert_name
+
+    $_objects    = {
+      'Zone' => {
+        $cert_name => {
+          'endpoints' => [$cert_name],
+          'parent'    => $parent_zone,
+        },
+      },
+      'Endpoint' => {
+        $cert_name => {
+          'log_duration' => 0,
+        },
+      },
+    }
+
+    icinga::objects { 'Worker Objects':
+      export  => $export,
+      objects => deep_merge($_objects, $icinga::objects),
+      target  => "/etc/icinga2/zones.d/${parent_zone}/auto.conf",
+    }
+  }
 }

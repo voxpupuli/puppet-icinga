@@ -144,4 +144,36 @@ class icinga::server (
       seltype => 'icinga2_etc_t',
     }
   }
+
+  #
+  # autodiscover monitoring
+  #
+  if $icinga::config_server {
+    class { 'icinga2::query_objects':
+      destination  => $icinga::cert_name,
+    }
+
+    # Collect all worker zones and endpoints and realize them once
+    # order by is importent to realize always the same object first
+    # if many objects are collected from more then on source 
+    puppetdb_query("resources[title,parameters] { ${icinga2::query_objects::_environments} type = 'Icinga2::Config::Fragment' and exported = true and tag = 'icinga2::instance::${zone}' and nodes { deactivated is null and expired is null } order by certname, title }").each |$item| {
+      if !defined(Icinga2::Config::Fragment[$item['title']]) {
+        icinga2::config::fragment { $item['title']:
+          * => $item['parameters'],
+        }
+      }
+    }
+
+    # Realize the zone directories 
+    puppetdb_query("resources[title,parameters] { ${icinga2::query_objects::_environments} type = 'File' and exported = true and tag = 'icinga2::instance::${icinga2::query_objects::destination}' and nodes { deactivated is null and expired is null }}").each |$file| {
+      ensure_resource('file', $file['title'], $file['parameters'] + { owner => $icinga2::globals::user, group => $icinga2::globals::group, tag => 'icinga2::config::file' })
+    }
+
+    icinga::objects { 'Server Objects':
+      # if this is the config server, don't export objects
+      export  => if $_config_server { [] } else { $icinga::config_server },
+      objects => $icinga::objects,
+      target  => "/etc/icinga2/zones.d/${zone}/auto.conf",
+    }
+  }
 }

@@ -39,12 +39,16 @@
 # @param ssh_key_type
 #   SSH key type.
 #
+# @param parent_export
+#   Exports zone and endpoints to parent hosts if `icinga::config_server` is given.
+#   Optional interval (e.g. 120m) to set the log_duration for the exported `endpoint` objects.
+#
 class icinga::worker (
   Stdlib::Host                       $ca_server,
   String[1]                          $zone,
-  Hash[String[1], Hash]              $parent_endpoints,
   Enum['file', 'syslog', 'eventlog'] $logging_type,
   Icinga::LogLevel                   $logging_level,
+  Hash[String[1], Hash]              $parent_endpoints,
   String[1]                          $parent_zone          = 'main',
   Hash[String[1], Hash]              $colocation_endpoints = {},
   Hash[String[1], Hash]              $workers              = {},
@@ -52,6 +56,7 @@ class icinga::worker (
   Boolean                            $run_web              = false,
   Optional[Icinga::Secret]           $ssh_private_key      = undef,
   Enum['ecdsa','ed25519','rsa']      $ssh_key_type         = rsa,
+  Variant[Boolean, Icinga::Interval] $parent_export        = true,
 ) {
   # inject parent zone if no parent exists
   $_workers = $workers.reduce({}) |$memo, $worker| { $memo + { $worker[0] => { parent => $zone } + $worker[1] } }
@@ -76,5 +81,58 @@ class icinga::worker (
   icinga2::object::zone { $global_zones:
     global => true,
     order  => 'zz',
+  }
+
+  #
+  # autodiscover monitoring
+  #
+  $export = $icinga::config_server
+
+  if $export {
+    $cert_name  = $icinga::cert_name
+
+    # Only if you won't manage worker zone and endpoints
+    # on the server instances by your self
+    if $parent_export {
+      $_log_duration = if $parent_export =~ Boolean { undef } else { $parent_export }
+      $_endpoints    = $colocation_endpoints.reduce({
+          "${cert_name}-export" => {
+            host          => if $icinga2::feature::api::bind_host { $icinga2::feature::api::bind_host } else { $facts['networking']['ip'] },
+            port          => $icinga2::feature::api::bind_port,
+            endpoint_name => $cert_name,
+          }
+      }) |$memo, $endpoint| {
+        $memo + { "${endpoint[0]}-export" => $endpoint[1] + {
+            endpoint_name => $endpoint[0],
+        }}
+      }
+  
+      ensure_resources('icinga2::object::endpoint', $_endpoints, {
+          log_duration  => $_log_duration,
+          target        => '/etc/icinga2/zones.conf',
+          export        => $parent_zone,
+      })
+  
+      icinga2::object::zone { "${zone}-export":
+        zone_name => $zone,
+        endpoints => [$cert_name] + keys($colocation_endpoints),
+        parent    => $parent_zone,
+        target    => '/etc/icinga2/zones.conf',
+        export    => $parent_zone,
+      }
+    }
+
+    # Export the zone config directory to create on the config server
+    @@file { "/etc/icinga2/zones.d/${zone}":
+      ensure => directory,
+      tag    => "icinga2::instance::${export}",
+      mode   => '0750',
+    }
+
+    icinga::objects { 'Worker Objects':
+      export  => $export,
+      objects => $icinga::objects,
+      target  => "/etc/icinga2/zones.d/${parent_zone}/auto.conf",
+    }
   }
 }
