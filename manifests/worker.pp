@@ -110,7 +110,7 @@ class icinga::worker (
             'object_name' => $icinga::cert_name,
             'object_type' => 'Endpoint',
             'attrs'       => delete_undef_values({
-                'host' => if $icinga2::feature::api::bind_host { $icinga2::feature::api::bind_host } else { $facts['networking']['ip'] },
+                'host' => pick($icinga2::feature::api::bind_host, $facts['networking']['ip']),
                 'port' => $icinga2::feature::api::bind_port,
             } + $_obj),
             'attrs_list'  => ['host', 'port', 'log_duration'],
