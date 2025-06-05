@@ -9,8 +9,9 @@ define icinga::helper::objects (
   Variant[Array[String[1]], String[1]] $export,
 ) {
   assert_private()
+  require icinga::config
 
-  $objects.each |String $type, Hash $objs| {
+  deep_merge($icinga::config::objects, $objects).each |String $type, Hash $objs| {
     ensure_resources(
       downcase("icinga2::object::${type}"),
       $objs.reduce({}) |$memo, $obj| {
