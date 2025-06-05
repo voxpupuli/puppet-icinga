@@ -49,6 +49,9 @@ PHP and a Webserver.
 #### Private Defined types
 
 * `icinga::database`: Private define resource for database backends.
+* `icinga::helper::endpoint`: Helper to export Icinga endpoint object information.
+* `icinga::helper::objects`: Realize or export Icinga objects.
+* `icinga::helper::zone`: Helper to export Icinga zone object information.
 
 ### Functions
 
@@ -61,6 +64,7 @@ with or without TLS information.
 ### Data types
 
 * [`Icinga::Certificate`](#Icinga--Certificate): A strict type for a certificate
+* [`Icinga::Interval`](#Icinga--Interval): A strict type for intervals
 * [`Icinga::LogLevel`](#Icinga--LogLevel): A strict type for log levels
 * [`Icinga::Secret`](#Icinga--Secret): A strict type for the secrets like passwords or keys
 
@@ -1855,6 +1859,7 @@ The following parameters are available in the `icinga::worker` class:
 * [`run_web`](#-icinga--worker--run_web)
 * [`ssh_private_key`](#-icinga--worker--ssh_private_key)
 * [`ssh_key_type`](#-icinga--worker--ssh_key_type)
+* [`parent_export`](#-icinga--worker--parent_export)
 
 ##### <a name="-icinga--worker--ca_server"></a>`ca_server`
 
@@ -1943,6 +1948,23 @@ Data type: `Enum['ecdsa','ed25519','rsa']`
 SSH key type.
 
 Default value: `rsa`
+
+##### <a name="-icinga--worker--parent_export"></a>`parent_export`
+
+Data type:
+
+```puppet
+Variant[Boolean, Struct[{
+        host => Optional[Stdlib::Host],
+        port => Optional[Stdlib::Port],
+        log_duration => Optional[Icinga::Interval],
+  }]]
+```
+
+Exports zone and endpoints to parent hosts if `icinga::config_server` is given.
+Optional override endpoint parameters to export.
+
+Default value: `true`
 
 ## Defined types
 
@@ -2149,6 +2171,12 @@ Struct[{
     cacert_file => Optional[Stdlib::Absolutepath],
 }]
 ```
+
+### <a name="Icinga--Interval"></a>`Icinga::Interval`
+
+A strict type for intervals
+
+Alias of `Variant[Integer[0], Pattern[/\A\d+\.?\d*[d|h|m|s]?\Z/, /\A\$.+\$\Z/, /\A(host|service)\..+/]]`
 
 ### <a name="Icinga--LogLevel"></a>`Icinga::LogLevel`
 
