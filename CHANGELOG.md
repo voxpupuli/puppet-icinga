@@ -4,6 +4,30 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v7.0.0](https://github.com/voxpupuli/puppet-icinga/tree/v7.0.0) (2025-06-09)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-icinga/compare/v6.0.0...v7.0.0)
+
+**Breaking changes:**
+
+- Drop Ubuntu 20.04 support [\#162](https://github.com/voxpupuli/puppet-icinga/pull/162) ([lbetz](https://github.com/lbetz))
+- 🔥 remove EOL SLES versions and ✨ add currrent SLES minor versions [\#159](https://github.com/voxpupuli/puppet-icinga/pull/159) ([thomas-merz](https://github.com/thomas-merz))
+
+**Implemented enhancements:**
+
+- Allow puppetlabs/apt 10.x [\#158](https://github.com/voxpupuli/puppet-icinga/pull/158) ([smortex](https://github.com/smortex))
+- Replace service command usage to restart icinga service [\#156](https://github.com/voxpupuli/puppet-icinga/pull/156) ([lbetz](https://github.com/lbetz))
+- metadata.json: Add OpenVox [\#155](https://github.com/voxpupuli/puppet-icinga/pull/155) ([jstraw](https://github.com/jstraw))
+- Run unit tests on CERN runners [\#150](https://github.com/voxpupuli/puppet-icinga/pull/150) ([bastelfreak](https://github.com/bastelfreak))
+
+**Fixed bugs:**
+
+- Fix the lack of idempotency in database management for MySQL [\#157](https://github.com/voxpupuli/puppet-icinga/pull/157) ([lbetz](https://github.com/lbetz))
+
+**Closed issues:**
+
+- etc/apt/keyrings owned by nagios [\#153](https://github.com/voxpupuli/puppet-icinga/issues/153)
+
 ## [v6.0.0](https://github.com/voxpupuli/puppet-icinga/tree/v6.0.0) (2024-08-19)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-icinga/compare/v5.0.0...v6.0.0)
@@ -34,8 +58,8 @@ These should not affect the functionality of the module.
 
 **Merged pull requests:**
 
-- Update soft dependencies in README.md [\#146](https://github.com/voxpupuli/puppet-icinga/pull/146) ([lbetz](https://github.com/lbetz))
 - .fixtures.yml: Fix augeas module name [\#134](https://github.com/voxpupuli/puppet-icinga/pull/134) ([bastelfreak](https://github.com/bastelfreak))
+- Update soft dependencies in README.md [\#146](https://github.com/voxpupuli/puppet-icinga/pull/146) ([lbetz](https://github.com/lbetz))
 - Fix typo in requires [\#133](https://github.com/voxpupuli/puppet-icinga/pull/133) ([viscountstyx](https://github.com/viscountstyx))
 - Add use of puppet-php \>= 10.2.0 to docs [\#129](https://github.com/voxpupuli/puppet-icinga/pull/129) ([lbetz](https://github.com/lbetz))
 
