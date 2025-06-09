@@ -41,6 +41,12 @@
 #   Prepare to run Icinga Web 2 on the same machine. Manage a group `icingaweb2`
 #   and add the Icinga user to this group.
 #
+# @param config_server
+#   To export monitoring objects set config_server to the `cert_name` of your Icinga config server.
+#
+# @param objects
+#   Create Icinga objects for monitoring if `config_server` is set.
+#
 # @param confd
 #   `conf.d` is the directory where Icinga 2 stores its object configuration by default. To enable it,
 #   set this parameter to `true`. It's also possible to assign your own directory. This directory must be
@@ -59,6 +65,8 @@ class icinga (
   Optional[Icinga::Secret]                $ssh_private_key = undef,
   Optional[Enum['ecdsa','ed25519','rsa']] $ssh_key_type    = undef,
   Boolean                                 $prepare_web     = false,
+  Optional[String[1]]                     $config_server   = undef,
+  Hash[String[1], Hash]                   $objects         = {},
   Variant[Boolean, String[1]]             $confd           = false,
 ) {
   assert_private()
