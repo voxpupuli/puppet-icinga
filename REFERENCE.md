@@ -10,6 +10,8 @@
 
 * [`icinga::agent`](#icinga--agent): Setup an Icinga agent.
 * [`icinga::agentless`](#icinga--agentless): Setup an agentless monitoring via SSH.
+* [`icinga::config`](#icinga--config): Class to inject additional config objects via your manifests.
+Applied only if `icinga::config_server` is set for dynamically config.
 * [`icinga::db`](#icinga--db)
 * [`icinga::db::database`](#icinga--db--database): Setup database for IcingaDB.
 * [`icinga::ido`](#icinga--ido): Configure IDO Backend.
@@ -64,6 +66,7 @@ with or without TLS information.
 ### Data types
 
 * [`Icinga::Certificate`](#Icinga--Certificate): A strict type for a certificate
+* [`Icinga::Endpoint`](#Icinga--Endpoint): A strict type for Iicnga endpint objects
 * [`Icinga::Interval`](#Icinga--Interval): A strict type for intervals
 * [`Icinga::LogLevel`](#Icinga--LogLevel): A strict type for log levels
 * [`Icinga::Secret`](#Icinga--Secret): A strict type for the secrets like passwords or keys
@@ -189,6 +192,25 @@ Data type: `Array[String[1]]`
 Install extra packages such as plugins.
 
 Default value: `[]`
+
+### <a name="icinga--config"></a>`icinga::config`
+
+Class to inject additional config objects via your manifests.
+Applied only if `icinga::config_server` is set for dynamically config.
+
+#### Parameters
+
+The following parameters are available in the `icinga::config` class:
+
+* [`objects`](#-icinga--config--objects)
+
+##### <a name="-icinga--config--objects"></a>`objects`
+
+Data type: `Hash[String[1], Hash]`
+
+Additional objects. Merged with icinga::objects and overriden by it.
+
+Default value: `{}`
 
 ### <a name="icinga--db"></a>`icinga::db`
 
@@ -1951,15 +1973,7 @@ Default value: `rsa`
 
 ##### <a name="-icinga--worker--parent_export"></a>`parent_export`
 
-Data type:
-
-```puppet
-Variant[Boolean, Struct[{
-        host => Optional[Stdlib::Host],
-        port => Optional[Stdlib::Port],
-        log_duration => Optional[Icinga::Interval],
-  }]]
-```
+Data type: `Variant[Boolean, Icinga::Endpoint]`
 
 Exports zone and endpoints to parent hosts if `icinga::config_server` is given.
 Optional override endpoint parameters to export.
@@ -2169,6 +2183,20 @@ Struct[{
     cert_file   => Optional[Stdlib::Absolutepath],
     key_file    => Optional[Stdlib::Absolutepath],
     cacert_file => Optional[Stdlib::Absolutepath],
+}]
+```
+
+### <a name="Icinga--Endpoint"></a>`Icinga::Endpoint`
+
+A strict type for Iicnga endpint objects
+
+Alias of
+
+```puppet
+Struct[{
+    host         => Optional[Stdlib::Host],
+    port         => Optional[Stdlib::Port],
+    log_duration => Optional[Icinga::Interval],
 }]
 ```
 

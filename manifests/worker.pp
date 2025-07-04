@@ -56,11 +56,7 @@ class icinga::worker (
   Boolean                            $run_web              = false,
   Optional[Icinga::Secret]           $ssh_private_key      = undef,
   Enum['ecdsa','ed25519','rsa']      $ssh_key_type         = rsa,
-  Variant[Boolean, Struct[{
-        host => Optional[Stdlib::Host],
-        port => Optional[Stdlib::Port],
-        log_duration => Optional[Icinga::Interval],
-  }]]                                $parent_export        = true,
+  Variant[Boolean, Icinga::Endpoint] $parent_export        = true,
 ) {
   # inject parent zone if no parent exists
   $_workers = $workers.reduce({}) |$memo, $worker| { $memo + { $worker[0] => { parent => $zone } + $worker[1] } }
