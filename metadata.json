@@ -1,6 +1,6 @@
 {
   "name": "puppet-icinga",
-  "version": "6.0.1-rc0",
+  "version": "7.0.1-rc0",
   "author": "Vox Pupuli",
   "summary": "Puppet Module to manage the Icinga Software Stack",
   "license": "Apache-2.0",
@@ -14,7 +14,7 @@
     },
     {
       "name": "puppetlabs/apt",
-      "version_requirement": ">= 9.2.0 < 10.0.0"
+      "version_requirement": ">= 9.2.0 < 11.0.0"
     },
     {
       "name": "puppet/zypprepo",
@@ -59,7 +59,6 @@
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
-        "20.04",
         "22.04",
         "24.04"
       ]
@@ -74,7 +73,6 @@
     {
       "operatingsystem": "SLES",
       "operatingsystemrelease": [
-        "12",
         "15"
       ]
     }
