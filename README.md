@@ -18,7 +18,9 @@
     * [Beginning with icinga](#beginning-with-icinga)
 3. [Usage - Configuration options and additional functionality](#usage)
     * [Enable and disable repositories](#enable-and-disable-repositories)
-    * [Installing from non upstream repositories](#Installing from Non-Upstream Repositories)
+    * [Installing from non upstream repositories](#installing-from-non-upstream-repositories)
+    * [Setting up Icinga server/worker/agent](#setting-up-server-or-worker-and-agent)
+    * [Using exported resources for auto discovery](#using-exported-resources-for-auto-discovery)
 4. [Reference](#reference)
 
 
@@ -263,7 +265,7 @@ apt::confs:
 apt::backports::location: 'https://archive.debian.org/debian'
 ```
 
-### icinga::server / icinga::worker / icinga::agent
+### Setting up Server or Worker and Agent
 
 The class supports:
 
@@ -498,6 +500,214 @@ class { 'icinga::web::reporting':
 
 If icinga::web::monitoring is declared before, the required module idoreports for IDO is declared automatically.
 
+### Using exported resources for auto discovery
+
+As expected with exported resources, the use of an OpenVoxDB/PuppetDB in the environment is a requirement here. The method described here is also designed exclusively for use in Hiera, as `icinga::objects` is a parameter of a private class. This means that the various components can be set up as described in the previous section.
+
+The following assumes a Hiera configuration like this:
+```yaml
+---
+version: 5
+hierarchy:
+  - name: "Per-node data (yaml version)"
+    path: "nodes/%{::trusted.certname}.yaml"
+  - name: "role data (yaml version)"
+    path: "roles/%{trusted.extensions.pp_role}.yaml"
+  - name: 'Operating System'
+    path: 'os/%{facts.os.family}.yaml'
+  - name: "Other YAML hierarchy levels"
+    paths:
+      - "common.yaml"
+```
+
+#### data/common.yaml
+
+In addition to the `icinga::ticket` and `icinga::agent` settings required for an Icinga environment with agents, the following parameters are added to common.yaml:
+
+```yaml
+---
+icinga::config_server: server.icinga.example.org
+
+icinga::objects:
+  Host:
+    "%{lookup('icinga::cert_name')}":
+      import: ['generic-host']
+      display_name: "%{facts.networking.hostname}"
+      address: "%{facts.networking.ip}"
+  Service:
+    ping4:
+      host_name: "%{lookup('icinga::cert_name')}"
+      import: ['generic-service']
+      check_command: ping4
+    icinga:
+      host_name: "%{lookup('icinga::cert_name')}"
+      import: ['generic-service']
+      check_command: icinga
+      command_endpoint: host_name
+    cluster zone:
+      host_name: "%{lookup('icinga::cert_name')}"
+      import: ['generic-service']
+      check_command: cluster-zone
+```
+
+Here is defined that all Icinga hosts get an host object with three services by default. **Important and required** for such an dscovery setup, `icinga::config_server` has to be set to the Icinga used certname of the Icinga config server.
+
+#### data/roles/monitor::server.yaml
+
+The host intended for the Icinga server is therefore assigned the role `monitor::server` in `csr_attributes.yaml`. Additional to the regular Icinga server stuff some basic Icinga objects are defined:
+
+```yaml
+icinga::objects:
+  Host:
+    generic-host:
+      template: true
+      check_command: hostalive
+      check_interval: 1m
+      retry_interval: 30s
+      max_check_attempts: 3
+      target: /etc/icinga2/zones.d/global-templates/auto.conf
+  Service:
+    generic-service:
+      template: true
+      check_interval: 1m
+      retry_interval: 30s
+      max_check_attempts: 5
+      target: /etc/icinga2/zones.d/global-templates/auto.conf
+    icingadb:
+      host_name: "%{lookup('icinga::cert_name')}"
+      import: ['generic-service']
+      check_command: icingadb
+      command_endpoint: host_name
+    cluster zone:
+      ensure: absent
+```
+
+Both, `generic-service` and `generic-host` are local stored templates on the Icinga server and they are used by the the other hosts and services. Another service only for the server is `icingadb` to monitor the IcingaDB behavior. The defined service `cluster zone` for all hosts is disabled here because a Icinga server doesn't connect to itself.
+
+#### data/roles/monitor::worker.yaml
+
+The host intended for an Icinga worker is therefore assigned the role `monitor::worker` in `csr_attributes.yaml`. Here also the regular stuff for a Icinga worker aren't descibed:
+
+```yaml
+icinga::worker::parent_export:
+  log_duration: 120m
+
+icinga::objects:
+  Host:
+    "%{lookup('icinga::cert_name')}":
+      vars:
+        cluster_zone: "%{lookup('icinga::worker::zone')}"
+```
+
+If `icinga::config_server` is set (done in `data/common.yaml`) the worker class exports a zone and endpoint object that is collected later by the Icinga Config Server. The enpoint object can overriden or extended with `icinga::worker::parent_export`. Done here to lower the logging buffer.
+
+#### Override parameters of Icinga objects
+
+Because icinga::objects is deeply merged thru all hiera layers (e.g. node, os or network layer), any parameter of all objects can be overriden.
+
+```yaml
+---
+icinga::objects:
+  Service:
+    ping4:
+      max_check_attempts: 4
+      vars:
+        ping_packets: 6
+        ping_wrta: 200
+        ping_crta: 400
+```
+
+#### Inject Icinga Objects by Manifest
+
+The class `icinga::configi` can also be used to inject Icinga objects from a manifest.
+
+```puppet
+class profile::icinga (
+  String                              $config_server,
+  Enum['agent', 'worker', 'server']   $type = 'agent',
+) {
+  case $type {
+    'agent': {
+      if $facts['kernel'] != 'windows' {
+        include icinga::repos
+      }
+      include icinga::agent
+    } # agent
+
+    'worker': {
+      include icinga::repos
+      include icinga::worker
+    } # worker
+
+    'server': {
+      class { 'icinga::repos':
+        manage_extras => true,
+      }
+
+      include profile::icinga::server
+    } # server
+  }
+
+  class { 'icinga::config':
+    objects => {
+      'Service' => profile::icinga::disks($icinga::cert_name)
+    },
+  }
+}
+```
+
+Here to add services for mounted file system. The services are returned dynamically via a self-written function, e.g.:
+
+```puppet
+# @summary
+#   Discover mounted disks.
+#
+# @return
+#   Disks with parameter to monitor.
+#
+function profile::icinga::disks(
+  String         $hostname,
+  Array[String]  $filesystems = ['xfs', 'ext4', 'vfat'],
+  Array[String]  $drivetypes  = ['Fixed'],
+) >> Hash {
+  # @param hostname
+  #   Icinga object host_name
+  #
+  # @param filesystems
+  #   List of Linux file system types to discover
+  #
+  # @param drivetypes
+  #   List of Windows drive types to discover
+  #
+  if $facts['kernel'] == 'windows' {
+    $facts['drives'].filter |$keys, $values| { $values['drivetype'] in $drivetypes }.keys.reduce( {} ) |$memo, $disk| {
+      $memo + {
+        "disk $disk" =>  {
+          import           => ['generic-service'],
+          host_name        => $hostname,
+          command_endpoint => 'host_name',
+          check_command    => 'disk-windows',
+          vars             => { disk_win_path => $facts['drives'][$disk]['root'] }
+        }
+      }
+    }
+  } else {
+    $facts['mountpoints'].filter |$keys, $values| { $values['filesystem'] in $filesystems }.keys.reduce( {} ) |$memo, $disk| {
+      $memo + {
+        "disk $disk" =>  {
+          import           => ['generic-service'],
+          host_name        => $hostname,
+          command_endpoint => 'host_name',
+          check_command    => 'disk',
+          vars             => { disk_partitions => $disk }
+        }
+      }
+    }
+  }
+}
+```
+
+Override parameters of this disk Icinga objects use also `icinga::objects` with the correct service object name of course!
 
 ## Reference
 

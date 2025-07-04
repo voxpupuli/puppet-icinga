@@ -153,6 +153,8 @@ class icinga::server (
       destination => $icinga::cert_name,
     }
 
+    # Query for workers connect to this sewrver instance
+    # and create a config fragment for the /etc/icinga2/zones.conf
     puppetdb_query("resources[title] { ${icinga2::query_objects::_environments} type = 'Icinga::Helper::Zone' and exported = true and parameters.parent = '${zone}' and nodes { deactivated is null and expired is null } group by title }").each |$item| {
       $_zone     = $item['title']
       $_endpoints = puppetdb_query("resources[title,parameters] { ${icinga2::query_objects::_environments} type = 'Icinga::Helper::Endpoint' and exported = true and parameters.zone = '${_zone}' and nodes { deactivated is null and expired is null } order by title }")
