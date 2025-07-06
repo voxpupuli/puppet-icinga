@@ -39,12 +39,16 @@
 # @param ssh_key_type
 #   SSH key type.
 #
+# @param parent_export
+#   Exports zone and endpoints to parent hosts if `icinga::config_server` is given.
+#   Optional override endpoint parameters to export.
+#
 class icinga::worker (
   Stdlib::Host                       $ca_server,
   String[1]                          $zone,
-  Hash[String[1], Hash]              $parent_endpoints,
   Enum['file', 'syslog', 'eventlog'] $logging_type,
   Icinga::LogLevel                   $logging_level,
+  Hash[String[1], Hash]              $parent_endpoints,
   String[1]                          $parent_zone          = 'main',
   Hash[String[1], Hash]              $colocation_endpoints = {},
   Hash[String[1], Hash]              $workers              = {},
@@ -52,6 +56,7 @@ class icinga::worker (
   Boolean                            $run_web              = false,
   Optional[Icinga::Secret]           $ssh_private_key      = undef,
   Enum['ecdsa','ed25519','rsa']      $ssh_key_type         = rsa,
+  Variant[Boolean, Icinga::Endpoint] $parent_export        = true,
 ) {
   # inject parent zone if no parent exists
   $_workers = $workers.reduce({}) |$memo, $worker| { $memo + { $worker[0] => { parent => $zone } + $worker[1] } }
@@ -76,5 +81,43 @@ class icinga::worker (
   icinga2::object::zone { $global_zones:
     global => true,
     order  => 'zz',
+  }
+
+  #
+  # autodiscover monitoring
+  #
+  $export = $icinga::config_server
+
+  if $export {
+    if $parent_export {
+      $_obj = if $parent_export =~ Boolean {
+        {}
+      } else {
+        $parent_export
+      }
+
+      @@icinga::helper::zone { $zone:
+        parent => $parent_zone,
+      }
+
+      @@icinga::helper::endpoint { $icinga::cert_name:
+        zone    => $zone,
+        content => epp('icinga2/object.conf.epp', {
+            'object_name' => $icinga::cert_name,
+            'object_type' => 'Endpoint',
+            'attrs'       => delete_undef_values({
+                'host' => pick($icinga2::feature::api::bind_host, $facts['networking']['ip']),
+                'port' => $icinga2::feature::api::bind_port,
+            } + $_obj),
+            'attrs_list'  => ['host', 'port', 'log_duration'],
+        }),
+      }
+    }
+
+    icinga::helper::objects { 'Worker Objects':
+      export  => $export,
+      objects => $icinga::objects,
+      target  => "/etc/icinga2/zones.d/${parent_zone}/auto.conf",
+    }
   }
 }

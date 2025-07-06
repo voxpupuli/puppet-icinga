@@ -24,3 +24,8 @@ icinga::agentless::manage_user: true
 icinga::agentless::ssh_key_type: rsa
 
 icinga::cert_name: "%{facts.networking.fqdn}"
+
+lookup_options:
+  'icinga::objects':
+    merge:
+      strategy: deep

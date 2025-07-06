@@ -1,0 +1,3 @@
+---
+icinga::extra_packages:
+  - monitoring-plugins

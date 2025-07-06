@@ -1,0 +1,2 @@
+---
+icinga::worker::zone: dmz

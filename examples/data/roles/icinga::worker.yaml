@@ -1,0 +1,19 @@
+---
+profile::icinga::type: worker
+
+icinga::worker::ca_server: server.icinga.com
+icinga::worker::parent_endpoints:
+  "%{lookup('icinga::worker::ca_server')}":
+     host: "%{lookup('icinga::worker::ca_server')}"
+icinga::worker::global_zones:
+  - global-templates
+  - linux-commands
+  - windows-commands
+icinga::worker::parent_export:
+  log_duration: 120m
+
+icinga::objects:
+  Host:
+    "%{lookup('icinga::cert_name')}":
+      vars:
+        cluster_zone: "%{lookup('icinga::worker::zone')}"
