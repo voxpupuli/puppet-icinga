@@ -1,0 +1,7 @@
+---
+icinga::extra_packages:
+  - nagios-plugins-all
+
+icinga::repos::manage_epel: true
+icinga::repos::manage_powertools: true
+icinga::repos::manage_crb: true

@@ -1,0 +1,38 @@
+---
+classes:
+  - profile::icinga
+
+profile::icinga::type: agent
+
+icinga::config_server: server.icinga.com
+icinga::ticket_salt: topsecret
+
+icinga::agent::ca_server: server.icinga.com
+icinga::agent::parent_endpoints:
+  "%{lookup('icinga::agent::ca_server')}":
+     host: "%{lookup('icinga::agent::ca_server')}"
+
+icinga::objects:
+  Host:
+    "%{lookup('icinga::cert_name')}":
+      import: ['generic-host']
+      display_name: "%{facts.networking.hostname}"
+      address: "%{facts.networking.ip}"
+  Service:
+    ping4:
+      host_name: "%{lookup('icinga::cert_name')}"
+      import: ['generic-service']
+      check_command: ping4
+    icinga:
+      host_name: "%{lookup('icinga::cert_name')}"
+      import: ['generic-service']
+      check_command: icinga
+      command_endpoint: host_name
+    cluster zone:
+      host_name: "%{lookup('icinga::cert_name')}"
+      import: ['generic-service']
+      check_command: cluster-zone
+
+lookup_options:
+  'classes':
+    merge: unique

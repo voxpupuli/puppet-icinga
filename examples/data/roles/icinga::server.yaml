@@ -1,0 +1,30 @@
+profile::icinga::type: server
+
+icinga::server::global_zones:
+  - global-templates
+  - linux-commands
+  - windows-commands
+
+icinga::objects:
+  Host:
+    generic-host:
+      template: true
+      check_command: hostalive
+      check_interval: 1m
+      retry_interval: 30s
+      max_check_attempts: 3
+      target: /etc/icinga2/zones.d/global-templates/auto.conf
+  Service:
+    generic-service:
+      template: true
+      check_interval: 1m
+      retry_interval: 30s
+      max_check_attempts: 5
+      target: /etc/icinga2/zones.d/global-templates/auto.conf
+    icingadb:
+      host_name: "%{lookup('icinga::cert_name')}"
+      import: ['generic-service']
+      check_command: icingadb
+      command_endpoint: host_name
+    cluster zone:
+      ensure: absent

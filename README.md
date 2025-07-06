@@ -623,8 +623,7 @@ The class `icinga::configi` can also be used to inject Icinga objects from a man
 
 ```puppet
 class profile::icinga (
-  String                              $config_server,
-  Enum['agent', 'worker', 'server']   $type = 'agent',
+  Enum['agent', 'worker', 'server'] $type = 'agent',
 ) {
   case $type {
     'agent': {
@@ -646,11 +645,13 @@ class profile::icinga (
 
       include profile::icinga::server
     } # server
+
+    default: {}
   }
 
   class { 'icinga::config':
     objects => {
-      'Service' => profile::icinga::disks($icinga::cert_name)
+      'Service' => profile::icinga::disks($icinga::cert_name),
     },
   }
 }
@@ -682,24 +683,24 @@ function profile::icinga::disks(
   if $facts['kernel'] == 'windows' {
     $facts['drives'].filter |$keys, $values| { $values['drivetype'] in $drivetypes }.keys.reduce( {} ) |$memo, $disk| {
       $memo + {
-        "disk $disk" =>  {
+        "disk ${disk}" => {
           import           => ['generic-service'],
           host_name        => $hostname,
           command_endpoint => 'host_name',
           check_command    => 'disk-windows',
-          vars             => { disk_win_path => $facts['drives'][$disk]['root'] }
+          vars             => { disk_win_path => $facts['drives'][$disk]['root'] },
         }
       }
     }
   } else {
     $facts['mountpoints'].filter |$keys, $values| { $values['filesystem'] in $filesystems }.keys.reduce( {} ) |$memo, $disk| {
       $memo + {
-        "disk $disk" =>  {
+        "disk ${disk}" => {
           import           => ['generic-service'],
           host_name        => $hostname,
           command_endpoint => 'host_name',
           check_command    => 'disk',
-          vars             => { disk_partitions => $disk }
+          vars             => { disk_partitions => $disk },
         }
       }
     }
