@@ -1,6 +1,6 @@
 {
   "name": "puppet-icinga",
-  "version": "7.0.1-rc0",
+  "version": "7.1.0",
   "author": "Vox Pupuli",
   "summary": "Puppet Module to manage the Icinga Software Stack",
   "license": "Apache-2.0",

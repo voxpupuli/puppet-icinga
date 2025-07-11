@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v7.1.0](https://github.com/voxpupuli/puppet-icinga/tree/v7.1.0) (2025-07-11)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-icinga/compare/v7.0.0...v7.1.0)
+
+**Implemented enhancements:**
+
+- Add Fedora 41 and 42 support [\#167](https://github.com/voxpupuli/puppet-icinga/pull/167) ([lbetz](https://github.com/lbetz))
+- Add EL 10 support [\#166](https://github.com/voxpupuli/puppet-icinga/pull/166) ([lbetz](https://github.com/lbetz))
+- Add feature autodiscover of Icinga host and services [\#161](https://github.com/voxpupuli/puppet-icinga/pull/161) ([lbetz](https://github.com/lbetz))
+
 ## [v7.0.0](https://github.com/voxpupuli/puppet-icinga/tree/v7.0.0) (2025-06-09)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-icinga/compare/v6.0.0...v7.0.0)
