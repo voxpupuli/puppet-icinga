@@ -17,15 +17,15 @@ file {
     ensure => file,
     owner  => $postgresql::server::user,
     group  => $postgresql::server::group,
-    ;
+  ;
   "${postgresql::server::confdir}/server.key":
     source => 'puppet:///modules/icinga/examples/monitor.icinga.com.key',
     mode   => '0600',
-    ;
+  ;
   "${postgresql::server::confdir}/server.crt":
     source => 'puppet:///modules/icinga/examples/monitor.icinga.com.crt',
     mode   => '0640',
-    ;
+  ;
 }
 
 class { 'icinga::db::database':
