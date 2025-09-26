@@ -2083,12 +2083,12 @@ This function returns a string to connect databases
 with or without TLS information.
 
 #### `icinga::db::connect(Struct[{
-      type     => Enum['pgsql','mysql','mariadb'],
-      host     => Stdlib::Host,
-      port     => Optional[Stdlib::Port],
-      database => String[1],
-      username => String[1],
-      password => Optional[Icinga::Secret],
+    type     => Enum['pgsql','mysql','mariadb'],
+    host     => Stdlib::Host,
+    port     => Optional[Stdlib::Port],
+    database => String[1],
+    username => String[1],
+    password => Optional[Icinga::Secret],
   }] $db, Hash[String[1], Any] $tls, Optional[Boolean] $use_tls = undef, Optional[Enum['verify-full', 'verify-ca']] $ssl_mode = undef)`
 
 The icinga::db::connect function.
@@ -2101,12 +2101,12 @@ Data type:
 
 ```puppet
 Struct[{
-      type     => Enum['pgsql','mysql','mariadb'],
-      host     => Stdlib::Host,
-      port     => Optional[Stdlib::Port],
-      database => String[1],
-      username => String[1],
-      password => Optional[Icinga::Secret],
+    type     => Enum['pgsql','mysql','mariadb'],
+    host     => Stdlib::Host,
+    port     => Optional[Stdlib::Port],
+    database => String[1],
+    username => String[1],
+    password => Optional[Icinga::Secret],
   }]
 ```
 
@@ -2176,13 +2176,13 @@ Alias of
 
 ```puppet
 Struct[{
-    cert        => Optional[String[1]],
-    key         => Optional[Icinga::Secret],
-    cacert      => Optional[String[1]],
-    insecure    => Optional[Boolean],
-    cert_file   => Optional[Stdlib::Absolutepath],
-    key_file    => Optional[Stdlib::Absolutepath],
-    cacert_file => Optional[Stdlib::Absolutepath],
+  cert        => Optional[String[1]],
+  key         => Optional[Icinga::Secret],
+  cacert      => Optional[String[1]],
+  insecure    => Optional[Boolean],
+  cert_file   => Optional[Stdlib::Absolutepath],
+  key_file    => Optional[Stdlib::Absolutepath],
+  cacert_file => Optional[Stdlib::Absolutepath],
 }]
 ```
 
@@ -2194,9 +2194,9 @@ Alias of
 
 ```puppet
 Struct[{
-    host         => Optional[Stdlib::Host],
-    port         => Optional[Stdlib::Port],
-    log_duration => Optional[Icinga::Interval],
+  host         => Optional[Stdlib::Host],
+  port         => Optional[Stdlib::Port],
+  log_duration => Optional[Icinga::Interval],
 }]
 ```
 

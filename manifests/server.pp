@@ -160,13 +160,13 @@ class icinga::server (
       $_endpoints = puppetdb_query("resources[title,parameters] { ${icinga2::query_objects::_environments} type = 'Icinga::Helper::Endpoint' and exported = true and parameters.zone = '${_zone}' and nodes { deactivated is null and expired is null } order by title }")
 
       $content   = [epp('icinga2/object.conf.epp', {
-            'object_name' => $_zone,
-            'object_type' => 'Zone',
-            'attrs'       => {
-              'endpoints' => $_endpoints.map |$obj| { $obj['title'] },
-              'parent'    => $zone,
-            },
-            'attrs_list'  => ['endpoints', 'parent'],
+        'object_name' => $_zone,
+        'object_type' => 'Zone',
+        'attrs'       => {
+          'endpoints' => $_endpoints.map |$obj| { $obj['title'] },
+          'parent'    => $zone,
+        },
+        'attrs_list'  => ['endpoints', 'parent'],
       })] + $_endpoints.map |$obj| { $obj['parameters']['content'] }
 
       icinga2::config::fragment { "collected-worker-${_zone}":

@@ -24,17 +24,17 @@ file {
     group  => 'mysql',
     mode   => '0644',
     notify => Class['mysql::server'],
-    ;
+  ;
   "${ssl_dir}/private/mysql.pem":
     source => 'puppet:///modules/icinga/examples/server.icinga.com.key',
     mode   => '0440',
-    ;
+  ;
   "${ssl_dir}/certs/mysql.pem":
     source => 'puppet:///modules/icinga/examples/server.icinga.com.crt',
-    ;
+  ;
   "${ssl_dir}/certs/mysql-ca.crt":
     source => 'puppet:///modules/icinga/examples/ca.crt',
-    ;
+  ;
 }
 
 class { 'mysql::server':
