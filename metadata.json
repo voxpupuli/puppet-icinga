@@ -70,8 +70,6 @@
     {
       "operatingsystem": "Fedora",
       "operatingsystemrelease": [
-        "39",
-        "40",
         "41",
         "42"
       ]
