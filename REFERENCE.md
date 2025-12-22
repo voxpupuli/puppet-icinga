@@ -1993,6 +1993,7 @@ The following parameters are available in the `icinga::cert` defined type:
 * [`args`](#-icinga--cert--args)
 * [`owner`](#-icinga--cert--owner)
 * [`group`](#-icinga--cert--group)
+* [`seltype`](#-icinga--cert--seltype)
 
 ##### <a name="-icinga--cert--args"></a>`args`
 
@@ -2003,15 +2004,27 @@ key_file, cert_file, cacert_file, key, cert and cacert
 
 ##### <a name="-icinga--cert--owner"></a>`owner`
 
-Data type: `String[1]`
+Data type: `Optional[String[1]]`
 
 Owner of the files.
 
+Default value: `undef`
+
 ##### <a name="-icinga--cert--group"></a>`group`
 
-Data type: `String[1]`
+Data type: `Optional[String[1]]`
 
 Group membership of all files.
+
+Default value: `undef`
+
+##### <a name="-icinga--cert--seltype"></a>`seltype`
+
+Data type: `Optional[String[1]]`
+
+SELinux type of all files.
+
+Default value: `undef`
 
 ## Functions
 

@@ -11,18 +11,23 @@
 # @param group
 #   Group membership of all files.
 #
+# @param seltype
+#   SELinux type of all files.
+#
 define icinga::cert (
   Icinga::Certificate $args,
-  String[1]           $owner,
-  String[1]           $group,
+  Optional[String[1]] $owner   = undef,
+  Optional[String[1]] $group   = undef,
+  Optional[String[1]] $seltype = undef,
 ) {
   if $facts['os']['family'] == 'windows' {
     $key_mode = undef
   } else {
     File {
-      owner => $owner,
-      group => $group,
-      mode  => '0640',
+      owner   => $owner,
+      group   => $group,
+      mode    => '0640',
+      seltype => $seltype,
     }
     $key_mode = '0440'
   }
