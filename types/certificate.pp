@@ -1,5 +1,5 @@
 # A strict type for a certificate
-type Icinga::Certificate =   Struct[{
+type Icinga::Certificate = Struct[{
   cert        => Optional[String[1]],
   key         => Optional[Icinga::Secret],
   cacert      => Optional[String[1]],
