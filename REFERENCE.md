@@ -124,11 +124,15 @@ Data type: `Enum['file', 'syslog', 'eventlog']`
 
 Switch the log target. On Windows `syslog` is ignored, `eventlog` on all other platforms.
 
+Default value: `'file'`
+
 ##### <a name="-icinga--agent--logging_level"></a>`logging_level`
 
 Data type: `Icinga::LogLevel`
 
 Set the log level.
+
+Default value: `'warning'`
 
 ##### <a name="-icinga--agent--zone"></a>`zone`
 
@@ -167,17 +171,23 @@ Data type: `String[1]`
 
 User name to login.
 
+Default value: `'icinga'`
+
 ##### <a name="-icinga--agentless--manage_user"></a>`manage_user`
 
 Data type: `Boolean`
 
 Wether or not to manage user.
 
+Default value: `true`
+
 ##### <a name="-icinga--agentless--ssh_key_type"></a>`ssh_key_type`
 
 Data type: `Enum['ecdsa','ed25519','rsa']`
 
 SSH key type.
+
+Default value: `'rsa'`
 
 ##### <a name="-icinga--agentless--ssh_public_key"></a>`ssh_public_key`
 
@@ -590,12 +600,16 @@ Data type: `Boolean`
 
 Manage the Icinga stable repository. Disabled by setting to 'false'. Defaults to 'true'.
 
+Default value: `false`
+
 ##### <a name="-icinga--repos--manage_testing"></a>`manage_testing`
 
 Data type: `Boolean`
 
 Manage the Icinga testing repository to get access to release candidates.
 Enabled by setting to 'true'. Defaults to 'false'.
+
+Default value: `false`
 
 ##### <a name="-icinga--repos--manage_nightly"></a>`manage_nightly`
 
@@ -604,12 +618,16 @@ Data type: `Boolean`
 Manage the Icinga snapshot repository to get access to nightly snapshots.
 Enabled by setting to 'true'. Defaults to 'false'.
 
+Default value: `false`
+
 ##### <a name="-icinga--repos--configure_backports"></a>`configure_backports`
 
 Data type: `Boolean`
 
 Enables or Disables the backports repository. Has only an effect on plattforms
 simular to Debian. To configure the backports repo uses apt::backports in hiera.
+
+Default value: `false`
 
 ##### <a name="-icinga--repos--manage_epel"></a>`manage_epel`
 
@@ -618,6 +636,8 @@ Data type: `Boolean`
 Manage the EPEL (Extra Packages Enterprise Linux) repository that is needed for some package
 like newer Boost libraries. Has only an effect on plattforms simular to RedHat Enterprise.
 
+Default value: `false`
+
 ##### <a name="-icinga--repos--manage_powertools"></a>`manage_powertools`
 
 Data type: `Boolean`
@@ -625,12 +645,16 @@ Data type: `Boolean`
 Manage the PowerTools repository that is needed for some package like nagios-plugins on
 Linux Enterprise systems like Alma 8, Rocky 8 and CentOS Stream 8.
 
+Default value: `false`
+
 ##### <a name="-icinga--repos--manage_crb"></a>`manage_crb`
 
 Data type: `Boolean`
 
 Manage the CRB repository that is needed for some package like nagios-plugins on
 Linux Enterprise systems like Alma 9, Rocky 9 and CentOS Stream 9.
+
+Default value: `false`
 
 ##### <a name="-icinga--repos--manage_server_monitoring"></a>`manage_server_monitoring`
 
@@ -640,17 +664,23 @@ Manage the 'server:monitoring' repository on SLES platforms that is needed for s
 like monitoring-plugins-common. Additional also the 'monitoring-plugins' are provided by this
 repository. Bye default the repository is added with a lower priority of 120.
 
+Default value: `false`
+
 ##### <a name="-icinga--repos--manage_plugins"></a>`manage_plugins`
 
 Data type: `Boolean`
 
 Manage the NETWAYS plugins repository that provides some packages for additional plugins.
 
+Default value: `false`
+
 ##### <a name="-icinga--repos--manage_extras"></a>`manage_extras`
 
 Data type: `Boolean`
 
 Manage the NETWAYS extras repository that provides some packages for extras.
+
+Default value: `false`
 
 ### <a name="icinga--server"></a>`icinga::server`
 
@@ -781,11 +811,15 @@ Data type: `Enum['file', 'syslog', 'eventlog']`
 
 Switch the log target. On Windows `syslog` is ignored, `eventlog` on all other platforms.
 
+Default value: `'file'`
+
 ##### <a name="-icinga--server--logging_level"></a>`logging_level`
 
 Data type: `Icinga::LogLevel`
 
 Set the log level.
+
+Default value: `'warning'`
 
 ##### <a name="-icinga--server--run_web"></a>`run_web`
 
@@ -1940,11 +1974,15 @@ Data type: `Enum['file', 'syslog', 'eventlog']`
 
 Switch the log target. On Windows `syslog` is ignored, `eventlog` on all other platforms.
 
+Default value: `'file'`
+
 ##### <a name="-icinga--worker--logging_level"></a>`logging_level`
 
 Data type: `Icinga::LogLevel`
 
 Set the log level.
+
+Default value: `'warning'`
 
 ##### <a name="-icinga--worker--run_web"></a>`run_web`
 
