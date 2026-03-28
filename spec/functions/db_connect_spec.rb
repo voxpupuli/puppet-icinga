@@ -21,7 +21,7 @@ describe 'icinga::db::connect' do
     is_expected.to run.with_params(
       { 'type' => 'mariadb', 'host' => 'db.example.org', 'database' => 'foo', 'username' => 'bar', 'password' => 'supersecret' },
       { 'cacert_file' => '/cacert.file' },
-      true
+      true,
     ).and_return("-h db.example.org -u bar -p'supersecret' -D foo --ssl  --ssl-ca /cacert.file")
   end
 
@@ -29,7 +29,7 @@ describe 'icinga::db::connect' do
     is_expected.to run.with_params(
       { 'type' => 'mariadb', 'host' => 'db.example.org', 'database' => 'foo', 'username' => 'bar', 'password' => 'supersecret' },
       { 'noverify' => true, 'cacert_file' => '/cacert.file' },
-      true
+      true,
     ).and_return("-h db.example.org -u bar -p'supersecret' -D foo --ssl")
   end
 
@@ -37,7 +37,7 @@ describe 'icinga::db::connect' do
     is_expected.to run.with_params(
       { 'type' => 'mariadb', 'host' => 'db.example.org', 'database' => 'foo', 'username' => 'bar' },
       { 'key_file' => '/key.file', 'cert_file' => '/cert.file', 'cacert_file' => '/cacert.file' },
-      true
+      true,
     ).and_return('-h db.example.org -u bar -D foo --ssl --ssl-ca /cacert.file --ssl-cert /cert.file --ssl-key /key.file')
   end
 
@@ -45,7 +45,7 @@ describe 'icinga::db::connect' do
     is_expected.to run.with_params(
       { 'type' => 'mysql', 'host' => 'db.example.org', 'database' => 'foo', 'username' => 'bar' },
       { 'key_file' => '/key.file', 'cert_file' => '/cert.file', 'cacert_file' => '/cacert.file' },
-      true
+      true,
     ).and_return('-h db.example.org -u bar -D foo --ssl-mode VERIFY_CA --ssl-ca /cacert.file --ssl-cert /cert.file --ssl-key /key.file')
   end
 
@@ -53,7 +53,7 @@ describe 'icinga::db::connect' do
     is_expected.to run.with_params(
       { 'type' => 'mysql', 'host' => 'db.example.org', 'database' => 'foo', 'username' => 'bar', 'password' => 'supersecret' },
       { 'noverify' => true, 'cacert_file' => '/cacert.file' },
-      true
+      true,
     ).and_return("-h db.example.org -u bar -p'supersecret' -D foo --ssl-mode REQUIRED")
   end
 
@@ -73,7 +73,7 @@ describe 'icinga::db::connect' do
     is_expected.to run.with_params(
       { 'type' => 'pgsql', 'host' => 'db.example.org', 'database' => 'foo', 'username' => 'bar', 'password' => 'supersecret' },
       { 'cacert_file' => '/cacert.file' },
-      true
+      true,
     ).and_return('host=db.example.org user=bar dbname=foo sslmode=verify-full sslrootcert=/cacert.file')
   end
 
@@ -82,7 +82,7 @@ describe 'icinga::db::connect' do
       { 'type' => 'pgsql', 'host' => '192.168.0.1', 'database' => 'foo', 'username' => 'bar', 'password' => 'supersecret' },
       { 'cacert_file' => '/etc/pki/ca-trust/source/anchors/mycacert.crt' },
       true,
-      'verify-ca'
+      'verify-ca',
     ).and_return('host=192.168.0.1 user=bar dbname=foo sslmode=verify-ca sslrootcert=/etc/pki/ca-trust/source/anchors/mycacert.crt')
   end
 
@@ -90,7 +90,7 @@ describe 'icinga::db::connect' do
     is_expected.to run.with_params(
       { 'type' => 'pgsql', 'host' => 'db.example.org', 'database' => 'foo', 'username' => 'bar', 'password' => 'supersecret' },
       { 'noverify' => true },
-      true
+      true,
     ).and_return('host=db.example.org user=bar dbname=foo sslmode=require')
   end
 
@@ -98,7 +98,7 @@ describe 'icinga::db::connect' do
     is_expected.to run.with_params(
       { 'type' => 'pgsql', 'host' => 'db.example.org', 'database' => 'foo', 'username' => 'bar' },
       { 'key_file' => '/key.file', 'cert_file' => '/cert.file', 'cacert_file' => '/cacert.file' },
-      true
+      true,
     ).and_return('host=db.example.org user=bar dbname=foo sslmode=verify-full sslcert=/cert.file sslkey=/key.file sslrootcert=/cacert.file')
   end
 end
