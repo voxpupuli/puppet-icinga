@@ -14,8 +14,6 @@
 Applied only if `icinga::config_server` is set for dynamically config.
 * [`icinga::db`](#icinga--db)
 * [`icinga::db::database`](#icinga--db--database): Setup database for IcingaDB.
-* [`icinga::ido`](#icinga--ido): Configure IDO Backend.
-* [`icinga::ido::database`](#icinga--ido--database): Configure IDO backend database.
 * [`icinga::redis`](#icinga--redis): Base class for all redis owned by Icinga.
 * [`icinga::repos`](#icinga--repos): This class manages the stages stable, testing and snapshot of packages.icinga.com repository and depending on the operating system platform s
 * [`icinga::server`](#icinga--server): Setup a Icinga server.
@@ -25,7 +23,6 @@ PHP and a Webserver.
 * [`icinga::web::director`](#icinga--web--director): Setup Director module for Icinga Web 2
 * [`icinga::web::director::database`](#icinga--web--director--database): Setup Director database.
 * [`icinga::web::icingadb`](#icinga--web--icingadb): Setup IcingaDB module for the new backend.
-* [`icinga::web::monitoring`](#icinga--web--monitoring): Setup Monitoring module for the IDO backend.
 * [`icinga::web::reporting`](#icinga--web--reporting): Setup the reporting module for Icinga Web 2
 * [`icinga::web::reporting::database`](#icinga--web--reporting--database): Setup the reporting database.
 * [`icinga::web::vspheredb`](#icinga--web--vspheredb): Setup VSphereDB module for Icinga Web 2
@@ -406,149 +403,6 @@ Database user name.
 Default value: `'icingadb'`
 
 ##### <a name="-icinga--db--database--tls"></a>`tls`
-
-Data type:
-
-```puppet
-Variant[Boolean,
-  Enum['password','cert']]
-```
-
-Access only for TLS encrypted connections. Authentication via `password` or `cert`,
-value `true` means password auth.
-
-Default value: `false`
-
-### <a name="icinga--ido"></a>`icinga::ido`
-
-Configure IDO Backend.
-
-#### Parameters
-
-The following parameters are available in the `icinga::ido` class:
-
-* [`db_pass`](#-icinga--ido--db_pass)
-* [`db_type`](#-icinga--ido--db_type)
-* [`db_host`](#-icinga--ido--db_host)
-* [`db_port`](#-icinga--ido--db_port)
-* [`db_name`](#-icinga--ido--db_name)
-* [`db_user`](#-icinga--ido--db_user)
-* [`manage_database`](#-icinga--ido--manage_database)
-* [`enable_ha`](#-icinga--ido--enable_ha)
-
-##### <a name="-icinga--ido--db_pass"></a>`db_pass`
-
-Data type: `Icinga::Secret`
-
-Password to connect the database.
-
-##### <a name="-icinga--ido--db_type"></a>`db_type`
-
-Data type: `Enum['mysql','pgsql']`
-
-What kind of database type to use.
-
-Default value: `'mysql'`
-
-##### <a name="-icinga--ido--db_host"></a>`db_host`
-
-Data type: `Stdlib::Host`
-
-Database host to connect.
-
-Default value: `'localhost'`
-
-##### <a name="-icinga--ido--db_port"></a>`db_port`
-
-Data type: `Optional[Stdlib::Port]`
-
-Port to connect. Only affects for connection to remote database hosts.
-
-Default value: `undef`
-
-##### <a name="-icinga--ido--db_name"></a>`db_name`
-
-Data type: `String[1]`
-
-Name of the database.
-
-Default value: `'icinga2'`
-
-##### <a name="-icinga--ido--db_user"></a>`db_user`
-
-Data type: `String[1]`
-
-Database user name.
-
-Default value: `'icinga2'`
-
-##### <a name="-icinga--ido--manage_database"></a>`manage_database`
-
-Data type: `Boolean`
-
-Create database and import schema.
-
-Default value: `false`
-
-##### <a name="-icinga--ido--enable_ha"></a>`enable_ha`
-
-Data type: `Boolean`
-
-Enable HA feature for database.
-
-Default value: `false`
-
-### <a name="icinga--ido--database"></a>`icinga::ido::database`
-
-Configure IDO backend database.
-
-#### Parameters
-
-The following parameters are available in the `icinga::ido::database` class:
-
-* [`db_type`](#-icinga--ido--database--db_type)
-* [`ido_instances`](#-icinga--ido--database--ido_instances)
-* [`db_pass`](#-icinga--ido--database--db_pass)
-* [`db_name`](#-icinga--ido--database--db_name)
-* [`db_user`](#-icinga--ido--database--db_user)
-* [`tls`](#-icinga--ido--database--tls)
-
-##### <a name="-icinga--ido--database--db_type"></a>`db_type`
-
-Data type: `Enum['mysql','pgsql']`
-
-What kind of database type to use.
-
-##### <a name="-icinga--ido--database--ido_instances"></a>`ido_instances`
-
-Data type: `Array[Stdlib::Host]`
-
-List of Hosts to allow write access to the database.
-Usually an Icinga Server with enabled IDO feature.
-
-##### <a name="-icinga--ido--database--db_pass"></a>`db_pass`
-
-Data type: `Icinga::Secret`
-
-Password to connect the database.
-
-##### <a name="-icinga--ido--database--db_name"></a>`db_name`
-
-Data type: `String[1]`
-
-Name of the database.
-
-Default value: `'icinga2'`
-
-##### <a name="-icinga--ido--database--db_user"></a>`db_user`
-
-Data type: `String[1]`
-
-Database user name.
-
-Default value: `'icinga2'`
-
-##### <a name="-icinga--ido--database--tls"></a>`tls`
 
 Data type:
 
@@ -1373,67 +1227,6 @@ Data type: `Optional[Icinga::Secret]`
 Password for the second Redis server.
 
 Default value: `undef`
-
-### <a name="icinga--web--monitoring"></a>`icinga::web::monitoring`
-
-Setup Monitoring module for the IDO backend.
-
-#### Parameters
-
-The following parameters are available in the `icinga::web::monitoring` class:
-
-* [`db_type`](#-icinga--web--monitoring--db_type)
-* [`db_host`](#-icinga--web--monitoring--db_host)
-* [`db_port`](#-icinga--web--monitoring--db_port)
-* [`db_name`](#-icinga--web--monitoring--db_name)
-* [`db_user`](#-icinga--web--monitoring--db_user)
-* [`db_pass`](#-icinga--web--monitoring--db_pass)
-
-##### <a name="-icinga--web--monitoring--db_type"></a>`db_type`
-
-Data type: `Enum['mysql', 'pgsql']`
-
-What kind of database type to use as IDO backend.
-
-Default value: `'mysql'`
-
-##### <a name="-icinga--web--monitoring--db_host"></a>`db_host`
-
-Data type: `Stdlib::Host`
-
-Database host to connect for the IDO backenend.
-
-Default value: `'localhost'`
-
-##### <a name="-icinga--web--monitoring--db_port"></a>`db_port`
-
-Data type: `Optional[Stdlib::Port::Unprivileged]`
-
-Port to connect the IDO backend.
-
-Default value: `undef`
-
-##### <a name="-icinga--web--monitoring--db_name"></a>`db_name`
-
-Data type: `String[1]`
-
-Name of the IDO database backend.
-
-Default value: `'icinga2'`
-
-##### <a name="-icinga--web--monitoring--db_user"></a>`db_user`
-
-Data type: `String[1]`
-
-IDO database backend user name.
-
-Default value: `'icinga2'`
-
-##### <a name="-icinga--web--monitoring--db_pass"></a>`db_pass`
-
-Data type: `Icinga::Secret`
-
-Pasword to connect the IDO backend.
 
 ### <a name="icinga--web--reporting"></a>`icinga::web::reporting`
 

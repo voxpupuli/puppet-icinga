@@ -53,13 +53,6 @@ class { 'mysql::server':
   },
 }
 
-class { 'icinga::ido::database':
-  ido_instances => ['192.168.6.2', '192.168.6.11', '192.168.6.12'],
-  db_type       => 'mysql',
-  db_pass       => 'icinga2',
-  tls           => 'password',
-}
-
 class { 'icinga::db::database':
   access_instances => ['192.168.6.2', '192.168.6.11', '192.168.6.12'],
   db_type          => 'mysql',

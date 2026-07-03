@@ -88,7 +88,6 @@ This disables the logging to file and the requirement and management of an exist
 * Classes to manage and setup an Icinga environment much easier:
     * [icinga::server] setups an Icinga 2 including CA, config server, zones and workers aka satellites
     * [icinga::worker] installs an Icinga 2 worker aka satellite
-    * [icinga::ido] configures the IDO backend including the database
     * [icinga::web] manages Icinga Web 2, an Apache and a PHP-FPM
 
 ### Setup Requirements
@@ -355,31 +354,6 @@ class { 'icinga::db':
 
 Setting `manage_database` to `true` also setups a database as specified in `db_type` including database for the IcingaDB. The same applies to `manage_redis` and the required Redis cache. With `manage_feature` the Icinga 2 feature for the IcingaDB is additionally activated. The latter two are switched on by default.
 
-#### icinga::ido
-
-The class supports:
-
-* [puppet] >= 7.9.0 < 9.0
-
-Ands requires:
-
-* [puppetlabs/mysql] >= 10.9.0 < 17.0.0
-* [puppetlabs/postgresql] >= 7.0.0 < 11.0.0
-* [icinga/icinga2] >= 3.1.0 < 7.0.0
-
-To activate and configure the IDO feature (usally on a server) do:
-
-```puppet
-class { 'icinga::ido':
-  db_type         => 'pgsql',
-  db_host         => 'localhost',
-  db_pass         => Sensitive('icinga2'),
-  manage_database => true,
-}
-```
-
-Setting `manage_database` to `true` also setups a database as specified in `db_type` including database for the IDO. Supported are `pgsql` for PostgreSQL und `maysql` for MariaDB. By default the database name is set to `icinga2` and the user to `icinga2`.
-
 ### icinga::web
 
 The class supports:
@@ -426,20 +400,6 @@ class { 'icinga::web::icingadb':
 ```
 
 IMPORTANT: Must be declared on the same host as `icinga::web`.
-
-#### icinga::web::monitoring
-
-If the Icinga Web 2 is operated on the same host as the IDO, the required user credentials can be accessed, otherwise they must be specified explicitly.
-
-```puppet
-class { 'icinga::web::monitoring':
-  db_type => $icinga::ido::db_type,
-  db_host => $icinga::ido::db_host,
-  db_pass => $icinga::ido::db_pass,
-}
-```
-
-IMPORTANT: Must be declareid on the same host as `icinga::web`.
 
 #### icinga::web::director
 
@@ -497,8 +457,6 @@ class { 'icinga::web::reporting':
   manage_database => true,
 }
 ```
-
-If icinga::web::monitoring is declared before, the required module idoreports for IDO is declared automatically.
 
 ### Using exported resources for auto discovery
 
