@@ -81,29 +81,10 @@ class icinga::web (
   #
   case $facts['os']['family'] {
     'redhat': {
-      case $facts[os][release][major] {
-        '6': {
-          $php_globals = {
-            php_version => 'rh-php70',
-            rhscl_mode => 'rhscl',
-          }
-        }
-        '7': {
-          $php_globals = {
-            php_version => 'rh-php73',
-            rhscl_mode => 'rhscl',
-          }
-        }
-        default: {
-          $php_globals = {}
-        }
-      }
-
       $package_prefix = undef
     } # RedHat
 
     'debian': {
-      $php_globals    = {}
       $package_prefix = 'php-'
     } # Debian
 
@@ -115,9 +96,7 @@ class icinga::web (
   #
   # PHP
   #
-  class { 'php::globals':
-    * => $php_globals,
-  }
+  include php::globals
 
   class { 'php':
     ensure         => installed,
