@@ -116,7 +116,7 @@ class icinga::web (
   #
   $manage_package = false
 
-  package { ['icingaweb2', 'icingaweb2-module-pdfexport']:
+  package { 'icingaweb2':
     ensure => installed,
   }
 
