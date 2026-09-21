@@ -52,6 +52,10 @@
 #   set this parameter to `true`. It's also possible to assign your own directory. This directory must be
 #   managed outside of this module as file resource with tag icinga2::config::file.
 #
+# @param manage_selinux
+#   When set to true, the wrapped Icinga 2 module will manage SELinux-specific runtime requirements
+#   for the Icinga stack, such as SELinux port assignments for the service when required.
+#
 class icinga (
   Boolean                                 $ca,
   String[1]                               $this_zone,
@@ -68,6 +72,7 @@ class icinga (
   Optional[String[1]]                     $config_server   = undef,
   Hash[String[1], Hash]                   $objects         = {},
   Variant[Boolean, String[1]]             $confd           = false,
+  Boolean                                 $manage_selinux,
 ) {
   assert_private()
 
@@ -93,6 +98,7 @@ class icinga (
   class { 'icinga2':
     confd           => $confd,
     manage_packages => $manage_packages,
+    manage_selinux  => $manage_selinux,
     constants       => lookup('icinga2::constants', undef, undef, {}) + $_constants,
     features        => [],
   }

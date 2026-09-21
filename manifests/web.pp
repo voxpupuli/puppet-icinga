@@ -49,6 +49,10 @@
 # @param api_pass
 #   Password to connect the Icinga 2 API.
 #
+# @param manage_selinux
+#   When set to true, the wrapped Icinga Web 2 stack will manage SELinux requirements for its
+#   local service communication, such as the PHP-FPM port used by Apache when SELinux is enabled.
+#
 class icinga::web (
   Icinga::Secret                              $db_pass,
   Icinga::Secret                              $api_pass,
@@ -65,6 +69,7 @@ class icinga::web (
   String[1]                                   $api_user           = 'icingaweb2',
   Array[String[1]]                            $apache_extra_mods  = [],
   Boolean                                     $apache_config      = true,
+  Boolean                                     $manage_selinux,
 ) {
   # install all required php extentions
   # by icingaweb (done by package dependencies) before PHP
@@ -189,5 +194,6 @@ class icinga::web (
     import_schema          => lookup('icingaweb2::import_schema', undef, undef, true),
     conf_user              => $web_conf_user,
     manage_package         => $manage_package,
+    manage_selinux         => $manage_selinux,
   }
 }

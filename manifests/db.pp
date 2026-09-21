@@ -43,6 +43,10 @@
 #   If you wanna manage the Icinga 2 feature for the IcingaDB, set this to `true`.
 #   This only make sense when an Icinga 2 Server is running on the same host.
 #
+# @param manage_selinux
+#   When set to true, the wrapped IcingaDB module will manage SELinux requirements such as
+#   service-related port assignments for the Redis or backend integration when SELinux is enabled.
+#
 class icinga::db (
   Icinga::Secret                        $db_pass,
   Enum['mysql', 'pgsql']                $db_type,
@@ -58,6 +62,7 @@ class icinga::db (
   Optional[Icinga::Secret]              $redis_pass      = undef,
   Boolean                               $manage_redis    = true,
   Boolean                               $manage_feature  = true,
+  Boolean                               $manage_selinux,
 ) {
   if $manage_database {
     $_db_host = 'localhost'
@@ -84,10 +89,11 @@ class icinga::db (
     $_redis_host = 'localhost'
 
     class { 'icingadb::redis':
-      bind        => $redis_bind,
-      port        => $redis_port,
-      requirepass => $redis_pass,
-      before      => Class['icingadb'],
+      bind           => $redis_bind,
+      port           => $redis_port,
+      requirepass    => $redis_pass,
+      manage_selinux => $manage_selinux,
+      before         => Class['icingadb'],
     }
   } else {
     $_redis_host = $redis_host
@@ -104,6 +110,7 @@ class icinga::db (
     redis_host     => $_redis_host,
     redis_port     => $redis_port,
     redis_password => $redis_pass,
+    manage_selinux => $manage_selinux,
   }
 
   if $manage_feature {
