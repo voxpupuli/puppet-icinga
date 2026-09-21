@@ -66,6 +66,20 @@ describe 'icinga' do
           }
         end
 
+        context 'with manage_selinux => true' do
+          let(:params) do
+            {
+              ca: true,
+              this_zone: 'foo',
+              zones: {},
+              ticket_salt: 'supersecret',
+              manage_selinux: true,
+            }
+          end
+
+          it { is_expected.to contain_class('icinga2').with({ 'manage_selinux' => true }) }
+        end
+
         context 'ca => false, ca_server => foo, this_zone => foo, zones => { bar => { endpoints => { foobar => { host => 127.0.0.1 }}, parent => foo}}, ticket_salt => supersecret' do
           let(:params) do
             {
@@ -167,6 +181,57 @@ describe 'icinga' do
           it { is_expected.to compile.and_raise_error(%r{not supported}) }
         end
       end
+    end
+  end
+
+end
+
+describe 'icinga::db' do
+  on_supported_os.each do |os, facts|
+    next unless %w[RedHat Debian].include?(facts[:os]['family'])
+
+    context "on #{os}" do
+      let(:facts) { facts }
+      let(:pre_condition) do
+        <<-PUPPET
+        class { 'icinga2':
+          confd          => false,
+          manage_packages => false,
+          features       => [],
+        }
+        PUPPET
+      end
+
+      let(:params) do
+        {
+          db_pass: 'supersecret',
+          db_type: 'mysql',
+          manage_selinux: true,
+        }
+      end
+
+      it { is_expected.to contain_class('icingadb').with({ 'manage_selinux' => true }) }
+    end
+  end
+end
+
+describe 'icinga::web' do
+  on_supported_os.each do |os, facts|
+    next unless %w[RedHat Debian].include?(facts[:os]['family'])
+
+    context "on #{os}" do
+      let(:facts) { facts }
+
+      let(:params) do
+        {
+          db_pass: 'supersecret',
+          api_pass: 'supersecret',
+          apache_cgi_pass_auth: true,
+          manage_selinux: true,
+        }
+      end
+
+      it { is_expected.to contain_class('icingaweb2').with({ 'manage_selinux' => true }) }
     end
   end
 end

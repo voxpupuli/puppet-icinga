@@ -1,6 +1,15 @@
 ---
 fixtures:
   repositories:
+    apache: https://github.com/puppetlabs/puppetlabs-apache
+    icingadb: https://github.com/voxpupuli/puppet-icingadb
+    icingaweb2: https://github.com/voxpupuli/puppet-icingaweb2
+    mysql: https://github.com/puppetlabs/puppetlabs-mysql
+    php: https://github.com/voxpupuli/puppet-php
+    postgresql: https://github.com/puppetlabs/puppetlabs-postgresql
+    selinux: https://github.com/voxpupuli/puppet-selinux
+    systemd: https://github.com/voxpupuli/puppet-systemd
+    vcsrepo: https://github.com/puppetlabs/puppetlabs-vcsrepo
     apt: https://github.com/puppetlabs/puppetlabs-apt
     augeas_core: https://github.com/puppetlabs/puppetlabs-augeas_core
     chocolatey: https://github.com/puppetlabs/puppetlabs-chocolatey
