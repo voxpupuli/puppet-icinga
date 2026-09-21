@@ -2,8 +2,6 @@
 fixtures:
   repositories:
     apache: https://github.com/puppetlabs/puppetlabs-apache
-    icingadb: https://github.com/voxpupuli/puppet-icingadb
-    icingaweb2: https://github.com/voxpupuli/puppet-icingaweb2
     mysql: https://github.com/puppetlabs/puppetlabs-mysql
     php: https://github.com/voxpupuli/puppet-php
     postgresql: https://github.com/puppetlabs/puppetlabs-postgresql
@@ -15,6 +13,8 @@ fixtures:
     chocolatey: https://github.com/puppetlabs/puppetlabs-chocolatey
     concat: https://github.com/puppetlabs/puppetlabs-concat
     icinga2: https://github.com/voxpupuli/puppet-icinga2
+    icingadb: https://github.com/voxpupuli/puppet-icingadb
+    icingaweb2: https://github.com/voxpupuli/puppet-icingaweb2
     redis: https://github.com/voxpupuli/puppet-redis
     stdlib: https://github.com/puppetlabs/puppetlabs-stdlib
     yumrepo_core: https://github.com/puppetlabs/puppetlabs-yumrepo_core
