@@ -130,6 +130,15 @@ class icinga::web (
     mpm_module   => 'event',
   }
 
+  if $manage_selinux and fact('os.selinux.enabled') {
+    selinux::port { 'icinga-web-php-fpm-tcp-9000':
+      ensure   => 'present',
+      seltype  => 'http_port_t',
+      protocol => 'tcp',
+      port     => 9000,
+    }
+  }
+
   $web_conf_user = $apache::user
 
   include apache::vhosts
