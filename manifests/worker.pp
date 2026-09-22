@@ -103,13 +103,13 @@ class icinga::worker (
       @@icinga::helper::endpoint { $icinga::cert_name:
         zone    => $zone,
         content => epp('icinga2/object.conf.epp', {
-            'object_name' => $icinga::cert_name,
-            'object_type' => 'Endpoint',
-            'attrs'       => delete_undef_values({
-                'host' => pick($icinga2::feature::api::bind_host, $facts['networking']['ip']),
-                'port' => $icinga2::feature::api::bind_port,
-            } + $_obj),
-            'attrs_list'  => ['host', 'port', 'log_duration'],
+          'object_name' => $icinga::cert_name,
+          'object_type' => 'Endpoint',
+          'attrs'       => delete_undef_values({
+            'host' => pick($icinga2::feature::api::bind_host, $facts['networking']['ip']),
+            'port' => $icinga2::feature::api::bind_port,
+          } + $_obj),
+          'attrs_list'  => ['host', 'port', 'log_duration'],
         }),
       }
     }

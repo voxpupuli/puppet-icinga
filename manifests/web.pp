@@ -81,29 +81,10 @@ class icinga::web (
   #
   case $facts['os']['family'] {
     'redhat': {
-      case $facts[os][release][major] {
-        '6': {
-          $php_globals = {
-            php_version => 'rh-php70',
-            rhscl_mode => 'rhscl',
-          }
-        }
-        '7': {
-          $php_globals = {
-            php_version => 'rh-php73',
-            rhscl_mode => 'rhscl',
-          }
-        }
-        default: {
-          $php_globals = {}
-        }
-      }
-
       $package_prefix = undef
     } # RedHat
 
     'debian': {
-      $php_globals    = {}
       $package_prefix = 'php-'
     } # Debian
 
@@ -115,9 +96,7 @@ class icinga::web (
   #
   # PHP
   #
-  class { 'php::globals':
-    * => $php_globals,
-  }
+  include php::globals
 
   class { 'php':
     ensure         => installed,
@@ -137,7 +116,7 @@ class icinga::web (
   #
   $manage_package = false
 
-  package { ['icingaweb2', 'icingaweb2-module-pdfexport']:
+  package { 'icingaweb2':
     ensure => installed,
   }
 
@@ -198,34 +177,17 @@ class icinga::web (
   #
   # Icinga Web 2
   #
-  if versioncmp($icingaweb2_version, '4.0.0') < 0 {
-    class { 'icingaweb2':
-      db_type                => $db_type,
-      db_host                => $_db_host,
-      db_port                => $db_port,
-      db_name                => $db_name,
-      db_username            => $db_user,
-      db_password            => $db_pass,
-      default_admin_username => $default_admin_user,
-      default_admin_password => $default_admin_pass,
-      import_schema          => lookup('icingaweb2::import_schema', undef, undef, true),
-      config_backend         => 'db',
-      conf_user              => $web_conf_user,
-      manage_package         => $manage_package,
-    }
-  } else {
-    class { 'icingaweb2':
-      db_type                => $db_type,
-      db_host                => $_db_host,
-      db_port                => $db_port,
-      db_name                => $db_name,
-      db_username            => $db_user,
-      db_password            => $db_pass,
-      default_admin_username => $default_admin_user,
-      default_admin_password => $default_admin_pass,
-      import_schema          => lookup('icingaweb2::import_schema', undef, undef, true),
-      conf_user              => $web_conf_user,
-      manage_package         => $manage_package,
-    }
+  class { 'icingaweb2':
+    db_type                => $db_type,
+    db_host                => $_db_host,
+    db_port                => $db_port,
+    db_name                => $db_name,
+    db_username            => $db_user,
+    db_password            => $db_pass,
+    default_admin_username => $default_admin_user,
+    default_admin_password => $default_admin_pass,
+    import_schema          => lookup('icingaweb2::import_schema', undef, undef, true),
+    conf_user              => $web_conf_user,
+    manage_package         => $manage_package,
   }
 }

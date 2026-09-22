@@ -97,11 +97,4 @@ class icinga::web::reporting (
       require => Class['icingaweb2::module::reporting'],
     }
   }
-
-  if defined(Class['icinga::web::monitoring']) {
-    class { 'icingaweb2::module::idoreports':
-      install_method => 'package',
-      import_schema  => true,
-    }
-  }
 }

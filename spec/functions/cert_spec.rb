@@ -8,7 +8,7 @@ describe 'icinga::cert::files' do
   it 'without any cert info' do
     is_expected.to run.with_params(
       'foo',
-      '/foobar'
+      '/foobar',
     ).and_return({ 'key' => nil, 'key_file' => nil, 'cert' => nil, 'cert_file' => nil, 'cacert' => nil, 'cacert_file' => nil })
   end
 
@@ -21,10 +21,10 @@ describe 'icinga::cert::files' do
       nil,
       'key',
       'cert',
-      'cacert'
+      'cacert',
     ).and_return({ 'key' => sensitive('key'), 'key_file' => '/foobar/foo.key',
                    'cert' => 'cert', 'cert_file' => '/foobar/foo.crt',
-                   'cacert' => 'cacert', 'cacert_file' => '/foobar/foo_ca.crt' })
+                   'cacert' => 'cacert', 'cacert_file' => '/foobar/foo_ca.crt', })
   end
 
   it 'with file paths only' do
@@ -36,7 +36,7 @@ describe 'icinga::cert::files' do
       '/ca.crt',
       nil,
       nil,
-      nil
+      nil,
     ).and_return({ 'key' => nil, 'key_file' => '/foo.key', 'cert' => nil, 'cert_file' => '/foo.crt', 'cacert' => nil, 'cacert_file' => '/ca.crt' })
   end
 
@@ -49,7 +49,7 @@ describe 'icinga::cert::files' do
       '/ca.crt',
       'key',
       'cert',
-      'cacert'
+      'cacert',
     ).and_return({ 'key' => sensitive('key'), 'key_file' => '/foo.key', 'cert' => 'cert', 'cert_file' => '/foo.crt', 'cacert' => 'cacert', 'cacert_file' => '/ca.crt' })
   end
 end

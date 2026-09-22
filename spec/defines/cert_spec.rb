@@ -44,7 +44,7 @@ describe('icinga::cert', type: :define) do
               'owner' => 'foo',
               'group' => 'bar',
               'mode'  => '0440',
-            }
+            },
           ).with_content('key')
         }
 
@@ -54,7 +54,7 @@ describe('icinga::cert', type: :define) do
               'owner' => 'foo',
               'group' => 'bar',
               'mode'  => '0640',
-            }
+            },
           ).with_content('cert')
         }
 
@@ -64,7 +64,7 @@ describe('icinga::cert', type: :define) do
               'owner' => 'foo',
               'group' => 'bar',
               'mode'  => '0640',
-            }
+            },
           ).with_content('cacert')
         }
       end

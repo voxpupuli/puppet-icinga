@@ -44,7 +44,7 @@ describe 'icinga' do
                 confd: false,
                 manage_packages: false,
                 features: [],
-              }
+              },
             )
           }
 
@@ -61,7 +61,7 @@ describe 'icinga' do
                 ticket_salt: 'TicketSalt',
                 zones: {},
                 endpoints: {},
-              }
+              },
             )
           }
         end
@@ -89,7 +89,7 @@ describe 'icinga' do
                 ca_host: 'foo',
                 zones: {},
                 endpoints: {},
-              }
+              },
             )
           }
 
@@ -98,7 +98,7 @@ describe 'icinga' do
               {
                 endpoints: ['foobar'],
                 parent: 'foo',
-              }
+              },
             )
           }
 
@@ -126,7 +126,7 @@ describe 'icinga' do
                 confd: false,
                 manage_packages: true,
                 features: [],
-              }
+              },
             )
           }
 
@@ -143,7 +143,7 @@ describe 'icinga' do
                 ticket_salt: 'supersecret',
                 zones: {},
                 endpoints: {},
-              }
+              },
             )
           }
         end

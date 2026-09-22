@@ -28,7 +28,7 @@ describe 'icinga::server' do
             ticket_salt: 'supersecret',
             global_zones: %w[foo bar],
             web_api_user: 'bar',
-            web_api_pass: 'topsecret'
+            web_api_pass: 'topsecret',
           }
         end
 
@@ -41,12 +41,12 @@ describe 'icinga::server' do
               'this_zone' => 'main',
               'zones' => {
                 'ZoneName' => {
-                  'endpoints' => { 'NodeName' => {}, },
+                  'endpoints' => { 'NodeName' => {} },
                 },
               },
               'logging_type' => 'syslog',
               'ticket_salt' => 'supersecret',
-            }
+            },
           )
         }
 
@@ -61,7 +61,7 @@ describe 'icinga::server' do
               'owner' => icinga2_user,
               'group' => icinga2_group,
               'mode' => '0750',
-            }
+            },
           )
         }
 
@@ -75,7 +75,7 @@ describe 'icinga::server' do
               'owner' => icinga2_user,
               'group' => icinga2_group,
               'mode' => '0750',
-            }
+            },
           )
         }
 
@@ -109,7 +109,7 @@ describe 'icinga::server' do
               },
               'logging_type' => 'syslog',
               'ticket_salt' => 'supersecret',
-            }
+            },
           )
         }
       end
@@ -146,12 +146,12 @@ describe 'icinga::server' do
                 'out' => {
                   'parent'    => 'bar',
                   'endpoints' => { 'outbar' => {} },
-                }
+                },
               },
               'logging_type'  => 'syslog',
               'logging_level' => 'warning',
               'ticket_salt'   => 'supersecret',
-            }
+            },
           )
         }
       end

@@ -24,17 +24,17 @@ file {
     group  => 'mysql',
     mode   => '0644',
     notify => Class['mysql::server'],
-    ;
+  ;
   "${ssl_dir}/private/mysql.pem":
     source => 'puppet:///modules/icinga/examples/server.icinga.com.key',
     mode   => '0440',
-    ;
+  ;
   "${ssl_dir}/certs/mysql.pem":
     source => 'puppet:///modules/icinga/examples/server.icinga.com.crt',
-    ;
+  ;
   "${ssl_dir}/certs/mysql-ca.crt":
     source => 'puppet:///modules/icinga/examples/ca.crt',
-    ;
+  ;
 }
 
 class { 'mysql::server':
@@ -51,13 +51,6 @@ class { 'mysql::server':
       ssl-ca                => "${ssl_dir}/certs/mysql-ca.crt",
     },
   },
-}
-
-class { 'icinga::ido::database':
-  ido_instances => ['192.168.6.2', '192.168.6.11', '192.168.6.12'],
-  db_type       => 'mysql',
-  db_pass       => 'icinga2',
-  tls           => 'password',
 }
 
 class { 'icinga::db::database':

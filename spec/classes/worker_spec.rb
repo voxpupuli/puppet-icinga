@@ -35,7 +35,7 @@ describe 'icinga::worker' do
                 },
               },
               'logging_type' => 'syslog',
-            }
+            },
           )
         }
 
@@ -80,11 +80,11 @@ describe 'icinga::worker' do
                 'out' => {
                   'parent' => 'baz',
                   'endpoints' => { 'outbar' => {} },
-                }
+                },
               },
               'logging_type' => 'syslog',
               'logging_level' => 'warning',
-            }
+            },
           )
         }
       end
