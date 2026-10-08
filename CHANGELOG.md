@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v7.2.0](https://github.com/voxpupuli/puppet-icinga/tree/v7.2.0) (2026-09-22)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-icinga/compare/v7.1.0...v7.2.0)
+
+**Implemented enhancements:**
+
+- Add an optional SELinux type parameter to the certificate class and make certificate user and group parameters optional
+
 ## [v7.1.0](https://github.com/voxpupuli/puppet-icinga/tree/v7.1.0) (2025-07-11)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-icinga/compare/v7.0.0...v7.1.0)
