@@ -49,10 +49,15 @@
 # @param api_pass
 #   Password to connect the Icinga 2 API.
 #
+# @param manage_selinux
+#   When set to true, the wrapped Icinga Web 2 stack will manage SELinux requirements for its
+#   local service communication, such as the PHP-FPM port used by Apache when SELinux is enabled.
+#
 class icinga::web (
   Icinga::Secret                              $db_pass,
   Icinga::Secret                              $api_pass,
   Boolean                                     $apache_cgi_pass_auth,
+  Boolean                                     $manage_selinux,
   String[1]                                   $default_admin_user = 'icingaadmin',
   Icinga::Secret                              $default_admin_pass = 'icingaadmin',
   Enum['mysql', 'pgsql']                      $db_type            = 'mysql',
@@ -125,6 +130,15 @@ class icinga::web (
     mpm_module   => 'event',
   }
 
+  if $manage_selinux and fact('os.selinux.enabled') {
+    selinux::port { 'icinga-web-php-fpm-tcp-9000':
+      ensure   => 'present',
+      seltype  => 'http_port_t',
+      protocol => 'tcp',
+      port     => 9000,
+    }
+  }
+
   $web_conf_user = $apache::user
 
   include apache::vhosts
@@ -189,5 +203,6 @@ class icinga::web (
     import_schema          => lookup('icingaweb2::import_schema', undef, undef, true),
     conf_user              => $web_conf_user,
     manage_package         => $manage_package,
+    manage_selinux         => $manage_selinux,
   }
 }

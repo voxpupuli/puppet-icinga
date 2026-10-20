@@ -1,5 +1,8 @@
 ---
 icinga::repos::manage_stable: true
+icinga::manage_selinux: false
+
+icinga::db::manage_selinux: "%{alias('icinga::manage_selinux')}"
 
 icinga::redis::globals::package_name: icinga-redis
 icinga::redis::globals::redis_bin: /usr/bin/icinga-redis-server
@@ -11,6 +14,7 @@ icinga::redis::globals::user: icinga-redis
 icinga::redis::globals::group: icinga-redis
 
 icinga::web::apache_cgi_pass_auth: true
+icinga::web::manage_selinux: "%{alias('icinga::manage_selinux')}"
 
 icinga::server::logging_type: syslog
 icinga::worker::logging_type: syslog

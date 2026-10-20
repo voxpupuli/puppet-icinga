@@ -125,6 +125,19 @@ git checkout v2.5.0
 
 ## Usage
 
+### Common SELinux defaults
+
+The wrapper classes use a single central SELinux default in Hiera and pass it through to the wrapped modules without hidden cross-class dependencies:
+
+```yaml
+---
+icinga::manage_selinux: false
+icinga::db::manage_selinux: "%{lookup('icinga::manage_selinux')}"
+icinga::web::manage_selinux: "%{lookup('icinga::manage_selinux')}"
+```
+
+This keeps the SELinux behavior consistent for the Icinga stack while still allowing each wrapped module to expose its own parameter. The central value can be overridden per environment, and the wrapper classes will propagate it to the submodules they declare.
+
 ### icinga::repos
 
 The class supports:

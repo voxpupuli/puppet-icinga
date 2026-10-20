@@ -9,7 +9,9 @@ describe 'icinga' do
 
   on_supported_os.each do |os, facts|
     context "on #{os}" do
-      let(:facts) { facts }
+      let(:facts) do
+        facts.merge(os: facts[:os].merge(selinux: { enabled: true }))
+      end
 
       let(:params) do
         {
@@ -64,6 +66,20 @@ describe 'icinga' do
               },
             )
           }
+        end
+
+        context 'with manage_selinux => true' do
+          let(:params) do
+            {
+              ca: true,
+              this_zone: 'foo',
+              zones: {},
+              ticket_salt: 'supersecret',
+              manage_selinux: true,
+            }
+          end
+
+          it { is_expected.to contain_class('icinga2').with({ 'manage_selinux' => true }) }
         end
 
         context 'ca => false, ca_server => foo, this_zone => foo, zones => { bar => { endpoints => { foobar => { host => 127.0.0.1 }}, parent => foo}}, ticket_salt => supersecret' do
