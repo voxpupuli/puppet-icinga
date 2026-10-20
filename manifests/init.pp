@@ -61,6 +61,7 @@ class icinga (
   String[1]                               $this_zone,
   Hash[String[1], Hash]                   $zones,
   String[1]                               $cert_name,
+  Boolean                                 $manage_selinux,
   Optional[Stdlib::Host]                  $ca_server       = undef,
   Optional[Icinga::Secret]                $ticket_salt     = undef,
   Array[String[1]]                        $extra_packages  = [],
@@ -72,7 +73,6 @@ class icinga (
   Optional[String[1]]                     $config_server   = undef,
   Hash[String[1], Hash]                   $objects         = {},
   Variant[Boolean, String[1]]             $confd           = false,
-  Boolean                                 $manage_selinux,
 ) {
   assert_private()
 

@@ -50,6 +50,7 @@
 class icinga::db (
   Icinga::Secret                        $db_pass,
   Enum['mysql', 'pgsql']                $db_type,
+  Boolean                               $manage_selinux,
   Stdlib::Host                          $db_host         = 'localhost',
   Optional[Stdlib::Port]                $db_port         = undef,
   String[1]                             $db_name         = 'icingadb',
@@ -62,7 +63,6 @@ class icinga::db (
   Optional[Icinga::Secret]              $redis_pass      = undef,
   Boolean                               $manage_redis    = true,
   Boolean                               $manage_feature  = true,
-  Boolean                               $manage_selinux,
 ) {
   if $manage_database {
     $_db_host = 'localhost'

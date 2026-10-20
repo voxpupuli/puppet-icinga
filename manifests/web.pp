@@ -57,6 +57,7 @@ class icinga::web (
   Icinga::Secret                              $db_pass,
   Icinga::Secret                              $api_pass,
   Boolean                                     $apache_cgi_pass_auth,
+  Boolean                                     $manage_selinux,
   String[1]                                   $default_admin_user = 'icingaadmin',
   Icinga::Secret                              $default_admin_pass = 'icingaadmin',
   Enum['mysql', 'pgsql']                      $db_type            = 'mysql',
@@ -69,7 +70,6 @@ class icinga::web (
   String[1]                                   $api_user           = 'icingaweb2',
   Array[String[1]]                            $apache_extra_mods  = [],
   Boolean                                     $apache_config      = true,
-  Boolean                                     $manage_selinux,
 ) {
   # install all required php extentions
   # by icingaweb (done by package dependencies) before PHP
