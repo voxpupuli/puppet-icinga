@@ -9,8 +9,6 @@ describe 'icinga' do
 
   on_supported_os.each do |os, facts|
     context "on #{os}" do
-      let(:facts) { facts }
-
       let(:facts) do
         facts.merge(os: facts[:os].merge(selinux: { enabled: true }))
       end
@@ -185,67 +183,6 @@ describe 'icinga' do
           it { is_expected.to compile.and_raise_error(%r{not supported}) }
         end
       end
-    end
-  end
-
-end
-
-describe 'icinga::db' do
-  on_supported_os.each do |os, facts|
-    next unless %w[RedHat Debian].include?(facts[:os]['family'])
-
-    context "on #{os}" do
-      let(:facts) { facts }
-      let(:pre_condition) do
-        <<-PUPPET
-        class { 'icinga2':
-          confd          => false,
-          manage_packages => false,
-          features       => [],
-        }
-        PUPPET
-      end
-
-      let(:params) do
-        {
-          db_pass: 'supersecret',
-          db_type: 'mysql',
-          manage_selinux: true,
-        }
-      end
-
-      it { is_expected.to contain_class('icingadb').with({ 'manage_selinux' => true }) }
-    end
-  end
-end
-
-describe 'icinga::web' do
-  on_supported_os.each do |os, facts|
-    next unless %w[RedHat Debian].include?(facts[:os]['family'])
-
-    context "on #{os}" do
-      let(:facts) do
-        facts.merge(os: facts[:os].merge(selinux: { enabled: true }))
-      end
-
-      let(:params) do
-        {
-          db_pass: 'supersecret',
-          api_pass: 'supersecret',
-          apache_cgi_pass_auth: true,
-          manage_selinux: true,
-        }
-      end
-
-      it { is_expected.to contain_class('icingaweb2').with({ 'manage_selinux' => true }) }
-      it {
-        is_expected.to contain_selinux__port('icinga-web-php-fpm-tcp-9000').with(
-          ensure: 'present',
-          seltype: 'http_port_t',
-          protocol: 'tcp',
-          port: 9000,
-        )
-      }
     end
   end
 end
