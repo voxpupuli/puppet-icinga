@@ -241,6 +241,7 @@ The following parameters are available in the `icinga::db` class:
 * [`redis_pass`](#-icinga--db--redis_pass)
 * [`manage_redis`](#-icinga--db--manage_redis)
 * [`manage_feature`](#-icinga--db--manage_feature)
+* [`manage_selinux`](#-icinga--db--manage_selinux)
 
 ##### <a name="-icinga--db--db_type"></a>`db_type`
 
@@ -353,6 +354,13 @@ This only make sense when an Icinga 2 Server is running on the same host.
 
 Default value: `true`
 
+##### <a name="-icinga--db--manage_selinux"></a>`manage_selinux`
+
+Data type: `Boolean`
+
+When set to true, the wrapped IcingaDB module will manage SELinux requirements such as
+service-related port assignments for the Redis or backend integration when SELinux is enabled.
+
 ### <a name="icinga--db--database"></a>`icinga::db::database`
 
 Setup database for IcingaDB.
@@ -427,7 +435,7 @@ and depending on the operating system platform some other repositories.
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 require icinga::repos
@@ -724,6 +732,7 @@ The following parameters are available in the `icinga::web` class:
 * [`api_host`](#-icinga--web--api_host)
 * [`api_user`](#-icinga--web--api_user)
 * [`api_pass`](#-icinga--web--api_pass)
+* [`manage_selinux`](#-icinga--web--manage_selinux)
 
 ##### <a name="-icinga--web--default_admin_user"></a>`default_admin_user`
 
@@ -840,6 +849,13 @@ Default value: `'icingaweb2'`
 Data type: `Icinga::Secret`
 
 Password to connect the Icinga 2 API.
+
+##### <a name="-icinga--web--manage_selinux"></a>`manage_selinux`
+
+Data type: `Boolean`
+
+When set to true, the wrapped Icinga Web 2 stack will manage SELinux requirements for its
+local service communication, such as the PHP-FPM port used by Apache when SELinux is enabled.
 
 ### <a name="icinga--web--database"></a>`icinga::web::database`
 
@@ -2061,4 +2077,3 @@ Alias of `Enum['debug', 'information', 'notice', 'warning', 'critical']`
 A strict type for the secrets like passwords or keys
 
 Alias of `Variant[String[1], Sensitive[String[1]]]`
-
