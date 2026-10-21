@@ -4,13 +4,37 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v8.0.0](https://github.com/voxpupuli/puppet-icinga/tree/v8.0.0) (2026-10-21)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-icinga/compare/v7.2.0...v8.0.0)
+
+**Breaking changes:**
+
+- Drop Fedora 42 suppot [\#197](https://github.com/voxpupuli/puppet-icinga/pull/197) ([lbetz](https://github.com/lbetz))
+- Drop Debian 11 support [\#194](https://github.com/voxpupuli/puppet-icinga/pull/194) ([lbetz](https://github.com/lbetz))
+- Require puppet/icingaweb2 4.x [\#188](https://github.com/voxpupuli/puppet-icinga/pull/188) ([lbetz](https://github.com/lbetz))
+- Drop management of package pdfexports [\#187](https://github.com/voxpupuli/puppet-icinga/pull/187) ([lbetz](https://github.com/lbetz))
+- Drop IDO support [\#185](https://github.com/voxpupuli/puppet-icinga/pull/185) ([lbetz](https://github.com/lbetz))
+- Drop Fedora 41 support [\#181](https://github.com/voxpupuli/puppet-icinga/pull/181) ([lbetz](https://github.com/lbetz))
+- Drop support for Fedora 39 and 40 [\#178](https://github.com/voxpupuli/puppet-icinga/pull/178) ([lbetz](https://github.com/lbetz))
+- Drop puppet, update openvox minimum version to 8.19 [\#169](https://github.com/voxpupuli/puppet-icinga/pull/169) ([TheMeier](https://github.com/TheMeier))
+
+**Implemented enhancements:**
+
+- Add Fedora 44 support [\#196](https://github.com/voxpupuli/puppet-icinga/pull/196) ([lbetz](https://github.com/lbetz))
+- Add Ubuntu 26.04 support [\#195](https://github.com/voxpupuli/puppet-icinga/pull/195) ([lbetz](https://github.com/lbetz))
+- Allow puppetlabs/apt 11.x [\#179](https://github.com/voxpupuli/puppet-icinga/pull/179) ([lbetz](https://github.com/lbetz))
+- Add support for Fedora 43 [\#177](https://github.com/voxpupuli/puppet-icinga/pull/177) ([lbetz](https://github.com/lbetz))
+- Add support for Debian 13 [\#176](https://github.com/voxpupuli/puppet-icinga/pull/176) ([lbetz](https://github.com/lbetz))
+- Manage config directories for workers on the config server [\#175](https://github.com/voxpupuli/puppet-icinga/pull/175) ([lbetz](https://github.com/lbetz))
+
 ## [v7.2.0](https://github.com/voxpupuli/puppet-icinga/tree/v7.2.0) (2026-09-22)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-icinga/compare/v7.1.0...v7.2.0)
 
 **Implemented enhancements:**
 
-- Add an optional SELinux type parameter to the certificate class and make certificate user and group parameters optional
+- Add param seltype to class cert, user and group to opti… [\#180](https://github.com/voxpupuli/puppet-icinga/pull/180) ([lbetz](https://github.com/lbetz))
 
 ## [v7.1.0](https://github.com/voxpupuli/puppet-icinga/tree/v7.1.0) (2025-07-11)
 
