@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v8.0.1](https://github.com/voxpupuli/puppet-icinga/tree/v8.0.1) (2026-11-06)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-icinga/compare/v8.0.0...v8.0.1)
+
+**Fixed bugs:**
+
+- Add missing icingaweb2-selinux package [\#202](https://github.com/voxpupuli/puppet-icinga/pull/202) ([lbetz](https://github.com/lbetz))
+- Use .asc extension for Icinga apt keyring [\#200](https://github.com/voxpupuli/puppet-icinga/pull/200) ([bwitt](https://github.com/bwitt))
+
 ## [v8.0.0](https://github.com/voxpupuli/puppet-icinga/tree/v8.0.0) (2026-10-21)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-icinga/compare/v7.2.0...v8.0.0)
@@ -21,8 +30,8 @@ These should not affect the functionality of the module.
 
 **Implemented enhancements:**
 
-- Add Fedora 44 support [\#196](https://github.com/voxpupuli/puppet-icinga/pull/196) ([lbetz](https://github.com/lbetz))
 - Add Ubuntu 26.04 support [\#195](https://github.com/voxpupuli/puppet-icinga/pull/195) ([lbetz](https://github.com/lbetz))
+- Add Fedora 44 support [\#196](https://github.com/voxpupuli/puppet-icinga/pull/196) ([lbetz](https://github.com/lbetz))
 - Allow puppetlabs/apt 11.x [\#179](https://github.com/voxpupuli/puppet-icinga/pull/179) ([lbetz](https://github.com/lbetz))
 - Add support for Fedora 43 [\#177](https://github.com/voxpupuli/puppet-icinga/pull/177) ([lbetz](https://github.com/lbetz))
 - Add support for Debian 13 [\#176](https://github.com/voxpupuli/puppet-icinga/pull/176) ([lbetz](https://github.com/lbetz))
