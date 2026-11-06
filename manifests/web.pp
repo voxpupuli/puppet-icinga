@@ -73,7 +73,13 @@ class icinga::web (
 ) {
   # install all required php extentions
   # by icingaweb (done by package dependencies) before PHP
-  Package['icingaweb2']
+  $_packages = if $manage_selinux and fact('os.selinux.enabled') {
+    ['icingaweb2', 'icingaweb2-selinux']
+  } else {
+    ['icingaweb2']
+  }
+
+  Package[$_packages]
   -> Class['php']
   -> Class['apache']
   -> Class['icingaweb2']
@@ -121,7 +127,7 @@ class icinga::web (
   #
   $manage_package = false
 
-  package { 'icingaweb2':
+  package { $_packages:
     ensure => installed,
   }
 
@@ -202,7 +208,7 @@ class icinga::web (
     default_admin_password => $default_admin_pass,
     import_schema          => lookup('icingaweb2::import_schema', undef, undef, true),
     conf_user              => $web_conf_user,
-    manage_package         => $manage_package,
+    manage_packages        => $manage_package,
     manage_selinux         => $manage_selinux,
   }
 }
