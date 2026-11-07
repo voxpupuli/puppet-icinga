@@ -6,6 +6,7 @@ fixtures:
     php: https://github.com/voxpupuli/puppet-php
     postgresql: https://github.com/puppetlabs/puppetlabs-postgresql
     selinux: https://github.com/voxpupuli/puppet-selinux
+    selinux_core: https://github.com/puppetlabs/puppetlabs-selinux_core
     systemd: https://github.com/voxpupuli/puppet-systemd
     vcsrepo: https://github.com/puppetlabs/puppetlabs-vcsrepo
     apt: https://github.com/puppetlabs/puppetlabs-apt
