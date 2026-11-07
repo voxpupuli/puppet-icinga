@@ -5,21 +5,21 @@ icinga::repos:
     release: 'icinga-%{facts.os.distro.codename}'
     repos: main
     key:
-      name: icinga.key
+      name: icinga.asc
       source: https://packages.icinga.com/icinga.key
   'icinga-testing-builds':
     location: https://packages.icinga.com/debian
     release: 'icinga-%{facts.os.distro.codename}-testing'
     repos: main
     key:
-      name: icinga.key
+      name: icinga.asc
       source: https://packages.icinga.com/icinga.key
   'icinga-snapshot-builds':
     location: https://packages.icinga.com/debian
     release: 'icinga-%{facts.os.distro.codename}-snapshots'
     repos: main
     key:
-      name: icinga.key
+      name: icinga.asc
       source: https://packages.icinga.com/icinga.key
   'netways-plugins-release':
     location: https://packages.netways.de/plugins/debian
