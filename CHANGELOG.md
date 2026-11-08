@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v8.0.2](https://github.com/voxpupuli/puppet-icinga/tree/v8.0.2) (2026-11-08)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-icinga/compare/v8.0.1...v8.0.2)
+
+**Fixed bugs:**
+
+- Allow apache via SELinux to connect the network [\#204](https://github.com/voxpupuli/puppet-icinga/pull/204) ([lbetz](https://github.com/lbetz))
+
 ## [v8.0.1](https://github.com/voxpupuli/puppet-icinga/tree/v8.0.1) (2026-11-06)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-icinga/compare/v8.0.0...v8.0.1)
