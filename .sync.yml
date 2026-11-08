@@ -12,3 +12,5 @@ Gemfile:
   with:
     timeout_minutes: 75
     unit_runs_on: 'cern-self-hosted'
+spec/spec_helper_acceptance.rb:
+  unmanaged: false
