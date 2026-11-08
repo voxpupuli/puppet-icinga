@@ -30,6 +30,12 @@ describe 'icinga::web' do
           port: 9000,
         )
       }
+
+      it {
+        is_expected.to contain_selinux__boolean('httpd_can_network_connect').with(
+          ensure: 'on',
+        )
+      }
     end
   end
 end

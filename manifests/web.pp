@@ -137,6 +137,10 @@ class icinga::web (
   }
 
   if $manage_selinux and fact('os.selinux.enabled') {
+    selinux::boolean { 'httpd_can_network_connect':
+      ensure => 'on',
+    }
+
     selinux::port { 'icinga-web-php-fpm-tcp-9000':
       ensure   => 'present',
       seltype  => 'http_port_t',
